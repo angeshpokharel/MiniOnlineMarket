@@ -1,11 +1,10 @@
 package com.waa.project.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -19,8 +18,23 @@ public class OrderHistory {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private long id;
 
-    private long OrderId;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+
     private long modifiedBy;
-    private Date modifiedDate;
+    private LocalDate modifiedDate;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false)
+    private Order order;
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
 }

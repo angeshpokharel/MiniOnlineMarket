@@ -3,6 +3,8 @@ package com.waa.project.controller;
 import com.waa.project.dto.ProductDTO;
 import com.waa.project.dto.UserDTO;
 import com.waa.project.service.ProductService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
