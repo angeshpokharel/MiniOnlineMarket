@@ -19,8 +19,7 @@ public class OrderDetail {
     private int quantity;
     private long unitPrice;
 
-    @JsonBackReference
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 

@@ -29,9 +29,13 @@ public class Order {
     private OrderStatus status;
 
     private String billingAddress;
+
     private String shippingAddress;
+
     private String paymentMode;
+
     private LocalDate paymentDate;
+
     private int points;
 
     @JsonBackReference
@@ -46,5 +50,4 @@ public class Order {
     @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private  List<OrderDetail> orderDetails;
-
 }

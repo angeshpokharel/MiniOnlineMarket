@@ -1,8 +1,10 @@
 package com.waa.project.service;
 
 import com.waa.project.domain.Order;
+import com.waa.project.dto.OrderDTO;
 import com.waa.project.repository.OrderRepository;
 import com.waa.project.service.OrderService;
+import com.waa.project.util.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +17,32 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private ModelMapper modelMapper;
+    private ListMapper<Order, OrderDTO> listMapper;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper){
+    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ListMapper<Order, OrderDTO> listMapper){
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
+        this.listMapper = listMapper;
     }
 
     @Override
-    public List<Order> findAllById(long userId) {
-        return orderRepository.findAllById(userId);
+    public List<OrderDTO> findAll(){
+        return (List<OrderDTO>) listMapper.mapList(orderRepository.findAll(), new OrderDTO());
+    }
+
+    @Override
+    public OrderDTO findById(long id) {
+        return modelMapper.map(orderRepository.findById(id), OrderDTO.class);
+    }
+
+    @Override
+    public void createOrder(OrderDTO orderDTO) {
+        orderRepository.save(modelMapper.map(orderDTO, Order.class));
+    }
+
+    @Override
+    public List<OrderDTO> findAllById(long userId) {
+        return (List<OrderDTO>) listMapper.mapList(orderRepository.findAllById(userId), new OrderDTO());
     }
 }

@@ -1,5 +1,7 @@
 package com.waa.project.dto;
 
+import com.waa.project.domain.Order;
+import com.waa.project.domain.Product;
 import lombok.*;
 
 @Getter
@@ -10,8 +12,8 @@ import lombok.*;
 public class OrderDetailDTO {
 
     private long id;
-    private long orderId;
-    private long productId;
     private int quantity;
     private long unitPrice;
+    private Product product;
+    private Order order;
 }

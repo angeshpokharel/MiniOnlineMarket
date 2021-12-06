@@ -30,8 +30,4 @@ public class Product {
   private String description;
   private String image;
 
-  @JsonManagedReference
-  @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-  @Fetch(FetchMode.JOIN)
-  List<OrderDetail> orderDetailList;
 }
