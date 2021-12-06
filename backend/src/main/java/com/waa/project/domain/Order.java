@@ -48,6 +48,6 @@ public class Order {
     private List<OrderHistory> orderSet = new ArrayList<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private  List<OrderDetail> orderDetails;
 }

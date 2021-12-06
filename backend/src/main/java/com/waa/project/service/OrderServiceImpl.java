@@ -42,6 +42,10 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void createOrder(OrderDTO orderDTO) {
         orderRepository.save(modelMapper.map(orderDTO, Order.class));
+        for (Product product: orderDTO.getP
+             ) {
+
+        }
     }
 
     @Override
