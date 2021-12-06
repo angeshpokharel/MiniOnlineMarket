@@ -1,7 +1,9 @@
 package com.waa.project.service;
 
 import com.waa.project.domain.Order;
+import com.waa.project.domain.OrderDetail;
 import com.waa.project.dto.OrderDTO;
+import com.waa.project.dto.OrderDetailDTO;
 import com.waa.project.repository.OrderRepository;
 import com.waa.project.service.OrderService;
 import com.waa.project.util.ListMapper;
@@ -19,12 +21,17 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private ModelMapper modelMapper;
     private ListMapper<Order, OrderDTO> listMapper;
+    private ListMapper<OrderDetail, OrderDetailDTO> listMapperOrderList;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, ModelMapper modelMapper, ListMapper<Order, OrderDTO> listMapper){
+    public OrderServiceImpl(OrderRepository orderRepository,
+                            ModelMapper modelMapper,
+                            ListMapper<Order, OrderDTO> listMapper,
+                            ListMapper<OrderDetail, OrderDetailDTO> listMapperOrderList){
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
         this.listMapper = listMapper;
+        this.listMapperOrderList = listMapperOrderList;
     }
 
     @Override
@@ -41,15 +48,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void createOrder(OrderDTO orderDTO) {
-        orderRepository.save(modelMapper.map(orderDTO, Order.class));
-        for (Product product: orderDTO.getP
-             ) {
+        Order order = modelMapper.map(orderDTO, Order.class);
+        orderRepository.save(order);
 
-        }
     }
 
     @Override
-    public List<OrderDTO> findAllById(long userId) {
-        return (List<OrderDTO>) listMapper.mapList(orderRepository.findAllById(userId), new OrderDTO());
+    public List<OrderDetailDTO> getOrderDetailsByOrderId(long id) {
+        return (List<OrderDetailDTO>) listMapperOrderList.mapList(orderRepository.findAllOrderDetailsByOrderId(id), new OrderDetailDTO());
+    }
+
+    @Override
+    public List<OrderDTO> getOrderByUserId(long id) {
+        return (List<OrderDTO>) listMapper.mapList(orderRepository.findAllOrderByUserId(id), new OrderDTO());
     }
 }
