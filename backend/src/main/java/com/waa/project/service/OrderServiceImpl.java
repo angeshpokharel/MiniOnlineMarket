@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -33,7 +34,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findById(long id) {
-        return modelMapper.map(orderRepository.findById(id), OrderDTO.class);
+        Optional<Order> order = orderRepository.findById(id);
+        order.orElseThrow(() -> new NullPointerException("Order Not found"));
+        return modelMapper.map(order.get(), OrderDTO.class);
     }
 
     @Override
