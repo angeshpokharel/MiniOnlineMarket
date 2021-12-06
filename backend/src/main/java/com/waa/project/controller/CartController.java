@@ -36,6 +36,7 @@ public class CartController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public void createCartByUserId(@RequestParam("userId") long userId) throws Exception {
+        System.out.println(cartService.findByUserId(userId));
         if(cartService.findByUserId(userId) != null)
             throw new Exception("The shopping card of this user is already exist");
         cartService.createCartByUserId(userId);
@@ -44,12 +45,12 @@ public class CartController {
     //comment by Win
     //Update from CRUD operations
     //accept cartId, productId and qty because we don't have to load all related data in passing data from frontend
-    @PutMapping
+    @PutMapping("/{cartId}")
     @ResponseStatus(value = HttpStatus.ACCEPTED)
-    public void updateCartByAddingProduct(@RequestParam("cartId") long userId,
+    public void updateCartItem(@PathVariable("cartId") long cartId,
                                           @RequestParam("productId") long productId,
-                                          @RequestParam("qty") int qty){
-        cartService.updateCartByAddingProduct(userId, productId, qty);
+                                          @RequestParam("qty") int qty) throws Exception {
+        cartService.updateCartItem(cartId, productId, qty);
     }
 
     @DeleteMapping("/{id}")

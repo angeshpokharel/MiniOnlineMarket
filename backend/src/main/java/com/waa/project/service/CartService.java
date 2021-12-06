@@ -10,6 +10,6 @@ public interface CartService {
     public CartDTO findById(long id);
     public CartDTO findByUserId(long id);
     public void createCartByUserId(long userId);
-    public void updateCartByAddingProduct(long userId, long productId, int qty);
+    public void updateCartItem(long userId, long productId, int qty) throws Exception;
     public void deleteCart(long id);
 }
