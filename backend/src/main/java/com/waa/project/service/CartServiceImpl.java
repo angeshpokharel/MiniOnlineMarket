@@ -57,17 +57,15 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public CartDTO findByUserId(long id) {
-        Optional<Cart> result = cartRepository.findById(id);
-        if(result.isEmpty()) {
-            System.out.println("findByUserId is being null in CartServiceImpl");
+    public CartDTO findByUserId(long userId) {
+        Cart result = cartRepository.findByUserId(userId);
+        if(result == null)
             return null;
-        }
         else{
             CartDTO cartDTO = new CartDTO();
-            cartDTO.setId(result.get().getId());
-            cartDTO.setUser(modelMapper.map(result.get().getUser(), UserDTO.class));
-            cartDTO.setCartDetails(result.get().getCartDetails().stream()
+            cartDTO.setId(result.getId());
+            cartDTO.setUser(modelMapper.map(result.getUser(), UserDTO.class));
+            cartDTO.setCartDetails(result.getCartDetails().stream()
                     .map(c -> modelMapper.map(c, CartDetailDTO.class))
                     .collect(Collectors.toList()));
             return cartDTO;
@@ -82,20 +80,33 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public void updateCartByAddingProduct(long cartId, long productId, int qty) {
+    public void updateCartItem(long cartId, long productId, int qty) throws Exception {
         //getting existingCart back from db
         Cart existingCart = cartRepository.findById(cartId).get();
 
+        //if coming product is already exist in the shopping cart, it will add qty to existing cart detail row
         Optional<CartDetail> existingCartDetail = existingCart.getCartDetails()
                 .stream()
                 .filter(cd->cd.getProduct().getId()==productId)
                 .findFirst();
         if(existingCartDetail.isPresent()) {
-            existingCartDetail.get().setQuantity(existingCartDetail.get().getQuantity() + qty);
-            cartDetailRepository.save(existingCartDetail.get());
+            int updatedQty =existingCartDetail.get().getQuantity() + qty;
+            System.out.println(updatedQty);
+            if(updatedQty <= 0) {
+                existingCart.getCartDetails().remove(existingCartDetail.get());
+                cartDetailRepository.deleteById(existingCartDetail.get().getId());
+
+                System.out.println("cart detail row is deleted as qty is equal or less than 0");
+            }
+            else {
+                existingCartDetail.get().setQuantity(updatedQty);
+                cartDetailRepository.save(existingCartDetail.get());
+            }
         }
         else {
-            //getting prodcut data from db
+            if(qty <= 0)
+                throw new Exception("Qty must be greater than 0");
+            //getting product data from db
             Product product = productRepository.findById(productId).get();
 
             //creating new cart detail row
