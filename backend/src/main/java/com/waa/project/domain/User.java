@@ -1,10 +1,8 @@
 package com.waa.project.domain;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,4 +24,7 @@ public class User {
   private String phone;
   private String password;
   private long roleId;
+
+  @OneToOne(mappedBy="user", cascade = CascadeType.ALL)
+  private Cart cart;
 }
