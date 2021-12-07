@@ -3,11 +3,14 @@ package com.waa.project.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,4 +30,9 @@ public class User {
 
   @OneToOne(mappedBy="user", cascade = CascadeType.ALL)
   private Cart cart;
+
+  @JsonManagedReference
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Order> orders;
+
 }
