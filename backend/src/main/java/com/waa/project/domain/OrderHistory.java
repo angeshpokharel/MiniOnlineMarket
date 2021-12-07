@@ -1,11 +1,12 @@
 package com.waa.project.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
+
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ import java.util.Date;
 @Entity
 public class OrderHistory {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -24,9 +25,11 @@ public class OrderHistory {
     private long modifiedBy;
     private LocalDate modifiedDate;
 
-    @JsonBackReference
+    //@JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 
 }

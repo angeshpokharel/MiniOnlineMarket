@@ -25,6 +25,6 @@ public class OrderDTO {
     private LocalDate paymentDate;
     private int points;
     private UserDTO user;
-    private List<OrderHistoryDTO> orderSet = new ArrayList<>();
+    private List<OrderHistoryDTO> orderHistories = new ArrayList<>();
     private List<OrderDetailDTO> orderDetails;
 }

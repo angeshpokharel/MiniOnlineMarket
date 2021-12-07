@@ -4,6 +4,8 @@ import com.waa.project.domain.Order;
 import com.waa.project.domain.Product;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @ToString

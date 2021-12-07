@@ -1,16 +1,18 @@
 package com.waa.project.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,7 +24,7 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Enumerated(EnumType.STRING)
@@ -38,18 +40,24 @@ public class Order {
 
     private long points;
 
-    @JsonBackReference
+    //@JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
-    @JsonManagedReference
+   // @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
+
+    private List<OrderHistory> orderHistories = new ArrayList<>();
+
+    //@JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
     private  List<OrderDetail> orderDetails;
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
-    private List<OrderHistory> orderHistories = new ArrayList<>();
+
 
 
 }

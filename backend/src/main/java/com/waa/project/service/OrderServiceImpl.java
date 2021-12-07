@@ -67,7 +67,7 @@ public class OrderServiceImpl implements OrderService {
             OrderDetail orderDetail = new OrderDetail();
             Product product = modelMapper.map(productService.getProductById(orderDetailDTO.getProduct().getId()), Product.class);
             orderDetail.setQuantity(orderDetailDTO.getQuantity());
-            orderDetail.setUnitPrice(orderDetailDTO.getUnitPrice());
+            orderDetail.setUnitPrice(product.getPrice());
             orderDetail.setProduct(product);
             orderDetail.setOrder(modelMapper.map(orderDTO, Order.class));
             order.getOrderDetails().add(orderDetail);
@@ -78,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentMode(orderDTO.getPaymentMode());
         order.setPaymentDate(LocalDate.now());
         order.setPoints(orderDTO.getOrderDetails().stream()
-                .map(o -> o.getUnitPrice() * o.getQuantity())
+                .map(o -> o.getProduct().getPrice() * o.getProduct().getPrice())
                 .reduce((a, b) -> a + b).get());
 
         order.setOrderHistories(new ArrayList<OrderHistory>());

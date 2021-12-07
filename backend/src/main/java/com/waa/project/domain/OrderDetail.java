@@ -1,9 +1,12 @@
 package com.waa.project.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -19,12 +22,16 @@ public class OrderDetail {
     private int quantity;
     private long unitPrice;
 
+
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
+
     private Product product;
 
-    @JsonBackReference
+   // @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnore
     private Order order;
 }
