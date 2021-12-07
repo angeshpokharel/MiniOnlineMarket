@@ -3,19 +3,11 @@ package com.waa.project.domain;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -33,8 +25,6 @@ public class User {
   private String password;
   private long roleId;
 
-  @JsonManagedReference
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-  @Fetch(FetchMode.JOIN)
-  private List<Order> orders;
+  @OneToOne(mappedBy="user", cascade = CascadeType.ALL)
+  private Cart cart;
 }
