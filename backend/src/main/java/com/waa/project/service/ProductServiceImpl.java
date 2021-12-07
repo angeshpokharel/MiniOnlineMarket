@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     ModelMapper modelMapper = new ModelMapper();
 
@@ -35,8 +36,27 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public ProductDTO getProductById(long id) {
-
+       
         return modelMapper.map(productRepository.findById(id).get(),ProductDTO.class);
+    }
+
+    @Override
+    public void delete(long id) {
+        productRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(ProductDTO productDTO) {
+        Optional<Product> prdOpt = productRepository.findById(productDTO.getId());
+        if (prdOpt.isPresent()){
+            Product prd = prdOpt.get();
+            if (productDTO.getCategoryId()!= 0) prd.setCategoryId(productDTO.getCategoryId());
+            if (productDTO.getDescription()!=null) prd.setDescription(productDTO.getDescription());
+            prd.setPrice(productDTO.getPrice());
+            prd.setName(productDTO.getName());
+            prd.setImage(productDTO.getImage());
+            productRepository.save(prd);
+        }
     }
 
 
