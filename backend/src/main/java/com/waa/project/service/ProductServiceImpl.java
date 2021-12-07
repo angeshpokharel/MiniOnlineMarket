@@ -33,6 +33,12 @@ public class ProductServiceImpl implements ProductService{
         return products.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public ProductDTO getProductById(long id) {
+
+        return modelMapper.map(productRepository.findById(id).get(),ProductDTO.class);
+    }
+
 
     private Product convertToEntity(ProductDTO productDTO) {
         return modelMapper.map(productDTO, Product.class);

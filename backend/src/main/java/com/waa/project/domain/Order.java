@@ -26,7 +26,7 @@ public class Order {
     private long id;
 
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus status = OrderStatus.NEW;
 
     private String billingAddress;
 
@@ -36,7 +36,7 @@ public class Order {
 
     private LocalDate paymentDate;
 
-    private int points;
+    private long points;
 
     @JsonBackReference
     @ManyToOne
@@ -44,10 +44,12 @@ public class Order {
     private User user;
 
     @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
-    private List<OrderHistory> orderSet = new ArrayList<>();
-
-    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private  List<OrderDetail> orderDetails;
+
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
+    private List<OrderHistory> orderHistories = new ArrayList<>();
+
+
 }

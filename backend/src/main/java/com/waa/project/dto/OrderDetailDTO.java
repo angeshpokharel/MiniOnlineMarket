@@ -15,5 +15,5 @@ public class OrderDetailDTO {
     private int quantity;
     private long unitPrice;
     private Product product;
-    private Order order;
+    private OrderDTO order;
 }

@@ -12,7 +12,7 @@ public interface OrderService {
 
     List<OrderDTO> findAll();
     OrderDTO findById(long id);
-    void createOrder(OrderDTO orderDTO);
+    void createOrder(long id, OrderDTO orderDTO);
     List<OrderDetailDTO> getOrderDetailsByOrderId(long id);
     List<OrderDTO> getOrderByUserId(long id);
 }
