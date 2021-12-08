@@ -3,6 +3,7 @@ package com.waa.project.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,17 +22,18 @@ public class OrderDetail {
 
     private int quantity;
     private long unitPrice;
+    @Column(name = "order_id")
+    private long orderId;
 
 
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
-
     private Product product;
 
    // @JsonBackReference
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    @JsonIgnore
-    private Order order;
+    @JsonIgnoreProperties(allowGetters = false)
+    private Order order;*/
 }

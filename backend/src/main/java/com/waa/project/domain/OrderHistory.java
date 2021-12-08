@@ -2,6 +2,7 @@ package com.waa.project.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,11 +26,13 @@ public class OrderHistory {
     private long modifiedBy;
     private LocalDate modifiedDate;
 
+    @Column(name = "order_id")
+    private long orderId;
     //@JsonBackReference
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
-    @JsonIgnore
-    private Order order;
+    @JsonIgnoreProperties(allowGetters = false)
+    private Order order;*/
 
 }

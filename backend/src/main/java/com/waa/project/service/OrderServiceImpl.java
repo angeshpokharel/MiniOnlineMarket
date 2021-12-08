@@ -3,7 +3,10 @@ package com.waa.project.service;
 import com.waa.project.domain.*;
 import com.waa.project.dto.OrderDTO;
 import com.waa.project.dto.OrderDetailDTO;
+import com.waa.project.dto.OrderHistoryDTO;
 import com.waa.project.dto.ProductDTO;
+import com.waa.project.repository.OrderDetailRepository;
+import com.waa.project.repository.OrderHistoryRepository;
 import com.waa.project.repository.OrderRepository;
 import com.waa.project.repository.UserRepository;
 import com.waa.project.service.OrderService;
@@ -26,8 +29,11 @@ public class OrderServiceImpl implements OrderService {
     private ModelMapper modelMapper;
     private ListMapper<Order, OrderDTO> listMapper;
     private ListMapper<OrderDetail, OrderDetailDTO> listMapperOrderList;
+    private ListMapper<OrderHistory, OrderHistoryDTO> listMapperOrderHistory;
     private UserRepository userRepository;
     private ProductService productService;
+    private OrderDetailRepository orderDetailRepository;
+    private OrderHistoryRepository orderHistoryRepository;
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -35,13 +41,19 @@ public class OrderServiceImpl implements OrderService {
                             ListMapper<Order, OrderDTO> listMapper,
                             ListMapper<OrderDetail, OrderDetailDTO> listMapperOrderList,
                             UserRepository userRepository,
-                            ProductService productService){
+                            ProductService productService,
+                            ListMapper<OrderHistory, OrderHistoryDTO> listMapperOrderHistory,
+                            OrderDetailRepository orderDetailRepository,
+                            OrderHistoryRepository orderHistoryRepository){
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
         this.listMapper = listMapper;
         this.listMapperOrderList = listMapperOrderList;
         this.userRepository = userRepository;
         this.productService = productService;
+        this.listMapperOrderHistory = listMapperOrderHistory;
+        this.orderHistoryRepository = orderHistoryRepository;
+        this.orderDetailRepository = orderDetailRepository;
     }
 
     @Override
@@ -69,7 +81,8 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setQuantity(orderDetailDTO.getQuantity());
             orderDetail.setUnitPrice(product.getPrice());
             orderDetail.setProduct(product);
-            orderDetail.setOrder(modelMapper.map(orderDTO, Order.class));
+
+            //orderDetail.setOrder(modelMapper.map(orderDTO, Order.class));
             order.getOrderDetails().add(orderDetail);
         }
 
@@ -86,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
         orderHistory.setStatus(OrderStatus.NEW);
         orderHistory.setModifiedDate(LocalDate.now());
         orderHistory.setModifiedBy(user.get().getId());
-        orderHistory.setOrder(order);
+       // orderHistory.setOrder(order);
         order.getOrderHistories().add(orderHistory);
         orderRepository.save(order);
     }
@@ -100,4 +113,27 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getOrderByUserId(long id) {
         return (List<OrderDTO>) listMapper.mapList(orderRepository.findAllOrderByUserId(id), new OrderDTO());
     }
+
+    @Override
+    public List<OrderHistoryDTO> getAllOrderHistoryByOrderId(long id) {
+        return (List<OrderHistoryDTO>) listMapperOrderHistory.mapList(orderHistoryRepository.findAllByOrderId(id), new OrderHistoryDTO());
+    }
+
+    @Override
+    public OrderHistoryDTO getOrderHistoryById(long id) {
+        return modelMapper.map(orderHistoryRepository.findById(id).get(), OrderHistoryDTO.class);
+    }
+
+    @Override
+    public void updateOrderByStatus(long id, OrderStatus newStatus) {
+        OrderHistory orderHistory = orderHistoryRepository.findById(id).get();
+        System.out.println(newStatus);
+        orderHistory.setStatus(newStatus);
+        //GetUserId from username obtained from SecurityContext and save here
+        //orderHistory.setModifiedBy(userId);
+        //orderHistory.getOrder().setStatus(newStatus);
+        orderHistoryRepository.save(orderHistory);
+    }
+
+
 }

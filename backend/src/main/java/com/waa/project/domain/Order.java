@@ -48,13 +48,15 @@ public class Order {
     private User user;
 
    // @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
-
+    //@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+   // @JoinColumn(name = "order_id", referencedColumnName = "id")
     private List<OrderHistory> orderHistories = new ArrayList<>();
 
     //@JsonManagedReference
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-
+    //@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    //@JoinColumn(name = "order_id", referencedColumnName = "id")
     private  List<OrderDetail> orderDetails;
 
 
