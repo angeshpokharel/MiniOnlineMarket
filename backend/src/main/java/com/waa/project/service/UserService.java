@@ -5,6 +5,8 @@ import com.waa.project.dto.UserDTO;
 import java.util.List;
 
 public interface UserService {
-  void save(UserDTO userDTO);
+  UserDTO save(UserDTO userDTO);
   List<UserDTO> getAll();
+  User getUserByEmail(String email);
+  UserDTO convertToDTO(User user);
 }
