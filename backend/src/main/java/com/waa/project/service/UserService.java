@@ -7,4 +7,9 @@ import java.util.List;
 public interface UserService {
   void save(UserDTO userDTO);
   List<UserDTO> getAll();
+  User getUserByEmail(String email);
+  UserDTO getUserById(long id);
+  public boolean deleteUserById(long id);
+  UserDTO convertToDTO(User user);
+
 }
