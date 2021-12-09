@@ -41,36 +41,4 @@ public class UserServiceImpl implements UserService{
   private UserDTO convertToDTO(User user) {
     return modelMapper.map(user, UserDTO.class);
   }
-
-  @Override
-  public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-    User user = getUserByEmail(userEmail);
-    if (user != null) {
-      return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-              AuthorityUtils.commaSeparatedStringToAuthorityList(user.getRole()));
-    } else {
-      throw new UsernameNotFoundException(userEmail);
-    }
-  }
-
-  @Override
-  public User getUserByEmail(String userEmail) {
-    return appUserRepository.findByEmail(userEmail);
-  }
-
-  @Override
-  public UserDTO getUserById(long id) {
-    return convertToDTO(appUserRepository.findById(id));
-  }
-
-
-  public boolean deleteUserById(long id) {
-    try {
-      appUserRepository.deleteById(id);
-      return true;
-    } catch (Exception e) {
-      return false;
-    }
-  }
-
 }
