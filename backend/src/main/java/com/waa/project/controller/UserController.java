@@ -1,3 +1,5 @@
+package com.waa.project.controller;
+
 import com.waa.project.dto.UserDTO;
 import com.waa.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +31,21 @@ public class UserController {
   public ResponseEntity<List<UserDTO>> getAllUsers() {
     return ResponseEntity.ok(userService.getAll());
   }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<UserDTO> getUser(@PathVariable("id") long id) {
+    return ResponseEntity.ok(userService.getUserById(id));
+  }
+
+  @DeleteMapping
+  public ResponseEntity<Boolean> deleteUser(@RequestParam("id") long id){
+    return ResponseEntity.ok(userService.deleteUserById(id));
+  }
+
+  @PutMapping
+  public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO  userDTO) {
+    return ResponseEntity.ok(userService.save(userDTO));
+  }
+
+
 }

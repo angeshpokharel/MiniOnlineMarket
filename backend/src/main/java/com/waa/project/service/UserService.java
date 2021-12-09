@@ -8,5 +8,7 @@ public interface UserService {
   UserDTO save(UserDTO userDTO);
   List<UserDTO> getAll();
   User getUserByEmail(String email);
+  UserDTO getUserById(long id);
+  public boolean deleteUserById(long id);
   UserDTO convertToDTO(User user);
 }
