@@ -13,10 +13,10 @@ import lombok.ToString;
 @AllArgsConstructor
 public class UserDTO {
   private long id;
-  private String email;
   private String name;
   private String address;
   private String phone;
   private String password;
-  private String role; //csv -> comma separated value
+  private long roleId;
+
 }
