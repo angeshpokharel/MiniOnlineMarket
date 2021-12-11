@@ -33,7 +33,7 @@ export default function ForgetPassword(props) {
           <TextField
             fullWidth
             id="emailAddress"
-            label="इमेल"
+            label="Email"
             type="email"
             margin="normal"
             variant="outlined"

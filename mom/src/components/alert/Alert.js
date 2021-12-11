@@ -1,7 +1,7 @@
 import { store } from 'react-notifications-component';
 import 'react-notifications-component/dist/theme.css'
 
-// For API reference: https://github.com/teodosii/react-notifications-component
+
 export default function AddAlertMessage({ type, message, container, ...rest }) {
   store.addNotification({
     type: type === "error" ? "danger" : type,

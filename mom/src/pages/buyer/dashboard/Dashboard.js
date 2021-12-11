@@ -6,7 +6,7 @@ export default function BuyerDashboard() {
   const classes = styles();
   return (
     <Container>
-      //BUYER product page to be listed here
+      //BUYER product dashboard page to be rendered here
     </Container>
   );
 }
