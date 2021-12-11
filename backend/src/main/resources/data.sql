@@ -1,4 +1,4 @@
-INSERT INTO ROLE(ID, Name) VALUES (1, 'Admin');
+/*INSERT INTO ROLE(ID, Name) VALUES (1, 'Admin');
 INSERT INTO ROLE(ID, Name)
 VALUES (2, 'Seller');
 INSERT INTO ROLE(ID, Name)
@@ -30,3 +30,4 @@ VALUES (3, 1, 3, 30);
 
 
 
+*/

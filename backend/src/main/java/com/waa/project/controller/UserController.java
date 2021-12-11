@@ -1,3 +1,5 @@
+package com.waa.project.controller;
+
 import com.waa.project.dto.UserDTO;
 import com.waa.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

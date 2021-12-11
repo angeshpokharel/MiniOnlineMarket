@@ -29,7 +29,10 @@ public class User {
     private String address;
     private String phone;
     private String password;
-    private long roleId;
+    private String email;
+    private String role; //csv -> comma separated value
+    private long createdDate;
+    private long modifiedDate;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;
@@ -38,6 +41,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Order> orders;
+    private List<Orders> orders;
 
 }
