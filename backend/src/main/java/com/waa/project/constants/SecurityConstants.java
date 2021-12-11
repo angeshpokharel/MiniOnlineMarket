@@ -15,4 +15,5 @@ public final class SecurityConstants {
   public static final String ROLE_USER = "ROLE_USER";
   public static final String ROLE_SELLER = "ROLE_SELLER";
   public static final String ROLE_BUYER = "ROLE_BUYER";
+    public static final String SUPER_ADMIN_EMAIL = "admin@admin.com";
 }
