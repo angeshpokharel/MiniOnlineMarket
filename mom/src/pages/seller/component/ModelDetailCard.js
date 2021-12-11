@@ -48,7 +48,7 @@ export default function ModelDetailCard(props) {
                           ? modelObject.modelImage[
                               modelObject.modelImage.length - 1
                             ].filePath
-                          : "https://i0.wp.com/clydeinsider.co.uk/wp-content/uploads/2017/10/A-NaVi-woman-Neytiri-from-Avatar.jpg?ssl=1"
+                          : "https://en.wikipedia.org/wiki/Maharishi_International_University#/media/File:Maharishi_International_University_logo_1.png"
                       }
                       title={modelObject.modelName || "Contemplative Reptile"}
                     />

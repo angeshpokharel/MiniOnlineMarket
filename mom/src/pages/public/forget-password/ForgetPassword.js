@@ -27,7 +27,7 @@ export default function ForgetPassword(props) {
 
   return (
     <Container maxWidth="lg" className={classes.root}>
-      <h2 className="border-bottom-heading">कृपया तपाईंको इमेल ठेगाना टाइप गर्नुहोस्।</h2>
+      <h2 className="border-bottom-heading">Type your Email</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box item="true" xs={8}>
           <TextField
@@ -53,14 +53,14 @@ export default function ForgetPassword(props) {
             color="secondary"
             type="reset"
           >
-            रद्द गर्नुहोस
+            Cancel
           </Button>
           <Button
             variant="contained"
             color="primary"
             type="submit"
           >
-            सुरक्षित गर्नुहोस
+            Save
           </Button>
         </Box>
       </form>

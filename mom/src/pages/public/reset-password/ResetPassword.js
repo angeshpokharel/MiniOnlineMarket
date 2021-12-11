@@ -14,7 +14,7 @@ export default function ResetPassword(props) {
 
   const onSubmit = data => {
     let token = AppUtils.getUrlParam("token");
-    // TODO: Roshan - send password and confirm password as postdata(i.e., object)
+    // TODO:  send password and confirm password as postdata(i.e., object)
     if (token) {
       data.resetToken = token;
       YOJANA.post(API_URL.resetPassword, data)
@@ -35,14 +35,14 @@ export default function ResetPassword(props) {
 
   return (
     <Container maxWidth="lg" className={classes.root}>
-      <h2 className="border-bottom-heading">तपाईंको पासवर्ड रिसेट गर्नुहोस्।</h2>
+      <h2 className="border-bottom-heading">Reset Your Password</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={1} alignItems="center">
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
               id="outlined-user-password"
-              label="पासवर्ड:"
+              label="Password:"
               type="password"
               margin="normal"
               variant="outlined"
@@ -55,7 +55,7 @@ export default function ResetPassword(props) {
             <TextField
               fullWidth
               id="outlined-user-confirm-password"
-              label="पासवर्ड सुनिश्चित गर्नुहोस:"
+              label="Confirm Password:"
               type="password"
               margin="normal"
               variant="outlined"
@@ -76,14 +76,14 @@ export default function ResetPassword(props) {
             color="secondary"
             type="reset"
           >
-            रद्द गर्नुहोस
+            Cancel
           </Button>
           <Button
             variant="contained"
             color="primary"
             type="submit"
           >
-            सुरक्षित गर्नुहोस
+            Save
           </Button>
         </Box>
       </form>
