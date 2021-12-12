@@ -130,14 +130,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrderStatus(long id, String newStatus) {
         Orders order = orderRepository.findById(id).get();
-        order.setStatus(newStatus);
+        String updatedStatus = newStatus.substring(1, newStatus.length()-1);
+        order.setStatus(updatedStatus);
         //GetUserId from username obtained from SecurityContext and save here
         //orderHistory.setModifiedBy(userId);
         //orderHistory.getOrder().setStatus(newStatus);
 
         List<OrderHistory> orderHistories = order.getOrderHistories();
         OrderHistory orderHistory = new OrderHistory();
-        orderHistory.setStatus(newStatus);
+        orderHistory.setStatus(updatedStatus);
         /*UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
         Replace with user from curretly user id*/
