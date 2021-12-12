@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   @Override
   public UserDTO getUserById(long id) {
-    return convertToDTO(appUserRepository.findById(id));
+    return convertToDTO(appUserRepository.findById(id).get());
   }
 
 

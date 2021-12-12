@@ -1,6 +1,6 @@
 package com.waa.project.controller;
 
-import com.waa.project.domain.Order;
+
 import com.waa.project.domain.OrderStatus;
 import com.waa.project.dto.OrderDTO;
 import com.waa.project.dto.OrderDetailDTO;

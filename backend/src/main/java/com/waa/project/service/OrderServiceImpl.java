@@ -27,7 +27,7 @@ import java.util.Optional;
 public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private ModelMapper modelMapper;
-    private ListMapper<Order, OrderDTO> listMapper;
+    private ListMapper<Orders, OrderDTO> listMapper;
     private ListMapper<OrderDetail, OrderDetailDTO> listMapperOrderList;
     private ListMapper<OrderHistory, OrderHistoryDTO> listMapperOrderHistory;
     private UserRepository userRepository;
@@ -38,7 +38,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository,
                             ModelMapper modelMapper,
-                            ListMapper<Order, OrderDTO> listMapper,
+                            ListMapper<Orders, OrderDTO> listMapper,
                             ListMapper<OrderDetail, OrderDetailDTO> listMapperOrderList,
                             UserRepository userRepository,
                             ProductService productService,
@@ -63,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO findById(long id) {
-        Optional<Order> order = orderRepository.findById(id);
+        Optional<Orders> order = orderRepository.findById(id);
         order.orElseThrow(() -> new NullPointerException("Order Not found"));
         return modelMapper.map(order.get(), OrderDTO.class);
     }
@@ -71,7 +71,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void createOrder(long id, OrderDTO orderDTO) {
         Optional<User> user = userRepository.findById(id);
-        Order order = new Order();
+        Orders order = new Orders();
         order.setUser(user.get());
         order.setOrderDetails(new ArrayList<OrderDetail>());
 
