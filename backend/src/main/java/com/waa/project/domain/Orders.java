@@ -20,9 +20,9 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "ORDERS")
-public class Order {
 
+@Table(name = "ORDERS")
+public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
