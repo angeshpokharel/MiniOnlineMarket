@@ -10,11 +10,8 @@ export default function SellerDashboard() {
   return (
     <Container>
       <h1>Hello wWorsldkfnlkasdf</h1>
-          
                   <NavLink to="/seller/dashboard/products">Product</NavLink>
-                  <NavLink to="/seller/dashboard/orders">Order</NavLink>
-                  
-              
+                  <NavLink to="/seller/dashboard/orders">Order</NavLink>              
     </Container>
   );
 }

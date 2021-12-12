@@ -63,12 +63,16 @@ export default function App() {
               component={SellerDashboard}
               isPrivate
             />
-            <Route exact path="/seller/dashboard/products" component={Product} isPrivate>
-              </Route>
+            <Route 
+            exact 
+            path="/seller/dashboard/products" 
+            component={Product} 
+            isPrivate/>
+            
 
-             <Route exact  path="/seller/dashboard/orders" component={Order}  isPrivate>
+             <Route exact  path="/seller/dashboard/orders" component={Orders}  isPrivate/>
                 
-              </Route>
+              
 
              {/*  <Route path="/orders/:orderId">
                 <OrderDetails />

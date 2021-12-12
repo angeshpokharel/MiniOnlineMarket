@@ -5,8 +5,6 @@ import { Cookies } from "../utils/storage/cookies";
 import { AUTH_TOKEN, USER_ROLE } from "../utils/constants/index";
 
 export default function RouteWrapper({ component: Component, path: urlPath, isPrivate, isWrongLink, ...rest }) {
-  console.log(isPrivate);
-  console.log(isWrongLink);
   if (isPrivate && !Cookies.readCookie(AUTH_TOKEN)) {
     return <Redirect to="/" />;
   } else if (!isPrivate && !isWrongLink && !urlPath.includes("/user-not-authorized") && Cookies.readCookie(AUTH_TOKEN) && Cookies.readCookie(USER_ROLE) === "ROLE_ADMIN") {
