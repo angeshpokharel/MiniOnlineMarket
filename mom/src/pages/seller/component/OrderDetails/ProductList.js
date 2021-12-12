@@ -1,3 +1,4 @@
+import { TableCell, TableRow } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -5,14 +6,14 @@ import { Link } from "react-router-dom";
 const ProductList = (props) => {
     console.log(props);
     return (
-        <tr key={props.id}>
-             <th>{props.id}</th>
-            <th>{props.product.name}</th>
-            <th>{props.quantity}</th>
-            <th>{props.product.price}</th>
-            <th>{props.quantity * props.product.price}</th>
+        <TableRow key={props.id}>
+             <TableCell>{props.id}</TableCell>
+            <TableCell>{props.product.name}</TableCell>
+            <TableCell>{props.quantity}</TableCell>
+            <TableCell>{props.product.price}</TableCell>
+            <TableCell>{props.quantity * props.product.price}</TableCell>
            
-        </tr>
+        </TableRow>
     );
 };
 

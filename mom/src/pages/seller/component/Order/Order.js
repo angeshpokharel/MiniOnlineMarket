@@ -1,23 +1,24 @@
+import { TableRow, TableCell } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
 const Order = (props) => {
   console.log(props.id);
   return (
-    <tr key={props.id}>
-      <td>{props.id}</td>
-      <td>{props.paymentDate}</td>
-      <td>{props.user.name}</td>
-      <td>{props.user.email}</td>
-      <td>{props.shippingAddress}</td>
-      <td>{props.points}</td>
-      <td style = {{color: "red"}}>{props.status}</td>
-      <td>
-        <Link to={{ pathname: `/orders/${props.id}` }}>
+    <TableRow key={props.id}>
+      <TableCell>{props.id}</TableCell>
+      <TableCell>{props.paymentDate}</TableCell>
+      <TableCell>{props.user.name}</TableCell>
+      <TableCell>{props.user.email}</TableCell>
+      <TableCell>{props.shippingAddress}</TableCell>
+      <TableCell>{props.points}</TableCell>
+      <TableCell style = {{color: "red"}}>{props.status}</TableCell>
+      <TableCell>
+        <Link to={{ pathname: `/seller/dashboard/orders/${props.id}` }}>
           View Details
         </Link>
-      </td>
-    </tr>
+      </TableCell>
+    </TableRow>
   );
 };
 

@@ -27,8 +27,7 @@ public class Orders {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status = OrderStatus.NEW;
+    private String status = OrderStatus.NEW.getOrderStatus();
 
     private String billingAddress;
 

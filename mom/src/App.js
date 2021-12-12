@@ -63,25 +63,30 @@ export default function App() {
               component={SellerDashboard}
               isPrivate
             />
-            <Route 
-            exact 
-            path="/seller/dashboard/products" 
-            component={Product} 
-            isPrivate/>
-            
+            <Route
+              exact
+              path="/seller/dashboard/products"
+              component={Product}
+              isPrivate />
 
-             <Route exact  path="/seller/dashboard/orders" component={Orders}  isPrivate/>
-                
-              
 
-             {/*  <Route path="/orders/:orderId">
-                <OrderDetails />
-              </Route>
+            <Route
+              exact
+              path="/seller/dashboard/orders"
+              component={Orders}
+              isPrivate />
 
-              <Route path="/" exact>
-                <Redirect to="/products" />
-              </Route>}  */}
 
+            <Route
+              exact
+              path="/seller/dashboard/orders/:orderId"
+              component={OrderDetails}
+              isPrivate
+            />
+
+            <Route path="/" exact isPrivate>
+              <Redirect to="/products" />
+            </Route>
 
             <Route component={GlobalPageNotFound} isWrongLink />
           </Switch>

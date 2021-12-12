@@ -1,7 +1,7 @@
 .Details {
     margin: 1rem auto;
     box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
-    width: 71rem;
+    width: 68rem;
     margin-left: 20px;
     float: left;
     border-radius: 8px;
@@ -12,10 +12,10 @@
 
 .CustDetails{
     float: left;
-    width: 540px;
+    width: 500px;
     line-height: 20px;
     height: fit-content;
-    border: solid 2px black;
+    border: solid 2px #c9bdda;
     padding: 20px;
     text-align: left;
     margin-left: 10px;

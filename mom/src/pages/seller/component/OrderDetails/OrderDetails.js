@@ -1,3 +1,4 @@
+import { TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { FormControl, Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
@@ -67,18 +68,19 @@ const OderDetails = () => {
             </section>
 
             <section className={classes.Details}>
-                <Table striped bordered hover>
-                    <thead>
-                        <tr>
-                            <th>Product Id</th>
-                            <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Price</th>
-                            <th>Amount</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <TableContainer>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Product Id</TableCell>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Quantity</TableCell>
+                            <TableCell>Price</TableCell>
+                            <TableCell>Amount</TableCell>
+                            <TableCell></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
                         {loadedOrder.orderDetails.map((product) => {
                             return (
                                 <ProductList key={product.id}
@@ -88,8 +90,9 @@ const OderDetails = () => {
                             );
                         }
                         )}
-                    </tbody>
+                    </TableBody>
                 </Table>
+              </TableContainer>
             </section>
         </>
     );

@@ -96,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderHistories(new ArrayList<OrderHistory>());
         OrderHistory orderHistory = new OrderHistory();
-        orderHistory.setStatus(OrderStatus.NEW);
+        orderHistory.setStatus(OrderStatus.NEW.getOrderStatus());
         orderHistory.setModifiedDate(LocalDate.now());
         orderHistory.setModifiedBy(user.get().getId());
        // orderHistory.setOrder(order);
@@ -125,14 +125,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderByStatus(long id, OrderStatus newStatus) {
-        OrderHistory orderHistory = orderHistoryRepository.findById(id).get();
-        System.out.println(newStatus);
-        orderHistory.setStatus(newStatus);
+    public void updateOrderStatus(long id, String newStatus) {
+        Orders order = orderRepository.findById(id).get();
+        String updatedStatus = newStatus.substring(1, newStatus.length()-1);
+        order.setStatus(updatedStatus);
         //GetUserId from username obtained from SecurityContext and save here
         //orderHistory.setModifiedBy(userId);
         //orderHistory.getOrder().setStatus(newStatus);
-        orderHistoryRepository.save(orderHistory);
+
+        List<OrderHistory> orderHistories = order.getOrderHistories();
+        OrderHistory orderHistory = new OrderHistory();
+        orderHistory.setStatus(updatedStatus);
+        /*UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        Replace with user from curretly user id*/
+        orderHistory.setModifiedBy(1);
+        orderHistory.setModifiedDate(LocalDate.now());
+        orderHistories.add(orderHistory);
+        orderRepository.save(order);
     }
 
 

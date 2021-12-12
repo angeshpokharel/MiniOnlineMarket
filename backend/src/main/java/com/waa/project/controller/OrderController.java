@@ -65,9 +65,9 @@ public class OrderController {
         return new ResponseEntity(orderService.getOrderHistoryById(id), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/orderHistory/{historyId}")
-    public void updateOrderByStatus(@PathVariable("historyId") long id, @RequestBody OrderStatus newStatus){
-        orderService.updateOrderByStatus(id, newStatus);
+    @PutMapping("/{id}") //orderID
+    public void updateOrderByStatus(@PathVariable("id") long id, @RequestBody String newStatus){
+        orderService.updateOrderStatus(id, newStatus);
     }
 
 
