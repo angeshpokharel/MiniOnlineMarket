@@ -20,8 +20,7 @@ public class OrderHistory {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private String status;
 
     private long modifiedBy;
     private LocalDate modifiedDate;

@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderDTO {
     private long id;
-    private OrderStatus status;
+    private String status;
     private String billingAddress;
     private String shippingAddress;
     private String paymentMode;

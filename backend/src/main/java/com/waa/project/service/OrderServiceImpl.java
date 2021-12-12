@@ -13,6 +13,9 @@ import com.waa.project.service.OrderService;
 import com.waa.project.util.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -91,12 +94,12 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentMode(orderDTO.getPaymentMode());
         order.setPaymentDate(LocalDate.now());
         order.setPoints(orderDTO.getOrderDetails().stream()
-                .map(o -> o.getProduct().getPrice() * o.getProduct().getPrice())
+                .map(o -> o.getQuantity() * o.getProduct().getPrice())
                 .reduce((a, b) -> a + b).get());
 
         order.setOrderHistories(new ArrayList<OrderHistory>());
         OrderHistory orderHistory = new OrderHistory();
-        orderHistory.setStatus(OrderStatus.NEW);
+        orderHistory.setStatus(order.getStatus());
         orderHistory.setModifiedDate(LocalDate.now());
         orderHistory.setModifiedBy(user.get().getId());
        // orderHistory.setOrder(order);
@@ -125,14 +128,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void updateOrderByStatus(long id, OrderStatus newStatus) {
-        OrderHistory orderHistory = orderHistoryRepository.findById(id).get();
-        System.out.println(newStatus);
-        orderHistory.setStatus(newStatus);
+    public void updateOrderStatus(long id, String newStatus) {
+        Orders order = orderRepository.findById(id).get();
+        order.setStatus(newStatus);
         //GetUserId from username obtained from SecurityContext and save here
         //orderHistory.setModifiedBy(userId);
         //orderHistory.getOrder().setStatus(newStatus);
-        orderHistoryRepository.save(orderHistory);
+
+        List<OrderHistory> orderHistories = order.getOrderHistories();
+        OrderHistory orderHistory = new OrderHistory();
+        orderHistory.setStatus(newStatus);
+        /*UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = user.getUsername();
+        Replace with user from curretly user id*/
+        orderHistory.setModifiedBy(1);
+        orderHistory.setModifiedDate(LocalDate.now());
+        orderHistories.add(orderHistory);
+        orderRepository.save(order);
     }
 
 

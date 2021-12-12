@@ -1,10 +1,10 @@
 package com.waa.project.domain;
 
 public enum OrderStatus {
-    NEW("new"),
-    REJECTED("rejected"),
-    SHIPPED("shipped"),
-    DELIVERED("delivered");
+    NEW("NEW"),
+    REJECTED("REJECTED"),
+    SHIPPED("SHIPPED"),
+    DELIVERED("DELIVERED");
 
     private String orderStatus;
 
