@@ -1,7 +1,7 @@
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
 import ReactNotification from "react-notifications-component";
-import {Router, Switch} from "react-router-dom";
+import { Router, Switch, Redirect } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Layout from "./components/layout/Layout";
 import ScrollToTop from "./components/scroll-to-top/ScrollToTop";
@@ -17,6 +17,10 @@ import history from "./services/history";
 import Register from "./pages/public/register/Register";
 import BuyerDashboard from "./pages/buyer/dashboard/Dashboard";
 import SellerDashboard from "./pages/seller/dashboard/Dashboard";
+import Product from "./pages/seller/component/Product/Product";
+import Orders from "./pages/seller/component/Orders/Orders";
+import OrderDetails from "./pages/seller/component/OrderDetails/OrderDetails";
+import Order from "./pages/seller/component/Order/Order";
 
 export default function App() {
   return (
@@ -27,7 +31,7 @@ export default function App() {
         <Layout>
           <Switch>
             <Route exact path="/" component={Login} />
-              <Route exact path="/register" component={Register} />
+            <Route exact path="/register" component={Register} />
             <Route exact path="/reset" component={ResetPassword} />
             <Route
               exact
@@ -59,7 +63,22 @@ export default function App() {
               component={SellerDashboard}
               isPrivate
             />
-            
+            <Route exact path="/seller/dashboard/products" component={Product} isPrivate>
+              </Route>
+
+             <Route exact  path="/seller/dashboard/orders" component={Order}  isPrivate>
+                
+              </Route>
+
+             {/*  <Route path="/orders/:orderId">
+                <OrderDetails />
+              </Route>
+
+              <Route path="/" exact>
+                <Redirect to="/products" />
+              </Route>}  */}
+
+
             <Route component={GlobalPageNotFound} isWrongLink />
           </Switch>
         </Layout>

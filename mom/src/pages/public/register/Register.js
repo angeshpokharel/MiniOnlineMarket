@@ -37,6 +37,7 @@ export default function Register(props) {
         setIsLoading(true);
         data.role = role;
         let url;
+        console.log(data);
         if (!!data.id) {
             url = MOM.put(API_URL.user, data)
         } else{

@@ -5,14 +5,23 @@ import { Cookies } from "../utils/storage/cookies";
 import { AUTH_TOKEN, USER_ROLE } from "../utils/constants/index";
 
 export default function RouteWrapper({ component: Component, path: urlPath, isPrivate, isWrongLink, ...rest }) {
+  console.log(isPrivate);
+  console.log(isWrongLink);
   if (isPrivate && !Cookies.readCookie(AUTH_TOKEN)) {
     return <Redirect to="/" />;
   } else if (!isPrivate && !isWrongLink && !urlPath.includes("/user-not-authorized") && Cookies.readCookie(AUTH_TOKEN) && Cookies.readCookie(USER_ROLE) === "ROLE_ADMIN") {
     return <Redirect to="/admin/dashboard" />;
   } else if (!isPrivate && !isWrongLink && Cookies.readCookie(AUTH_TOKEN) && !urlPath.includes("/user-not-authorized") && (Cookies.readCookie(USER_ROLE) === "ROLE_SELLER")) {
+    console.log("im seller")
     return <Redirect to="/seller/dashboard" />;
   } else if (!isPrivate && !isWrongLink && Cookies.readCookie(AUTH_TOKEN) && !urlPath.includes("/user-not-authorized") && (Cookies.readCookie(USER_ROLE) === "ROLE_BUYER")) {
     return <Redirect to="/buyer/dashboard" />;
+  } else if (!isPrivate && !isWrongLink && Cookies.readCookie(AUTH_TOKEN) && !urlPath.includes("/user-not-authorized") && (Cookies.readCookie(USER_ROLE) === "ROLE_BUYER")) {
+    return <Redirect to="/seller/dashboard/products" />;
+
+  } else if (!isPrivate && !isWrongLink && Cookies.readCookie(AUTH_TOKEN) && !urlPath.includes("/user-not-authorized") && (Cookies.readCookie(USER_ROLE) === "ROLE_BUYER")) {
+    return <Redirect to="/seller/dashboard/orders" />;
+
   } else if (isPrivate && urlPath.includes("/seller") && Cookies.readCookie(USER_ROLE) !== "ROLE_SELLER") {
     return <Redirect to="/user-not-authorized" />;
   } else if (isPrivate && urlPath.includes("/buyer") && Cookies.readCookie(USER_ROLE) !== "ROLE_BUYER") {
@@ -20,6 +29,7 @@ export default function RouteWrapper({ component: Component, path: urlPath, isPr
   } else if (isPrivate && urlPath.includes("/admin") && Cookies.readCookie(USER_ROLE) !== "ROLE_ADMIN") {
     return <Redirect to="/user-not-authorized" />;
   } else {
+    console.log("im here")
     return <Route {...rest} component={Component} />;
   }
 }

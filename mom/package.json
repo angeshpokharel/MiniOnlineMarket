@@ -13,6 +13,7 @@
     "history": "^4.10.1",
     "material-table": "^1.57.2",
     "node-sass": "^4.13.1",
+    "react-bootstrap": "^2.0.3",
     "react-chartjs-2": "^2.9.0",
     "react-hook-form": "^4.8.1",
     "react-notifications-component": "^2.3.0",
