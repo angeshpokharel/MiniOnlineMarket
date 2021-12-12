@@ -31,12 +31,13 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<OrderDTO> findAll() {
+    public ResponseEntity<OrderDTO> getAllOrder() {
         return new ResponseEntity(orderService.findAll(), HttpStatus.OK);
     }
 
+    
     @GetMapping("/{id}")
-    public ResponseEntity<OrderDTO> findById(@PathVariable("id") long id) {
+    public ResponseEntity<OrderDTO> getOrderById(@PathVariable("id") long id) {
         return new ResponseEntity(orderService.findById(id), HttpStatus.OK);
     }
 
@@ -44,6 +45,7 @@ public class OrderController {
     public void createOrderByUserId(@PathVariable("id") long id, @RequestBody OrderDTO orderDTO) {
         orderService.createOrder(id, orderDTO);
     }
+
 
     @GetMapping("/{id}/orders")
     public ResponseEntity<OrderDTO> getAllOrdersbyUserId(@PathVariable("id") long id) {
