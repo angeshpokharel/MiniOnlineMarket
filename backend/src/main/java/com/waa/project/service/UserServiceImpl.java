@@ -75,6 +75,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     return appUserRepository.findByEmail(userEmail);
   }
 
+  @Override
+  public UserDTO getUserById(long id) {
+    return convertToDTO(appUserRepository.findById(id).get());
+  }
+
   public boolean deleteUserById(long id) {
     try {
       appUserRepository.deleteById(id);

@@ -48,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     http.cors().and()
         .authorizeRequests()
         .antMatchers("/h2-console/**").permitAll()
+
         .antMatchers("/api/public/**").permitAll()
         .antMatchers("/api/login").permitAll()
         .antMatchers("/api/**/**").permitAll()

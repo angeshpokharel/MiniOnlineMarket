@@ -99,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
 
         order.setOrderHistories(new ArrayList<OrderHistory>());
         OrderHistory orderHistory = new OrderHistory();
-        orderHistory.setStatus(order.getStatus());
+        orderHistory.setStatus(OrderStatus.NEW.getOrderStatus());
         orderHistory.setModifiedDate(LocalDate.now());
         orderHistory.setModifiedBy(user.get().getId());
        // orderHistory.setOrder(order);

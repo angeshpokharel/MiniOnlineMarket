@@ -16,7 +16,7 @@ public class LoginDTO {
 
     @NotNull
     @Email
-    private String userEmail;
+    private String email;
     @NotNull
     private String password;
     private boolean rememberMe;
