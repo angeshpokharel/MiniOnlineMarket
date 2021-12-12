@@ -4,7 +4,8 @@ import { IS_SESSION_EXPIRED } from "../utils/constants";
 import { SessionStorage } from "../utils/storage/sessionStorage";
 
 export const LOCAL_CONSTANTS = {
-  BASE_URL: "http://localhost:8081/",
+
+  BASE_URL: "http://localhost:8080/",
 };
 
 const BASE_URL = LOCAL_CONSTANTS.BASE_URL;

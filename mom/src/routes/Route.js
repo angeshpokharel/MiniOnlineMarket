@@ -13,9 +13,9 @@ export default function RouteWrapper({ component: Component, path: urlPath, isPr
     return <Redirect to="/seller/dashboard" />;
   } else if (!isPrivate && !isWrongLink && Cookies.readCookie(AUTH_TOKEN) && !urlPath.includes("/user-not-authorized") && (Cookies.readCookie(USER_ROLE) === "ROLE_BUYER")) {
     return <Redirect to="/buyer/dashboard" />;
-  } else if (isPrivate && urlPath.includes("/seller") && (Cookies.readCookie(USER_ROLE) !== "ROLE_SELLER" || Cookies.readCookie(USER_ROLE) !== "ROLE_ADMIN")) {
+  } else if (isPrivate && urlPath.includes("/seller") && Cookies.readCookie(USER_ROLE) !== "ROLE_SELLER") {
     return <Redirect to="/user-not-authorized" />;
-  } else if (isPrivate && urlPath.includes("/buyer") && (Cookies.readCookie(USER_ROLE) !== "ROLE_BUYER" || Cookies.readCookie(USER_ROLE) !== "ROLE_ADMIN")) {
+  } else if (isPrivate && urlPath.includes("/buyer") && Cookies.readCookie(USER_ROLE) !== "ROLE_BUYER") {
     return <Redirect to="/user-not-authorized" />;
   } else if (isPrivate && urlPath.includes("/admin") && Cookies.readCookie(USER_ROLE) !== "ROLE_ADMIN") {
     return <Redirect to="/user-not-authorized" />;
