@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class OrderHistoryDTO {
     private long id;
-    private String status;
+    private OrderStatus status;
     private long modifiedBy;
     private LocalDate modifiedDate;
     //private OrderDTO order;
