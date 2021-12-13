@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import './BuyerHeader.css';
 
 function BuyerHeader(props){
-    console.log(props.name);
+    //console.log(props.name);
     switch(props.name){
       case "Follower" : {
         return (
