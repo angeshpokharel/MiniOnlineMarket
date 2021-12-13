@@ -60,7 +60,7 @@ export default function Header(props) {
       <Toolbar>
         <img src={logo} alt="Mini Online Market" width="36"></img>
         <Typography variant="h6" className={classes.brand}>
-          Mini Online Market: Role -> {AppUtils.getUserRole()}
+          Mini Online Market: Role : {AppUtils.getUserRole()}
         </Typography>
         <Box display="flex" className={classes.userProfileMenu} justifyContent="center" alignItems="center" onClick={e => setProfileMenu(e.currentTarget)}>
           <Typography variant="body1" className={classes.username}>
