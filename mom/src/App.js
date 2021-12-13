@@ -18,7 +18,7 @@ import Register from "./pages/public/register/Register";
 import BuyerDashboard from "./pages/buyer/dashboard/Dashboard";
 import SellerDashboard from "./pages/seller/dashboard/Dashboard";
 import Product from "./pages/seller/component/Product/Product";
-import Orders from "./pages/seller/component/Orders/Orders";
+import Orders from "./pages/seller/component/OrdersList/OrderList";
 import OrderDetails from "./pages/seller/component/OrderDetails/OrderDetails";
 import Order from "./pages/seller/component/Order/Order";
 

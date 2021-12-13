@@ -1,9 +1,8 @@
 package com.waa.project.repository;
 
 import com.waa.project.domain.OrderDetail;
-import org.springframework.data.jpa.repository.Query;
-
 import com.waa.project.domain.Orders;
+import org.springframework.data.jpa.repository.Query;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -23,5 +22,4 @@ public interface OrderRepository extends CrudRepository<Orders,Long> {
 
    @Query("SELECT u.orders FROM User u WHERE u.id = :id")
    List<Orders> findAllOrderByUserId(@Param("id") long userId);
-
 }

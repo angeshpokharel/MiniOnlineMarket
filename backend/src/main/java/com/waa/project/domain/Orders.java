@@ -1,26 +1,20 @@
 package com.waa.project.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import lombok.*;
+
+import javax.persistence.Entity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.List;
 
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Entity
-
 @Table(name = "ORDERS")
 public class Orders {
     @Id
@@ -46,19 +40,18 @@ public class Orders {
     @JsonIgnore
     private User user;
 
-   // @JsonManagedReference
+    // @JsonManagedReference
     //@OneToMany(cascade = CascadeType.ALL, mappedBy = "order", fetch = FetchType.LAZY)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-   // @JoinColumn(name = "order_id", referencedColumnName = "id")
+    // @JoinColumn(name = "order_id", referencedColumnName = "id")
     private List<OrderHistory> orderHistories = new ArrayList<>();
 
     //@JsonManagedReference
     //@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     //@JoinColumn(name = "order_id", referencedColumnName = "id")
-    private  List<OrderDetail> orderDetails;
-
-
+    private List<OrderDetail> orderDetails;
 
 
 }
+

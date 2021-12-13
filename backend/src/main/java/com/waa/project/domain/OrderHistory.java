@@ -25,8 +25,8 @@ public class OrderHistory {
     private long modifiedBy;
     private LocalDate modifiedDate;
 
-    @Column(name = "order_id")
-    private long orderId;
+    //@Column(name = "order_id")
+    //private long orderId;
     //@JsonBackReference
 
     /*@ManyToOne

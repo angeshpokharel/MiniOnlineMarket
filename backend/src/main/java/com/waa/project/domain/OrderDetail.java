@@ -22,8 +22,8 @@ public class OrderDetail {
 
     private int quantity;
     private long unitPrice;
-    @Column(name = "order_id")
-    private long orderId;
+    //@Column(name = "order_id")
+    //private long orderId;
 
 
     @OneToOne

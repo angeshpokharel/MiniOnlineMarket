@@ -13,6 +13,9 @@ import com.waa.project.service.OrderService;
 import com.waa.project.util.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -91,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPaymentMode(orderDTO.getPaymentMode());
         order.setPaymentDate(LocalDate.now());
         order.setPoints(orderDTO.getOrderDetails().stream()
-                .map(o -> o.getProduct().getPrice() * o.getProduct().getPrice())
+                .map(o -> o.getQuantity() * o.getProduct().getPrice())
                 .reduce((a, b) -> a + b).get());
 
         order.setOrderHistories(new ArrayList<OrderHistory>());
