@@ -4,7 +4,7 @@ import BuyerHeader from "../common/BuyerHeader";
 function Order(){
     return (
         <div>
-          <BuyerHeader />
+          <BuyerHeader  name="Order"/>
           <h1>I'm buyer order</h1>
         </div>
     )

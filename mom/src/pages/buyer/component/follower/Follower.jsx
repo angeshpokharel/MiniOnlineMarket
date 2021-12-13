@@ -4,7 +4,7 @@ import BuyerHeader from "../common/BuyerHeader";
 function Follwer(){
     return (
         <div>
-          <BuyerHeader />
+          <BuyerHeader name="Follower"/>
           <h1>I'm buyer follower</h1>
         </div>
     )
