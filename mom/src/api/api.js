@@ -9,14 +9,12 @@ export const LOCAL_CONSTANTS = {
  
 const BASE_URL = LOCAL_CONSTANTS.BASE_URL;
  
-const loginUser = { id : 1};
- 
 export const API_URL = {
  login: BASE_URL + "api/login",
  user: BASE_URL + "users",
  changePassword: BASE_URL + "api/change-password",
  logout: BASE_URL + "api/logout",
- cartsOfLoginUser: BASE_URL + "carts/" + loginUser.id,
+ carts : BASE_URL + "carts/" 
 };
  
 const MOM = axios.create({
