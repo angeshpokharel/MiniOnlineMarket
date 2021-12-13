@@ -4,17 +4,15 @@ const BASE_DOMAIN = 'http://localhost:8080/orders';
 
 export async function getAllOrders() {
 
-  /* const response = axios.get(BASE_DOMAIN)
-      .then((res) => {
-        console.log(response);
-      }) */
+  const response = await axios.get(BASE_DOMAIN)
+    .catch(err => console.log(err, "Couldnot fetch data"));
 
-  const response = await fetch(`${BASE_DOMAIN}`);
-  const data = await response.json(); 
+ /*  const response = await fetch(`${BASE_DOMAIN}`);*/
+  const data = response.data;
 
-  if (!response.ok) {
+  /* if (!response.ok) {
     throw new Error(data.message || 'Could not fetch orders.');
-  }
+  } */
 
   const transformedQuotes = [];
 
@@ -31,10 +29,12 @@ export async function getAllOrders() {
 }
 
 export async function getOrderByUserId(userId) {
-  const response = await fetch(`${BASE_DOMAIN}/${userId}/orders`);
-  const data = await response.json();
+  const response = await axios.get(`${BASE_DOMAIN}/${userId}/orders`)
+    .catch(err => console.log(err));
 
-  if (!response.ok) {
+  const data = response.data;
+
+  if (response.Error) {
     throw new Error(data.message || 'Could not fetch orders.');
   }
 
@@ -47,10 +47,11 @@ export async function getOrderByUserId(userId) {
 }
 
 export async function getOrderDetailsByOrderId(orderId) {
-    const response = await fetch(`${BASE_DOMAIN}/${orderId}`);
-    const data = await response.json();
+    const response = await axios(`${BASE_DOMAIN}/${orderId}`)
+      .catch(err => console(err));
+    const data = response.data;
   
-    if (!response.ok) {
+    if (response.Error) {
       throw new Error(data.message || 'Could not fetch orders.');
     }
   
