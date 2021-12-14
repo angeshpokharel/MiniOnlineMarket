@@ -5,32 +5,32 @@ const BASE_URL = 'http://localhost:8080/';
 const API_URL = {
   order: BASE_URL + "orders",
   user: BASE_URL + "users",
- };
+};
 
 export async function getAllOrders() {
 
   const response = await axios.get(API_URL.order)
     .catch(err => console.log(err, "Couldnot fetch data"));
 
- /*  const response = await fetch(`${BASE_DOMAIN}`);*/
+  /*  const response = await fetch(`${BASE_DOMAIN}`);*/
   const data = response.data;
 
   /* if (!response.ok) {
     throw new Error(data.message || 'Could not fetch orders.');
   } */
 
-  const transformedQuotes = [];
+  const transformedOrders = [];
 
   for (const key in data) {
-    const quoteObj = {
+    const loadedOrder = {
       id: key,
       ...data[key],
     };
 
-    transformedQuotes.push(quoteObj);
+    transformedOrders.push(loadedOrder);
   }
 
-  return transformedQuotes;
+  return transformedOrders;
 }
 
 export async function getOrderByUserId(userId) {
@@ -42,63 +42,69 @@ export async function getOrderByUserId(userId) {
     throw new Error(data.message || 'Could not fetch orders.');
   }
 
-  const loadedOrder = {
+  const transformedOrders = [];
+
+  for (const key in data) {
+    const loadedOrder = {
+      id: key,
+      ...data[key],
+    };
+    transformedOrders.push(loadedOrder);
+  }
+
+  return transformedOrders;
+}
+
+export async function getUserById(userId) {
+  const response = await axios(`${API_URL.order}/${userId}`);
+  const data = response.data;
+  if (response.Error) {
+    throw new Error(data.message || 'Could not fetch orders.');
+  }
+  const loadedUser = {
     id: userId,
+    ...data,
+  };
+  
+
+  return loadedUser;
+}
+
+export async function getOrderDetailsByOrderId(orderId) {
+  const response = await axios(`${API_URL.order}/${orderId}`);
+  const data = response.data;
+
+  if (response.Error) {
+    throw new Error(data.message || 'Could not fetch orders.');
+  }
+
+  const loadedOrder = {
+    id: orderId,
     ...data,
   };
 
   return loadedOrder;
 }
 
-export async function getUserById(userId) {
-    const response = await axios(`${API_URL.order}/${userId}`);
-    const data = response.data;
-    if (response.Error) {
-      throw new Error(data.message || 'Could not fetch orders.');
-    }
-    const loadedUser = {
-      id: userId,
-      ...data,
-    };
-  
-    return loadedUser;
+
+export async function updateOrderStatus(statusData, orderId) {
+  console.log(statusData.orderId);
+  const response = await fetch(`${API_URL.order}/${statusData.orderId}`, {
+    method: 'PUT',
+    body: JSON.stringify(statusData.status.text),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || 'Could not update status.');
   }
 
-  export async function getOrderDetailsByOrderId(orderId) {
-    const response = await axios(`${API_URL.order}/${orderId}`);
-    const data = response.data;
-  
-    if (response.Error) {
-      throw new Error(data.message || 'Could not fetch orders.');
-    }
-  
-    const loadedOrder = {
-      id: orderId,
-      ...data,
-    };
-  
-    return loadedOrder;
-  }
-
-
-  export async function updateOrderStatus(statusData, orderId) {
-    console.log(statusData.orderId);
-    const response = await fetch(`${API_URL.order}/${statusData.orderId}`, {
-      method: 'PUT',
-      body: JSON.stringify(statusData.status.text),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-    const data = await response.json();
-  
-    if (!response.ok) {
-      throw new Error(data.message || 'Could not update status.');
-    }
-  
-    /* return { orerId: data.name }; */
-    return null;
-  }
+  /* return { orerId: data.name }; */
+  return null;
+}
 
 /* export async function addQuote(statusData) {
   const response = await fetch(`${BASE_DOMAIN}/quotes.json`, {
@@ -140,4 +146,3 @@ export async function getUserById(userId) {
 
   return transformedComments; 
 } */
- 

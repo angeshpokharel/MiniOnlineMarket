@@ -106,7 +106,7 @@ public class OrderServiceImpl implements OrderService {
        // orderHistory.setOrder(order);
         order.getOrderHistories().add(orderHistory);
 
-        sendEmail(order);
+        //sendEmail(order);
         orderRepository.save(order);
     }
 
@@ -125,6 +125,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> getOrderByUserId(long id) {
         return (List<OrderDTO>) listMapper.mapList(orderRepository.findAllOrderByUserId(id), new OrderDTO());
+    }
+
+    @Override
+    public List<OrderDTO> getOrderBySellerId(long id) {
+        return (List<OrderDTO>) listMapper.mapList((orderRepository.findAllOrderBySellerId(id)), new OrderDTO());
     }
 
     @Override

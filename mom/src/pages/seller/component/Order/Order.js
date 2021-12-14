@@ -1,9 +1,16 @@
-import { TableRow, TableCell } from "@material-ui/core";
+import { TableRow, TableCell, Button } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 import { AppUtils } from "../../../../utils/appUtils";
+import CreatePdfReceipt from "../../../buyer/component/common/CreatePdfReceipt";
 
 const Order = (props) => {
+  
+  const downloadRecipt = () => {
+    CreatePdfReceipt(props.orderDetails);
+  }
+  
+
   return (
     <TableRow key={props.id}>
       <TableCell>{props.id}</TableCell>
@@ -21,6 +28,7 @@ const Order = (props) => {
           View More
         </Link>}
       </TableCell>
+      {AppUtils.getUserRole() === 'ROLE_BUYER' &&<TableCell> <Button variant="contained" color="success" onClick={downloadRecipt}>Reciept</Button></TableCell>}
     </TableRow>
   );
 };

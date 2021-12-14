@@ -6,17 +6,19 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import { Link } from 'react-router-dom';
 import { Table } from "react-bootstrap";
 import useHttp from '../../../../hooks/use-http'
-import { getAllOrders } from '../../../../lib/api'
+import { getOrderByUserId } from '../../../../lib/api'
 import { AppUtils } from "../../../../utils/appUtils";
+import SellerHeader from "../Common/SellerHeader";
+import { LocalStorage } from "../../../../utils/storage/localStorage";
 
 const Orders = (props) => {
-
+    const loginUserId = LocalStorage.getItem("LoginUserID");
     //custom hook using useReducer and callBack
-    const { sendRequest, status, data: loadedOrders, error } = useHttp(getAllOrders, true);
+    const { sendRequest, status, data: loadedOrders, error } = useHttp(getOrderByUserId, true);
 
     useEffect(() => {
-        sendRequest();
-    }, [sendRequest])
+        sendRequest(loginUserId);
+    }, [sendRequest, loginUserId]);
 
 
     if (status === 'pending') {
@@ -26,6 +28,8 @@ const Orders = (props) => {
              </div> 
         );
     }
+    console.log("Hello");
+    console.log(loadedOrders);
     if (error) {
         return <p className='centered focus'>{error}</p>
     }
@@ -35,6 +39,7 @@ const Orders = (props) => {
     } 
     return (
         <>
+        {AppUtils.getUserRole() === "ROLE_SELLER" &&<SellerHeader name="Orders"/>}
             <section className={classes.Orders}>
                 <h3>List of orders</h3>
                 <Table striped bordered hover>

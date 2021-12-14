@@ -88,6 +88,12 @@ function Cart(){
     );
   }
 
+  const deleteCartItems = (items) => {
+    items.map(item => {
+      deleteItem(item.product.id, item.quantity);
+    })
+  }
+
   //cartItems.map(cartItem => {console.log(cartItem); return true;});
   return (
     <div>
@@ -131,12 +137,12 @@ function Cart(){
            {/*  <button id="btnCheckout" > <Link to={{ pathname: `/buyer/component/checkout` }}>
             Checkout
         </Link></button> */}
-         <button id="btnCheckout" onClick={showCheckout}> Checkoout </button>
+         {cartItems.length !== 0 &&<button id="btnCheckout" onClick={showCheckout}> Proceed To Checkoout </button>}
         </section>}
         
        
         {showCart &&<section>
-          <Checkout onItemStateCheck = {setItemStateCheck} />
+          <Checkout onItemStateCheck = {setItemStateCheck} deleteCheckout = {deleteCartItems}/>
           </section>}
      
     </div>

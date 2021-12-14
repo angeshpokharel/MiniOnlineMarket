@@ -5,10 +5,10 @@ import '../../../buyer/component/common/BuyerHeader.css';
 function SellerHeader(props){
     //console.log(props.name);
     switch(props.name){
-      case "Order" : {
+      case "Orders" : {
         return (
           <ul className="buyerHeaderUl">
-            <li className="buyerHeaderLi active"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
+            <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
             <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
           </ul>
         );
@@ -16,7 +16,16 @@ function SellerHeader(props){
       case "Dashboard" : {
         return (
           <ul className="buyerHeaderUl">
-            <li className="buyerHeaderLi active"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
+            <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
+            <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
+          </ul>
+        );
+      } 
+
+      case "Products" : {
+        return (
+          <ul className="buyerHeaderUl">
+            <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
             <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
           </ul>
         );

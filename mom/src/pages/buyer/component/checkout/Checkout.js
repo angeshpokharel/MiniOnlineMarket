@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import jsPDF from "jspdf";
 import 'jspdf-autotable'
+import CreatePdfReceipt from "../common/CreatePdfReceipt";
 
 const Checkout = (props) => {
     const newPostForm = useRef()
@@ -50,10 +51,12 @@ const Checkout = (props) => {
                 return item;
             })
         };
-        axios.post(postAPI, data)
+        
+        const response = axios.post(postAPI, data)
             .then(res => {
                 //console.log('Success:', res.data);
-                createPdfReceipt(data);
+                CreatePdfReceipt(cartItems);
+                props.deleteCheckout(cartItems);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -62,7 +65,7 @@ const Checkout = (props) => {
         AddAlertMessage({ type: "success", message: "Order Successfull" });
 
     }
-    const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0);
+    /* const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0);
 
     const createPdfReceipt = (data) => {
         const unit = "pt";
@@ -96,7 +99,7 @@ const Checkout = (props) => {
           doc.text(title, marginLeft, 40);
           doc.autoTable(content);
           doc.save("report.pdf")
-        }
+        } */
 
     
 
