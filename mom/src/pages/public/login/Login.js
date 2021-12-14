@@ -28,6 +28,7 @@ import {
   SESSION_EXPIRED,
   SOMETHING_WENT_WRONG,
 } from "../../../utils/constants/index";
+import { LocalStorage } from "../../../utils/storage/localStorage";
 import { SessionStorage } from "../../../utils/storage/sessionStorage";
 import styles from "./style";
 
@@ -60,6 +61,7 @@ export default function LoginForm(props) {
         if (data.type === "success") {
           AppUtils.saveUserCredentials(data);
           userDispatch({ type: LOGIN_SUCCESS });
+          LocalStorage.setItem("LoginUserID",data.appUser.id);
           props.history.push("/");
         } else {
           userDispatch({ type: LOGIN_FAILURE });

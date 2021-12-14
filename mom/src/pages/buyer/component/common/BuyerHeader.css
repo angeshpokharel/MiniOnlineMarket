@@ -24,6 +24,6 @@
     letter-spacing: 0.0075em;
   }
   
-  .buyerHeaderLi a:hover {
+  .buyerHeaderLi a:hover, .active{
     background-color: #fe5722;
   }

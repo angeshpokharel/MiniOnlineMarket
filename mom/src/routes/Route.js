@@ -10,7 +10,6 @@ export default function RouteWrapper({ component: Component, path: urlPath, isPr
   } else if (!isPrivate && !isWrongLink && !urlPath.includes("/user-not-authorized") && Cookies.readCookie(AUTH_TOKEN) && Cookies.readCookie(USER_ROLE) === "ROLE_ADMIN") {
     return <Redirect to="/admin/dashboard" />;
   } else if (!isPrivate && !isWrongLink && Cookies.readCookie(AUTH_TOKEN) && !urlPath.includes("/user-not-authorized") && (Cookies.readCookie(USER_ROLE) === "ROLE_SELLER")) {
-    console.log("im seller")
     return <Redirect to="/seller/dashboard" />;
   } else if (!isPrivate && !isWrongLink && Cookies.readCookie(AUTH_TOKEN) && !urlPath.includes("/user-not-authorized") && (Cookies.readCookie(USER_ROLE) === "ROLE_BUYER")) {
     return <Redirect to="/buyer/dashboard" />;
@@ -27,7 +26,6 @@ export default function RouteWrapper({ component: Component, path: urlPath, isPr
   } else if (isPrivate && urlPath.includes("/admin") && Cookies.readCookie(USER_ROLE) !== "ROLE_ADMIN") {
     return <Redirect to="/user-not-authorized" />;
   } else {
-    console.log("im here")
     return <Route {...rest} component={Component} />;
   }
 }

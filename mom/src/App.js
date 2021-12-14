@@ -22,6 +22,12 @@ import Orders from "./pages/seller/component/Orders/Orders";
 import OrderDetails from "./pages/seller/component/OrderDetails/OrderDetails";
 import Order from "./pages/seller/component/Order/Order";
 
+// for buyer
+import BuyerFollwer from "./pages/buyer/component/follower/Follower";
+import BuyerProduct from "./pages/buyer/component/product/Product";
+import BuyerCart from "./pages/buyer/component/cart/Cart";
+import BuyerOrder from "./pages/buyer/component//order/Order";
+
 export default function App() {
   return (
     <>
@@ -87,6 +93,12 @@ export default function App() {
             <Route path="/" exact isPrivate>
               <Redirect to="/products" />
             </Route>
+
+            {/* for buyer  */}
+             <Route exact path="/buyer/component/follower" component={BuyerFollwer} isPrivate />
+             <Route exact path="/buyer/component/product" component={BuyerProduct} isPrivate />
+             <Route exact path="/buyer/component/cart" component={BuyerCart} isPrivate />
+             <Route exact path="/buyer/component/order" component={BuyerOrder} isPrivate />
 
             <Route component={GlobalPageNotFound} isWrongLink />
           </Switch>
