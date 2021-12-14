@@ -77,6 +77,7 @@ export const UpdateProduct = () => {
       }
     });
   };
+
   const onSubmit = (e) => {
     // console.log(model);
     // console.log("Submit ON");

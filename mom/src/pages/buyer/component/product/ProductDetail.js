@@ -1,4 +1,11 @@
-import { Button, Card, Table, TableCell, TableRow } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  Table,
+  TableCell,
+  TableRow,
+  TextField,
+} from "@material-ui/core";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import AddAlertMessage from "../../../../components/alert/Alert";
@@ -21,8 +28,42 @@ export const ProductDetail = () => {
     sellerId: 0,
     categoryId: 0,
   };
+
   const [model, setModel] = useState(product);
+
   const { id } = useParams();
+
+  const review = {
+    id: 0,
+    productId: id,
+    message: "",
+    rating: 0,
+    isApproved: false,
+  };
+
+  const [reviewModel, setReviewModel] = useState(review);
+  const handleChange = (e) => {
+    setReviewModel({ ...reviewModel, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    HTTPClient.post(REVIEW_BASE_DOMAIN, reviewModel).then((res) => {
+      if (res.status == 200) {
+        setReviewModel(review);
+        getReviews();
+        AddAlertMessage({
+          type: "success",
+          message: "Review added successfully",
+        });
+      } else {
+        AddAlertMessage({
+          type: "error",
+          message: "Sorry , Could not add review",
+        });
+      }
+    });
+  };
 
   const getProduct = async () => {
     HTTPClient.get(PRODUCT_BASE_DOMAIN + "/detail/" + id).then((res) => {
@@ -41,9 +82,13 @@ export const ProductDetail = () => {
   const [loadedReviews, setloadedReviews] = useState([]);
 
   const getReviews = async () => {
-    HTTPClient.get(REVIEW_BASE_DOMAIN).then((res) => {
+    HTTPClient.get(REVIEW_BASE_DOMAIN + "/productId/" + id).then((res) => {
       if (res.status === 200) {
-        setloadedReviews(res.data);
+        console.log(res.data);
+        const filteredReviews = res.data.filter((review) => {
+          return review.isApproved === true;
+        });
+        setloadedReviews(filteredReviews);
       } else {
         // history.push("/buyer/dashboard/products");
         AddAlertMessage({
@@ -59,7 +104,6 @@ export const ProductDetail = () => {
     getReviews();
   }, []);
 
-  const reviews = [];
   const handleAddToCart = (id) => {};
 
   const handleFollowSeller = (id) => {};
@@ -99,9 +143,9 @@ export const ProductDetail = () => {
                     Add to Cart
                   </Button>
                   &nbsp; &nbsp;
-                  <Button onClick={() => handleFollowSeller(model.id)}>
+                  {/* <Button onClick={() => handleFollowSeller(model.id)}>
                     Follow Seller
-                  </Button>
+                  </Button> */}
                 </TableCell>
               </TableRow>
             </tbody>
@@ -112,7 +156,7 @@ export const ProductDetail = () => {
           <Card>
             <Table striped bordered hover>
               <tbody>
-                {reviews.map((review) => {
+                {loadedReviews.map((review) => {
                   return (
                     <TableRow key={review.id}>
                       <TableCell>{review.message} </TableCell>
@@ -122,6 +166,27 @@ export const ProductDetail = () => {
               </tbody>
             </Table>
           </Card>
+        </section>
+
+        <section>
+          <h2>Post review</h2>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              size="medium"
+              onChange={handleChange}
+              name="message"
+              variant="outlined"
+              label="message"
+              value={reviewModel.message}
+              required
+              fullWidth
+            />
+
+            <br />
+            <br />
+
+            <button type="submit">Submit</button>
+          </form>
         </section>
       </>
     </>

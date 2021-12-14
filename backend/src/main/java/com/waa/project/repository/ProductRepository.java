@@ -13,6 +13,6 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends CrudRepository<Product,Long> {
 
-    @Query(value = "select  p.id, g.name as categoryName,p.category_Id as categoryId,u.id as sellerId,u.name as sellerName,  p.name, p.price, p.description ,p.image  from Product  p join Category  g  on  p.category_Id = g.id inner join User  u on p.seller_Id = u.id",nativeQuery = true)
+    @Query(value = "select  p.id, g.category_name as categoryName,p.category_Id as categoryId,u.id as sellerId,u.name as sellerName,  p.name, p.price, p.description ,p.image  from Product  p join Category  g  on  p.category_Id = g.id inner join User  u on p.seller_Id = u.id",nativeQuery = true)
     List<ProductDetailDTO> findAllProductDetails();
 }
