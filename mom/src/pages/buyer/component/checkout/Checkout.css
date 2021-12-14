@@ -1,0 +1,70 @@
+.Checkout {
+    margin: 1rem auto;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+    width: 60rem;
+    width: 95%;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: #f4f0fa;
+}
+
+.Content{
+    float: left;
+    margin-top: 20px;
+    margin-left: 50px;
+    width: 500px;
+  
+    margin: 20px auto;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 3px #ccc;
+    text-align: center;
+}
+
+.Total{
+    float: right;
+    margin-right: 20px;
+}
+
+.Heading{
+    margin-top: 20px;
+    margin-left: 50px;
+}
+
+.CartItemTable{
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.CartItems th td{
+    text-align: center;
+}
+
+.thProductID{ 
+    width: 100px;
+}
+
+.thName{
+    width: 150px;
+}
+
+.thDescripiton{
+    width: 300px;
+}
+
+.thPrice{
+    width: 100px;
+}
+
+.thQty{
+    width: 100px;
+}
+
+#btnRemove{
+    color: red;
+}
+
+#btnCheckout{
+    color: green;
+}
+
