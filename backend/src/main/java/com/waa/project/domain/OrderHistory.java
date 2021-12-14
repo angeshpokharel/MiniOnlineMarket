@@ -1,12 +1,13 @@
 package com.waa.project.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.time.LocalDate;
+
 
 @Getter
 @Setter
@@ -16,11 +17,21 @@ import java.util.Date;
 @Entity
 public class OrderHistory {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
 
-    private long OrderId;
     private String status;
+
     private long modifiedBy;
-    private Date modifiedDate;
+    private LocalDate modifiedDate;
+
+    @Column(name = "order_id")
+    private long orderId;
+    //@JsonBackReference
+
+    /*@ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnoreProperties(allowGetters = false)
+    private Order order;*/
+
 }

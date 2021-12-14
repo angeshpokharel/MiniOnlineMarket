@@ -1,5 +1,6 @@
 package com.waa.project.dto;
 
+import com.waa.project.domain.Cart;
 import lombok.*;
 
 @Getter
@@ -10,9 +11,7 @@ import lombok.*;
 public class CartDetailDTO {
 
     private long id;
-
-    private long cartId;
-    private long productId;
+    private ProductDTO product;
     private int quantity;
 
 }
