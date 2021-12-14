@@ -16,8 +16,19 @@ public class GeneralController {
     @Autowired
     GeneralService generalService;
 
+
+    //this api will be used before product deletion
+    //checking if a product is used in shopping cart details and order details - win
     @GetMapping("/checkProductUsing/{id}")
     public Boolean checkProductUsing(@PathVariable("id") long id){
         return generalService.checkProductUsing(id);
+    }
+
+    //this api will be used at purchasing at order
+    //getting sum of all points of a user
+    //will be given userId - win
+    @GetMapping("/getPoints/{userId}")
+    public long getPointsByUserId(@PathVariable("userId") long userId){
+        return generalService.getPointsByUserId(userId);
     }
 }

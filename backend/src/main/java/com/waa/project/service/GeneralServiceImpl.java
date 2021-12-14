@@ -2,6 +2,7 @@ package com.waa.project.service;
 
 import com.waa.project.domain.CartDetail;
 import com.waa.project.domain.OrderDetail;
+import com.waa.project.domain.Orders;
 import com.waa.project.repository.CartDetailRepository;
 import com.waa.project.repository.CartRepository;
 import com.waa.project.repository.OrderDetailRepository;
@@ -13,6 +14,9 @@ import java.util.List;
 
 @Service
 public class GeneralServiceImpl implements GeneralService{
+    @Autowired
+    OrderRepository orderRepository;
+
     @Autowired
     CartDetailRepository cartDetailRepository;
 
@@ -44,5 +48,16 @@ public class GeneralServiceImpl implements GeneralService{
             }
         }
         return result;
+    }
+
+    @Override
+    public long getPointsByUserId(long userId) {
+        long points = 0;
+        List<Orders> orders = orderRepository.findAll();
+        for(Orders o : orders){
+            if(o.getUser().getId() == userId)
+                points += o.getPoints();
+        }
+        return points;
     }
 }
