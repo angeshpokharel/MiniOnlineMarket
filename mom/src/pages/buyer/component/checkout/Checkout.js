@@ -52,7 +52,7 @@ const Checkout = (props) => {
         };
         axios.post(postAPI, data)
             .then(res => {
-                console.log('Success:', res.data);
+                //console.log('Success:', res.data);
                 createPdfReceipt(data);
             })
             .catch((error) => {
