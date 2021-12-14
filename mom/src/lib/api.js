@@ -29,8 +29,7 @@ export async function getAllOrders() {
 }
 
 export async function getOrderByUserId(userId) {
-  const response = await axios.get(`${BASE_DOMAIN}/${userId}/orders`)
-    .catch(err => console.log(err));
+  const response = await axios.get(`${BASE_DOMAIN}/${userId}/orders`);
 
   const data = response.data;
 
@@ -47,8 +46,7 @@ export async function getOrderByUserId(userId) {
 }
 
 export async function getOrderDetailsByOrderId(orderId) {
-    const response = await axios(`${BASE_DOMAIN}/${orderId}`)
-      .catch(err => console(err));
+    const response = await axios(`${BASE_DOMAIN}/${orderId}`);
     const data = response.data;
   
     if (response.Error) {

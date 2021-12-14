@@ -1,5 +1,5 @@
 import { TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormControl, Table } from 'react-bootstrap';
 import { useParams } from 'react-router-dom'
 import useHttp from '../../../../hooks/use-http'
@@ -12,10 +12,11 @@ import StatusUpdate from './StatusUpdate'
 const OderDetails = () => {
     const params = useParams();
     const statusSelect = useRef(null);
+    const [orderStatus, setOrderStatus] = useState();  
 
     const { orderId } = params;
     const { sendRequest, status, data: loadedOrder, error } = useHttp(getOrderDetailsByOrderId, true);
-
+    
 
     useEffect(() => {
         sendRequest(orderId);
@@ -25,13 +26,21 @@ const OderDetails = () => {
         sendRequest(orderId);
     }, [sendRequest, orderId]);
 
+    useEffect(() => {
+        if (status === 'completed' && !error) {
+            setOrderStatus(loadedOrder.status);
+        }
+    }, [status]);
+
     if (status === 'pending') {
+        console.log("yes");
         return (
+            
             <div className='centered'>
                 <LoadingSpinner />
             </div>
         );
-    }
+    } 
 
     if (error) {
         return <p className='centered focus'>{error}</p>
@@ -40,10 +49,11 @@ const OderDetails = () => {
     if (!loadedOrder) {
         return <h1>No orders</h1>
     }
-    console.log(loadedOrder);
-
     
-
+    const updateStatus = (value) => {
+        setOrderStatus(value);
+    }
+    
     return (
         <>
             <section className={classes.Details}>
@@ -59,10 +69,10 @@ const OderDetails = () => {
                     <p><strong>Order Id:</strong> {orderId}</p>
                     <p><strong>Payment Mode:</strong> {loadedOrder.paymentMode}</p>
                     <p><strong>Order Date:</strong> {loadedOrder.paymentDate}</p>
-                    <p><strong>Status:</strong> {loadedOrder.status}</p>
+                    <p><strong>Status:</strong> {orderStatus}</p>
                     <h4><strong>Order Summary: </strong>{loadedOrder.points}$</h4>
                     <h5><strong>Change Status: </strong></h5>
-                    <StatusUpdate {...loadedOrder}  onStatusUpdate = {updaDataStausCallback} orderId/>
+                    <StatusUpdate {...loadedOrder}  onStatusUpdate = {updaDataStausCallback} onStatusChange = {updateStatus} orderId/>
                 </div>
 
             </section>

@@ -1,11 +1,14 @@
 import React, {useRef, useEffect}  from "react";
+import AddAlertMessage from "../../../../components/alert/Alert";
 import useHttp from '../../../../hooks/use-http'
 import {updateOrderStatus} from '../../../../lib/api'
+import {useHistory} from 'react-router-dom';
 
 
 const StatusUpdate = (props) => {
 
     const statusSelect = useRef(null);
+    const history = useHistory();
 
     const {sendRequest, status, error} = useHttp(updateOrderStatus)
 
@@ -24,7 +27,12 @@ const StatusUpdate = (props) => {
         event.preventDefault();
         const newStatus = statusSelect.current.value;
         console.log("Nice " + id);
-        sendRequest({status : {text: newStatus}, orderId: id})
+        props.onStatusChange(statusSelect.current.value);
+        sendRequest({status : {text: newStatus}, orderId: id});
+        AddAlertMessage({ type: "success", message: "Status updated" });
+        setTimeout(() => {
+            history.goBack();
+        }, 2000)
     }
     return (
         <div><select ref={statusSelect} className="form-control" required >

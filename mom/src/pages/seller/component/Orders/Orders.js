@@ -9,7 +9,10 @@ import useHttp from '../../../../hooks/use-http'
 import { getAllOrders } from '../../../../lib/api'
 
 const Orders = () => {
+
+    //custom hook using useReducer and callBack
     const { sendRequest, status, data: loadedOrders, error } = useHttp(getAllOrders, true);
+
     useEffect(() => {
         sendRequest();
     }, [sendRequest])
@@ -33,7 +36,6 @@ const Orders = () => {
     } 
     return (
         <>
-
             <section className={classes.Orders}>
                 <h3>List of orders</h3>
                 <Table striped bordered hover>
