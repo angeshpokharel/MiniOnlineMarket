@@ -34,4 +34,9 @@ public class FollowerController {
     public void follow(@RequestParam("by") long by,@RequestParam("to") long to) {
        followerService.follow(by, to);
     }
+
+    @DeleteMapping
+    public void unfollow(@RequestParam("by") long by,@RequestParam("to") long to) {
+        followerService.unFollow(by, to);
+    }
 }
