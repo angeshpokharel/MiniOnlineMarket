@@ -123,8 +123,8 @@ export async function updateOrderStatus(statusData, orderId) {
 /// For Product
 
 export const PRODUCT_BASE_DOMAIN = "http://localhost:8080/products";
-
-export const CATEGORY_BASE_DOMAIN = "http://localhost:8080/products";
+export const CART_BASE_DOMAIN = "http://localhost:8080/carts";
+export const CATEGORY_BASE_DOMAIN = "http://localhost:8080/categories";
 export const REVIEW_BASE_DOMAIN = "http://localhost:8080/reviews";
 
 export const HTTPClient = axios.create({

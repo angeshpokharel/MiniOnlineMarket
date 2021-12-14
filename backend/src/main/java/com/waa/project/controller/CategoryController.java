@@ -22,6 +22,7 @@ public class CategoryController {
     }
 
     @GetMapping
+    @ResponseStatus(value = HttpStatus.OK)
     public List<CategoryDTO> listCategory(){
         return  categoryService.listCategory();
     }

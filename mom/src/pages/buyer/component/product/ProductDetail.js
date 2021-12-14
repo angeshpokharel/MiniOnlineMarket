@@ -8,17 +8,38 @@ import {
 } from "@material-ui/core";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import MOM, { API_URL } from "../../../../api/api";
 import AddAlertMessage from "../../../../components/alert/Alert";
 import {
+  CART_BASE_DOMAIN,
+  CATEGORY_BASE_DOMAIN,
   HTTPClient,
   PRODUCT_BASE_DOMAIN,
   REVIEW_BASE_DOMAIN,
 } from "../../../../lib/api";
+import { LocalStorage } from "../../../../utils/storage/localStorage";
 import BuyerHeader from "../common/BuyerHeader";
 
 export const ProductDetail = () => {
   const form = useRef(null);
   const history = useHistory();
+  //getting login user id - win
+  const loginUserId = LocalStorage.getItem("LoginUserID");
+
+  //states to use in this component - win
+  const [cartId, setCartId] = useState(0);
+
+  const getCart = () => {
+    MOM.get(API_URL.carts + loginUserId) //win - axios call for carts by login user id
+      .then((response) => {
+        const data = response.data;
+        setCartId(data.id);
+      })
+      .catch((error) =>
+        console.log("Retrieving carts was failed : " + error.message)
+      );
+  };
+
   const product = {
     id: 0,
     name: "",
@@ -102,9 +123,26 @@ export const ProductDetail = () => {
   useEffect(() => {
     getProduct();
     getReviews();
+    getCart();
   }, []);
 
-  const handleAddToCart = (id) => {};
+  const handleAddToCart = (id) => {
+    HTTPClient.put(
+      CART_BASE_DOMAIN + "/" + cartId + "?productId=" + id + "&qty=1"
+    ).then((res) => {
+      if (res.status === 200 || res.status === 202) {
+        AddAlertMessage({
+          type: "success",
+          message: "Product added to cart",
+        });
+      } else {
+        AddAlertMessage({
+          type: "error",
+          message: "Sorry , Could not add product to cart",
+        });
+      }
+    });
+  };
 
   const handleFollowSeller = (id) => {};
 

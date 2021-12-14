@@ -8,22 +8,47 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { useHistory, useParams } from "react-router-dom";
 import AddAlertMessage from "../../../../components/alert/Alert";
-import { HTTPClient, PRODUCT_BASE_DOMAIN } from "../../../../lib/api";
+import {
+  CATEGORY_BASE_DOMAIN,
+  HTTPClient,
+  PRODUCT_BASE_DOMAIN,
+} from "../../../../lib/api";
+import { LocalStorage } from "../../../../utils/storage/localStorage";
 
 export const AddProduct = () => {
   const form = useRef(null);
   const history = useHistory();
+  const loginUserId = LocalStorage.getItem("LoginUserID");
+
   const product = {
     id: 0,
     name: "",
     price: 0,
     description: "",
     image: "",
-    sellerId: 2,
-    categoryId: 0,
+    sellerId: loginUserId,
+    categoryId: 1,
   };
   const [model, setModel] = useState(product);
+  const [categories, setCategories] = useState([]);
 
+  const getCategories = async () => {
+    HTTPClient.get(CATEGORY_BASE_DOMAIN).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        setCategories(res.data);
+      } else {
+        AddAlertMessage({
+          type: "error",
+          message: "Sorry , Could not get categories",
+        });
+      }
+    });
+  };
+
+  useEffect(() => {
+    getCategories();
+  }, []);
   const handleChange = (e) => {
     setModel({ ...model, [e.target.name]: e.target.value });
   };
@@ -89,12 +114,11 @@ export const AddProduct = () => {
             multiline
             required
           />
-          {/* <select name="category" onChange={handleChange}>
-              <option value="Laptop"> Laptop </option>
-              <option value="Desktop"> Desktop </option>
-              <option value="Tablet"> Tablet </option>
-              <option value="Smartphone"> Smartphone </option>
-            </select> */}
+          {/* <select name="categoryId" onChange={handleChange}>
+            {categories.map((category) => (
+              <option value={category.id}>{category.categoryName}</option>
+            ))}
+          </select> */}
           <button type="submit">Submit</button>
         </form>
       </Container>

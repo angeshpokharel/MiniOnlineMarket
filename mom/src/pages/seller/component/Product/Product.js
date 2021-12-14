@@ -11,6 +11,7 @@ import { TableRow, TableCell, Button } from "@material-ui/core";
 import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AddAlertMessage from "../../../../components/alert/Alert";
+import { LocalStorage } from "../../../../utils/storage/localStorage";
 
 const ProductList = () => {
   const [prodId, setProdId] = useState(0);
@@ -24,6 +25,8 @@ const ProductList = () => {
   useEffect(() => {
     sendRequest();
   }, [sendRequest]);
+
+  const loginUserId = LocalStorage.getItem("LoginUserID");
 
   if (status === "pending") {
     return (
@@ -44,6 +47,13 @@ const ProductList = () => {
     return <h1>No Products</h1>;
   }
 
+  console.log(loadedProducts);
+
+  const filteredProducts = loadedProducts.filter((product) => {
+    return product.sellerId === loginUserId;
+  });
+
+  console.log(filteredProducts);
   const handleDelete = (id) => {
     HTTPClient.delete(PRODUCT_BASE_DOMAIN + "/" + id).then((res) => {
       if (res.status === 200) {
@@ -79,7 +89,7 @@ const ProductList = () => {
           </thead>
 
           <tbody>
-            {loadedProducts.map((prod) => {
+            {filteredProducts.map((prod) => {
               return (
                 <TableRow key={prod.id}>
                   <TableCell>{prod.id} </TableCell>

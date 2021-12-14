@@ -1,8 +1,16 @@
 import { Button, Table, TableCell, TableRow } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import MOM, { API_URL } from "../../../../api/api";
+import AddAlertMessage from "../../../../components/alert/Alert";
 import useHttp from "../../../../hooks/use-http";
-import { getAllProductDetailss, getAllProducts } from "../../../../lib/api";
+import {
+  CART_BASE_DOMAIN,
+  getAllProductDetailss,
+  getAllProducts,
+  HTTPClient,
+} from "../../../../lib/api";
+import { LocalStorage } from "../../../../utils/storage/localStorage";
 import LoadingSpinner from "../../../seller/component/UI/LoadingSpinner";
 import BuyerHeader from "../common/BuyerHeader";
 // import classes from "../../../seller//component/OrderList/OrderList.module.css";
@@ -17,7 +25,25 @@ export const BuyProductList = (props) => {
 
   useEffect(() => {
     sendRequest();
+    getCart();
   }, [sendRequest]);
+
+  //getting login user id - win
+  const loginUserId = LocalStorage.getItem("LoginUserID");
+
+  //states to use in this component - win
+  const [cartId, setCartId] = useState(0);
+
+  const getCart = () => {
+    MOM.get(API_URL.carts + loginUserId) //win - axios call for carts by login user id
+      .then((response) => {
+        const data = response.data;
+        setCartId(data.id);
+      })
+      .catch((error) =>
+        console.log("Retrieving carts was failed : " + error.message)
+      );
+  };
 
   if (status === "pending") {
     return (
@@ -39,7 +65,21 @@ export const BuyProductList = (props) => {
   }
 
   const handleAddToCart = (id) => {
-    //Add Here
+    HTTPClient.put(
+      CART_BASE_DOMAIN + "/" + cartId + "?productId=" + id + "&qty=1"
+    ).then((res) => {
+      if (res.status === 200 || res.status === 202) {
+        AddAlertMessage({
+          type: "success",
+          message: "Product added to cart",
+        });
+      } else {
+        AddAlertMessage({
+          type: "error",
+          message: "Sorry , Could not add product to cart",
+        });
+      }
+    });
   };
 
   const handleFollowSeller = (id) => {
