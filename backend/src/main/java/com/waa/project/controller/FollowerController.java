@@ -20,6 +20,11 @@ public class FollowerController {
         return followerService.getAllFollowing(userId);
     }
 
+    @GetMapping("/unfollowing/{userId}")
+    public List<SellerDTO> getAllUnfollowing(@PathVariable("userId") long userId){
+        return followerService.getAllUnfollowing(userId);
+    }
+
     @GetMapping("/{userId}")
     public List<SellerDTO> getAllFollower(@PathVariable("userId") long userId){
         return followerService.getAllFollower(userId);
