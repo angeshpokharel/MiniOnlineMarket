@@ -1,19 +1,23 @@
 import axios from "axios";
 
-const BASE_DOMAIN = "http://localhost:8080/orders";
+const BASE_URL = "http://localhost:8080/";
+
+const API_URL = {
+  order: BASE_URL + "orders",
+  user: BASE_URL + "users",
+};
 
 export async function getAllOrders() {
-  /* const response = axios.get(BASE_DOMAIN)
-      .then((res) => {
-        console.log(response);
-      }) */
+  const response = await axios
+    .get(API_URL.order)
+    .catch((err) => console.log(err, "Couldnot fetch data"));
 
-  const response = await fetch(`${BASE_DOMAIN}`);
-  const data = await response.json();
+  /*  const response = await fetch(`${BASE_DOMAIN}`);*/
+  const data = response.data;
 
-  if (!response.ok) {
-    throw new Error(data.message || "Could not fetch orders.");
-  }
+  /* if (!response.ok) {
+    throw new Error(data.message || 'Could not fetch orders.');
+  } */
 
   const transformedQuotes = [];
 
@@ -30,10 +34,11 @@ export async function getAllOrders() {
 }
 
 export async function getOrderByUserId(userId) {
-  const response = await fetch(`${BASE_DOMAIN}/${userId}/orders`);
-  const data = await response.json();
+  const response = await axios.get(`${API_URL.order}/${userId}/orders`);
 
-  if (!response.ok) {
+  const data = response.data;
+
+  if (response.Error) {
     throw new Error(data.message || "Could not fetch orders.");
   }
 
@@ -45,11 +50,25 @@ export async function getOrderByUserId(userId) {
   return loadedOrder;
 }
 
-export async function getOrderDetailsByOrderId(orderId) {
-  const response = await fetch(`${BASE_DOMAIN}/${orderId}`);
-  const data = await response.json();
+export async function getUserById(userId) {
+  const response = await axios(`${API_URL.order}/${userId}`);
+  const data = response.data;
+  if (response.Error) {
+    throw new Error(data.message || "Could not fetch orders.");
+  }
+  const loadedUser = {
+    id: userId,
+    ...data,
+  };
 
-  if (!response.ok) {
+  return loadedUser;
+}
+
+export async function getOrderDetailsByOrderId(orderId) {
+  const response = await axios(`${API_URL.order}/${orderId}`);
+  const data = response.data;
+
+  if (response.Error) {
     throw new Error(data.message || "Could not fetch orders.");
   }
 
@@ -63,7 +82,7 @@ export async function getOrderDetailsByOrderId(orderId) {
 
 export async function updateOrderStatus(statusData, orderId) {
   console.log(statusData.orderId);
-  const response = await fetch(`${BASE_DOMAIN}/${statusData.orderId}`, {
+  const response = await fetch(`${API_URL.order}/${statusData.orderId}`, {
     method: "PUT",
     body: JSON.stringify(statusData.status.text),
     headers: {
@@ -79,6 +98,10 @@ export async function updateOrderStatus(statusData, orderId) {
   /* return { orerId: data.name }; */
   return null;
 }
+
+/* return { orerId: data.name }; */
+// return null;
+// }
 
 /* export async function addQuote(statusData) {
   const response = await fetch(`${BASE_DOMAIN}/quotes.json`, {

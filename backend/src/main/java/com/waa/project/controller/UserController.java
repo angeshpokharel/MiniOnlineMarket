@@ -1,6 +1,7 @@
 package com.waa.project.controller;
 
 import com.waa.project.dto.UserDTO;
+import com.waa.project.service.CartService;
 import com.waa.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +16,26 @@ public class UserController {
   private final UserService userService;
 
   @Autowired
+  CartService cartService;
+
+  @Autowired
   public UserController(UserService userService) {
     this.userService = userService;
   }
 
   @PostMapping
   public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO  userDTO) {
+    UserDTO result = null;
     if (null != userService.getUserByEmail(userDTO.getEmail())) {
       ResponseEntity.badRequest();
     }
-    return ResponseEntity.ok(userService.save(userDTO));
+    else {
+      //added this code to create a new cart with empty items-by win
+      result = userService.save(userDTO);
+      if(userDTO.getRole().equals("ROLE_BUYER"))
+        cartService.createCartByUserId(result.getId());
+    }
+    return ResponseEntity.ok(result);
   }
 
   @GetMapping

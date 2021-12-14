@@ -13,6 +13,7 @@ import com.waa.project.service.OrderService;
 import com.waa.project.util.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,7 @@ public class OrderServiceImpl implements OrderService {
     private ProductService productService;
     private OrderDetailRepository orderDetailRepository;
     private OrderHistoryRepository orderHistoryRepository;
+    private  EmailService emailService;
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -44,7 +46,8 @@ public class OrderServiceImpl implements OrderService {
                             ProductService productService,
                             ListMapper<OrderHistory, OrderHistoryDTO> listMapperOrderHistory,
                             OrderDetailRepository orderDetailRepository,
-                            OrderHistoryRepository orderHistoryRepository){
+                            OrderHistoryRepository orderHistoryRepository,
+                            EmailService emailService){
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
         this.listMapper = listMapper;
@@ -54,6 +57,7 @@ public class OrderServiceImpl implements OrderService {
         this.listMapperOrderHistory = listMapperOrderHistory;
         this.orderHistoryRepository = orderHistoryRepository;
         this.orderDetailRepository = orderDetailRepository;
+        this.emailService = emailService;
     }
 
     @Override
@@ -101,7 +105,16 @@ public class OrderServiceImpl implements OrderService {
         orderHistory.setModifiedBy(user.get().getId());
        // orderHistory.setOrder(order);
         order.getOrderHistories().add(orderHistory);
+
+        sendEmail(order);
         orderRepository.save(order);
+    }
+
+    public void sendEmail(Orders order){
+        String email = order.getUser().getEmail();
+        String subject = "Order confirmation email from MiniMarket";
+        String text = String.format("Your orders with id #%d has been confirmed from MiniMart and you will be notified after shipping", order.getId());
+        emailService.sendSimpleMessage(email, subject, text);
     }
 
     @Override
