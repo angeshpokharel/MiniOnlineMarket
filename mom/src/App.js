@@ -21,6 +21,11 @@ import Product from "./pages/seller/component/Product/Product";
 import Orders from "./pages/seller/component/Orders/Orders";
 import OrderDetails from "./pages/seller/component/OrderDetails/OrderDetails";
 import Order from "./pages/seller/component/Order/Order";
+import ProductList from "./pages/seller/component/Product/Product";
+import { UpdateProduct } from "./pages/seller/component/Product/UpdateProduct";
+import { AddProduct } from "./pages/seller/component/Product/AddProduct";
+import { BuyProductList } from "./pages/buyer/component/product/BuyProductList";
+import { ProductDetail } from "./pages/buyer/component/product/ProductDetail";
 
 export default function App() {
   return (
@@ -57,6 +62,21 @@ export default function App() {
               component={BuyerDashboard}
               isPrivate
             />
+
+            <Route
+              exact
+              path="/buyer/dashboard/products"
+              component={BuyProductList}
+              isPrivate
+            />
+
+            <Route
+              exact
+              path="/buyer/dashboard/productDetail/:id"
+              component={ProductDetail}
+              isPrivate
+            />
+
             <Route
               exact
               path="/seller/dashboard"
@@ -66,16 +86,30 @@ export default function App() {
             <Route
               exact
               path="/seller/dashboard/products"
-              component={Product}
-              isPrivate />
+              component={ProductList}
+              isPrivate
+            />
 
+            <Route
+              exact
+              path="/seller/dashboard/products/add"
+              component={AddProduct}
+              isPrivate
+            />
+
+            <Route
+              exact
+              path="/seller/dashboard/products/:id"
+              component={UpdateProduct}
+              isPrivate
+            />
 
             <Route
               exact
               path="/seller/dashboard/orders"
               component={Orders}
-              isPrivate />
-
+              isPrivate
+            />
 
             <Route
               exact
@@ -83,10 +117,10 @@ export default function App() {
               component={OrderDetails}
               isPrivate
             />
-
+            {/* 
             <Route path="/" exact isPrivate>
               <Redirect to="/products" />
-            </Route>
+            </Route> */}
 
             <Route component={GlobalPageNotFound} isWrongLink />
           </Switch>

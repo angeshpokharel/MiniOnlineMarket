@@ -12,7 +12,7 @@ const Order = (props) => {
       <TableCell>{props.user.email}</TableCell>
       <TableCell>{props.shippingAddress}</TableCell>
       <TableCell>{props.points}</TableCell>
-      <TableCell style = {{color: "red"}}>{props.status}</TableCell>
+      <TableCell style={{ color: "red" }}>{props.status}</TableCell>
       <TableCell>
         <Link to={{ pathname: `/seller/dashboard/orders/${props.id}` }}>
           View Details
