@@ -67,6 +67,7 @@ public class OrderController {
 
     @PutMapping("/{id}") //orderID
     public void updateOrderByStatus(@PathVariable("id") long id, @RequestBody String newStatus){
+        System.out.println(newStatus);
         orderService.updateOrderStatus(id, newStatus);
     }
 

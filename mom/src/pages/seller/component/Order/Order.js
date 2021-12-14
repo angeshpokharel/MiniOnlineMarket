@@ -1,9 +1,9 @@
 import { TableRow, TableCell } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
+import { AppUtils } from "../../../../utils/appUtils";
 
 const Order = (props) => {
-  console.log(props.id);
   return (
     <TableRow key={props.id}>
       <TableCell>{props.id}</TableCell>
@@ -14,9 +14,12 @@ const Order = (props) => {
       <TableCell>{props.points}</TableCell>
       <TableCell style = {{color: "red"}}>{props.status}</TableCell>
       <TableCell>
-        <Link to={{ pathname: `/seller/dashboard/orders/${props.id}` }}>
+        {AppUtils.getUserRole() === 'ROLE_SELLER' &&<Link to={{ pathname: `/seller/dashboard/orders/${props.id}` }}>
           View Details
-        </Link>
+        </Link>}
+        {AppUtils.getUserRole() === 'ROLE_BUYER' &&<Link to={{ pathname: `/buyer/component/order/${props.id}` }}>
+          View More
+        </Link>}
       </TableCell>
     </TableRow>
   );
