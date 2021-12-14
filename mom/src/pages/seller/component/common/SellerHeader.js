@@ -1,42 +1,32 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./SellerHeader.css"
+import '../../../buyer/component/common/BuyerHeader.css';
 
 function SellerHeader(props){
+    //console.log(props.name);
     switch(props.name){
-      case "Follower" : {
+      case "Order" : {
         return (
-          <ul className="sellerHeaderUl">
-            <li className="sellerHeaderLi active"><NavLink to="/seller/dashboard/followers">Follower</NavLink></li>
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
-          </ul>
-        );
-      }
-      case "Product" : {
-        return (
-          <ul className="sellerHeaderUl">
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/followers">Follower</NavLink></li>
-            <li className="sellerHeaderLi active"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
+          <ul className="buyerHeaderUl">
+            <li className="buyerHeaderLi active"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
+            <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
           </ul>
         );
       } 
-      case "Order" : {
+      case "Dashboard" : {
         return (
-          <ul className="sellerHeaderUl">
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/followers">Follower</NavLink></li>
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
-            <li className="sellerHeaderLi active"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
+          <ul className="buyerHeaderUl">
+            <li className="buyerHeaderLi active"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
+            <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
           </ul>
         );
       } 
       default: {
         return (
-          <ul className="sellerHeaderUl">
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/followers">Follower</NavLink></li>
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
-            <li className="sellerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
+          <ul className="buyerHeaderUl">
+            <li className="buyerHeaderLi active"><NavLink to="/seller/dashboard/products">Product</NavLink></li>
+            <li className="buyerHeaderLi"><NavLink to="/seller/dashboard/orders">Order</NavLink></li>
+            
           </ul>
         );
       }
