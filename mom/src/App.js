@@ -22,6 +22,10 @@ import Orders from "./pages/seller/component/Orders/Orders";
 import OrderDetails from "./pages/seller/component/OrderDetails/OrderDetails";
 import Order from "./pages/seller/component/Order/Order";
 
+//for admin
+import SellerApproval from "./pages/admin/components/sellerApproval/SellerApproval"
+import ReviewApproval from "./pages/admin/components/reviewApproval/ReviewApproval"
+
 // for buyer
 import BuyerFollwer from "./pages/buyer/component/follower/Follower";
 import BuyerProduct from "./pages/buyer/component/product/Product";
@@ -103,6 +107,10 @@ export default function App() {
             <Route path="/" exact isPrivate>
               <Redirect to="/products" />
             </Route>
+
+            {/* for admin  */}
+            <Route exact path="/admin/component/accountapproval" component={SellerApproval} isPrivate />
+            <Route exact path="/admin/component/reviewapproval" component={ReviewApproval} isPrivate />
 
             {/* for buyer  */}
              <Route exact path="/buyer/component/follower" component={BuyerFollwer} isPrivate />
