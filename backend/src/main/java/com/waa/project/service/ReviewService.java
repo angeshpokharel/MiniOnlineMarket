@@ -1,5 +1,6 @@
 package com.waa.project.service;
 
+import com.waa.project.dto.AdminReviewDTO;
 import com.waa.project.dto.ProductDTO;
 import com.waa.project.dto.ProductDetailDTO;
 import com.waa.project.dto.ReviewDTO;
@@ -16,8 +17,11 @@ public interface   ReviewService {
 
     void delete(long id);
 
-    void update(long id, ReviewDTO reviewDTO);
+    void update(long id);
 
     List<ReviewDTO> findByProductId(long id);
 
+    List<AdminReviewDTO> findUnApprovedReviews();
+
+    List<AdminReviewDTO> findApprovedReviews();
 }

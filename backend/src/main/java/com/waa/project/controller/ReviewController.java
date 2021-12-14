@@ -1,5 +1,6 @@
 package com.waa.project.controller;
 
+import com.waa.project.dto.AdminReviewDTO;
 import com.waa.project.dto.ReviewDTO;
 import com.waa.project.repository.ReviewRepository;
 import com.waa.project.service.ReviewService;
@@ -36,11 +37,11 @@ public class ReviewController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") long id, @RequestBody ReviewDTO reviewDTO) {
         reviewService.update(id, reviewDTO);
         return new ResponseEntity(HttpStatus.OK);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") long id) {
@@ -53,5 +54,27 @@ public class ReviewController {
         var result =  reviewService.findByProductId(id);
         System.out.println(result);
        return new ResponseEntity(result,HttpStatus.OK);
+    }
+
+    //added by win
+    //to get un-approved reviews for admin dashboard
+    @GetMapping("/unapproved")
+    public ResponseEntity<AdminReviewDTO> findUnApprovedReviews() {
+        return new ResponseEntity(reviewService.findUnApprovedReviews(), HttpStatus.OK);
+    }
+
+    //added by win
+    //to get old approved reviews for admin dashboard
+    @GetMapping("/approved")
+    public ResponseEntity<AdminReviewDTO> findApprovedReviews() {
+        return new ResponseEntity(reviewService.findApprovedReviews(), HttpStatus.OK);
+    }
+
+    //added by win
+    //to approve reviews from admin dashboard
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") long id) {
+        reviewService.update(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
