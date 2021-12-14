@@ -42,6 +42,18 @@ function Follwer(){
            .catch(error=>console.log("Following was failed : " + error.message))
   }
 
+  //unfollowing by current login user
+  const unFollowTo= (toUserId)=>{
+    var url = API_URL.followers + "?by="+loginUserId+"&to="+toUserId;
+      console.log(url);
+       MOM.delete(url) 
+           .then((response) => {
+             console.log("Successfully unfollwed to "+ toUserId + " by "+ loginUserId);
+             setRefresh(!refresh);
+           })
+           .catch(error=>console.log("Unfollowing was failed : " + error.message))
+  }
+
   const getFollowing = ()=>{
     MOM.get(API_URL.followers + "following/" + loginUserId) 
       .then((response) => {
@@ -101,6 +113,7 @@ getFollowing();
                         <th className="thEmail">Email</th>
                         <th className="thAddress">Address</th>
                         <th className="thPhone">Phone</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,6 +126,7 @@ getFollowing();
                           <TableCell>{seller.email}</TableCell>
                           <TableCell>{seller.address}</TableCell>
                           <TableCell>{seller.phone}</TableCell>
+                          <TableCell><button id="btnUnFollow" onClick={()=>unFollowTo(seller.id)}> Unfollow</button></TableCell>
                       </TableRow>
                       );
                     })
