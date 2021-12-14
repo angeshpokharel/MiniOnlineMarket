@@ -56,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/error").permitAll()
         .antMatchers("/unauthorized").permitAll()
         .antMatchers("/users/**").permitAll()
-        .antMatchers("/carts/**").permitAll()
+        .antMatchers("/carts/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_BUYER")
         .antMatchers("/followers/**").permitAll()
         .antMatchers("/general/**").permitAll()
         .antMatchers("/orders/**").permitAll()
