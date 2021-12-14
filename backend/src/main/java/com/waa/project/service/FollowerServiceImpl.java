@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FollowerServiceImpl implements  FollowerService{
@@ -50,6 +51,28 @@ public class FollowerServiceImpl implements  FollowerService{
                 s.setName(user.getName());
                 s.setAddress(user.getAddress());
                 s.setPhone(user.getPhone());
+                result.add(s);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<SellerDTO> getAllUnfollowing(long userId){
+        List<SellerDTO> result = new ArrayList<>();
+        List<Long> followingList = followerRepository.findByFollowedBy(userId)
+                .stream()
+                .map((follower -> follower.getFollowedTo()))
+                .collect(Collectors.toList());
+        for(User user : userRepository.findAll()){
+            if(!followingList.contains(user.getId())){
+                SellerDTO s = new SellerDTO();
+                s.setId(user.getId());
+                s.setEmail(user.getEmail());
+                s.setName(user.getName());
+                s.setAddress(user.getAddress());
+                s.setPhone(user.getPhone());
+                s.setRole(user.getRole());
                 result.add(s);
             }
         }
