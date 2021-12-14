@@ -10,8 +10,10 @@ import { LocalStorage } from "../../../../utils/storage/localStorage";
 import './Checkout.css';
 import Button from "@restart/ui/esm/Button";
 import AddAlertMessage from "../../../../components/alert/Alert";
-import {useHistory} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import jsPDF from "jspdf";
+import 'jspdf-autotable'
 
 const Checkout = (props) => {
     const newPostForm = useRef()
@@ -20,8 +22,8 @@ const Checkout = (props) => {
     const [cartItems, setCartItems] = useState([]);
     const loginUserId = LocalStorage.getItem("LoginUserID");
     const [refresh, setRefresh] = useState(false);
+    const BASE_API = 'http://localhost:8080';
     const postAPI = `http://localhost:8080/orders/${loginUserId}`;
-    console.log(postAPI);
     const getCartItems = () => {
         MOM.get(API_URL.carts + loginUserId) //win - axios call for carts by login user id
             .then((response) => {
@@ -38,7 +40,7 @@ const Checkout = (props) => {
     }, [refresh])
 
     const PostDataHandler = () => {
-        props.onItemStateCheck(); 
+        
         const form = newPostForm.current
         const data = {
             shippingAddress: form['shippingAddress'].value,
@@ -48,24 +50,63 @@ const Checkout = (props) => {
                 return item;
             })
         };
-        console.log(data);
         axios.post(postAPI, data)
-            .then(data => {
-                console.log('Success:', data);
+            .then(res => {
+                //console.log('Success:', res.data);
+                createPdfReceipt(data);
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
+        props.onItemStateCheck();
         AddAlertMessage({ type: "success", message: "Order Successfull" });
-    }
 
-    console.log(cartItems);
-    const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a+b, 0);
-    console.log(totalPrice); 
+    }
+    const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0);
+
+    const createPdfReceipt = (data) => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "portrait"; // portrait or landscape
+
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
+
+        doc.setFontSize(15);
+
+        const title = "Your Order Receipt" + "    Total:" + totalPrice;
+        const response = axios.get(BASE_API + '/users/' + loginUserId)
+            .then(res => {
+               // console.log(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        
+        const headers = [["PRODUCT", "QUANTITY"]];
+        const dat = cartItems.map(item => [item.product.name, item.quantity]);
+
+        let content = {
+            startY: 50,
+            head: headers,
+            body: dat
+          };
+      
+          doc.text(title, marginLeft, 40);
+          doc.autoTable(content);
+          doc.save("report.pdf")
+        }
+
+    
+
+  
+    /* const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0); */
+
 
     return (
         <>
-           {/*  <BuyerHeader name="Cart" /> */}
+            {/*  <BuyerHeader name="Cart" /> */}
             <h2 className="Heading">Order Confirmation</h2>
             {/* <section className="Checkout"> */}
             <div className="Content">
@@ -111,13 +152,13 @@ const Checkout = (props) => {
                                 );
                             })
                             }
-                             
+
                         </TableBody>
 
                     </Table>
                 </TableContainer>
-                <h3 className="Total">Total: { cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a+b, 0)
-                            } </h3> 
+                <h3 className="Total">Total: {cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0)
+                } </h3>
                 <div>
                     <Button onClick={PostDataHandler}>Confirm Order</Button>
                 </div>

@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom';
 import { Table } from "react-bootstrap";
 import useHttp from '../../../../hooks/use-http'
 import { getAllOrders } from '../../../../lib/api'
+import { AppUtils } from "../../../../utils/appUtils";
 
-const Orders = () => {
+const Orders = (props) => {
 
     //custom hook using useReducer and callBack
     const { sendRequest, status, data: loadedOrders, error } = useHttp(getAllOrders, true);
@@ -25,8 +26,6 @@ const Orders = () => {
              </div> 
         );
     }
-
-
     if (error) {
         return <p className='centered focus'>{error}</p>
     }
@@ -63,9 +62,6 @@ const Orders = () => {
                         )}
                     </tbody>
                 </Table>
-
-
-
             </section>
         </>
     );

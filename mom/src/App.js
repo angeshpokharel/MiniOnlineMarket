@@ -28,6 +28,7 @@ import BuyerProduct from "./pages/buyer/component/product/Product";
 import BuyerCart from "./pages/buyer/component/cart/Cart";
 import BuyerOrder from "./pages/buyer/component//order/Order";
 import Checkout from "./pages/buyer/component/checkout/Checkout";
+import BuyerOrderDetails from "./pages/buyer/component/order/BuyerOrderDetails";
 
 export default function App() {
   return (
@@ -101,6 +102,8 @@ export default function App() {
              <Route exact path="/buyer/component/cart" component={BuyerCart} isPrivate />
              <Route exact path="/buyer/component/checkout" component={Checkout} isPrivate />
              <Route exact path="/buyer/component/order" component={BuyerOrder} isPrivate />
+             <Route exact path="/buyer/component/order/:orderId" component={BuyerOrderDetails} isPrivate />
+
 
             <Route component={GlobalPageNotFound} isWrongLink />
           </Switch>

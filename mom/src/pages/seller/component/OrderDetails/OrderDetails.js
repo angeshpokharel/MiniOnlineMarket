@@ -1,6 +1,7 @@
 import { TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { FormControl, Table } from 'react-bootstrap';
+import { propTypes } from 'react-bootstrap/esm/Image';
 import { useParams } from 'react-router-dom'
 import useHttp from '../../../../hooks/use-http'
 import { getOrderDetailsByOrderId } from '../../../../lib/api'
@@ -91,7 +92,7 @@ const OderDetails = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {loadedOrder.orderDetails.map((product) => {
+                        {/* {loadedOrder.orderDetails.map((product) => {
                             return (
                                 <ProductList key={product.id}
 
@@ -99,7 +100,9 @@ const OderDetails = () => {
                                 />
                             );
                         }
-                        )}
+                        )} */}
+
+                        <ProductList key={loadedOrder.id} {...loadedOrder}/>
                     </TableBody>
                 </Table>
               </TableContainer>
