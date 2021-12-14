@@ -21,4 +21,6 @@ public class Review {
     private long productId;
     private String message;
     private int rating;
+
+    private  Boolean isApproved;
 }

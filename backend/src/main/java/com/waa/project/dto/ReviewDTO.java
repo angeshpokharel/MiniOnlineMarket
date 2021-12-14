@@ -14,4 +14,6 @@ public class ReviewDTO {
     private long productId;
     private String message;
     private int rating;
+
+    private  Boolean isApproved;
 }

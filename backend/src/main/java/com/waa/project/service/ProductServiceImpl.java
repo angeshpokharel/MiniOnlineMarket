@@ -2,6 +2,8 @@ package com.waa.project.service;
 
 import com.waa.project.domain.Product;
 import com.waa.project.dto.ProductDTO;
+import com.waa.project.dto.ProductDetailDTO;
+import com.waa.project.repository.CartDetailRepository;
 import com.waa.project.repository.ProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,27 +38,39 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getProductById(long id) {
-       
-        return modelMapper.map(productRepository.findById(id).get(),ProductDTO.class);
+        Optional<Product> product = productRepository.findById(id);
+        return product.isPresent() ? modelMapper.map(product.get(), ProductDTO.class) : null;
+    }
+
+    @Override
+    public Optional<ProductDetailDTO>  getProductDetailById(long id) {
+        return productRepository.findAllProductDetails().stream().filter( x -> x.getId() == id).findFirst();
     }
 
     @Override
     public void delete(long id) {
+
         productRepository.deleteById(id);
     }
 
     @Override
     public void update(ProductDTO productDTO) {
         Optional<Product> prdOpt = productRepository.findById(productDTO.getId());
-        if (prdOpt.isPresent()){
+        if (prdOpt.isPresent()) {
             Product prd = prdOpt.get();
-            if (productDTO.getCategoryId()!= 0) prd.setCategoryId(productDTO.getCategoryId());
-            if (productDTO.getDescription()!=null) prd.setDescription(productDTO.getDescription());
+            if (productDTO.getCategoryId() != 0) prd.setCategoryId(productDTO.getCategoryId());
+            if (productDTO.getDescription() != null) prd.setDescription(productDTO.getDescription());
             prd.setPrice(productDTO.getPrice());
             prd.setName(productDTO.getName());
             prd.setImage(productDTO.getImage());
             productRepository.save(prd);
         }
+    }
+
+    @Override
+    public List<ProductDetailDTO> getAllProductDetails() {
+        var result = productRepository.findAllProductDetails();
+        return result.stream().collect(Collectors.toList());
     }
 
 

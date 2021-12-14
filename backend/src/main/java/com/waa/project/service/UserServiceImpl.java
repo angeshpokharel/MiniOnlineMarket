@@ -60,6 +60,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   }
 
   @Override
+  public UserDTO getUserByUserName(String userName) {
+    return null;
+  }
+
+  @Override
   public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
     User user = getUserByEmail(userEmail);
     if (user != null) {

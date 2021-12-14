@@ -11,4 +11,6 @@ public interface UserService {
   UserDTO getUserById(long id);
   public boolean deleteUserById(long id);
   UserDTO convertToDTO(User user);
+
+  UserDTO getUserByUserName(String userName);
 }
