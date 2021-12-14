@@ -65,6 +65,7 @@ export const AddProduct = () => {
             value={model.name}
             variant="outlined"
             label="Name"
+            required
           />
 
           <TextField
@@ -74,15 +75,19 @@ export const AddProduct = () => {
             onChange={handleChange}
             variant="outlined"
             label="Price"
+            required
           />
 
-          <TextareaAutosize
+          <TextField
             size="large"
             onChange={handleChange}
             name="description"
             value={model.description}
             variant="outlined"
             label="Description"
+            rows={4}
+            multiline
+            required
           />
           {/* <select name="category" onChange={handleChange}>
               <option value="Laptop"> Laptop </option>

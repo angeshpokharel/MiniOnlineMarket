@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import useHttp from "../../../../hooks/use-http";
 import { getAllProductDetailss, getAllProducts } from "../../../../lib/api";
 import LoadingSpinner from "../../../seller/component/UI/LoadingSpinner";
+import BuyerHeader from "../common/BuyerHeader";
 // import classes from "../../../seller//component/OrderList/OrderList.module.css";
 
 export const BuyProductList = (props) => {
@@ -49,6 +50,7 @@ export const BuyProductList = (props) => {
     <>
       <>
         <section className="">
+          <BuyerHeader name="Product" />
           <h1> Buy Products</h1>
           <h3></h3>
           <Table striped bordered hover>

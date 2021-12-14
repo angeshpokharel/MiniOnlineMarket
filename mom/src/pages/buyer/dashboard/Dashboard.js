@@ -11,11 +11,12 @@ export default function BuyerDashboard() {
   const classes = styles();
 
   return (
-    <Container>
-      <NavLink to="/buyer/dashboard/products">Product</NavLink> &nbsp; &nbsp;
-      <NavLink to="/buyer/dashboard/orders">Order</NavLink>
-    </Container>
+    <>
+      <BuyerHeader name="Dashboard" />
+      <Container>
+        <NavLink to="/buyer/dashboard/products">Product</NavLink> &nbsp; &nbsp;
+        <NavLink to="/buyer/dashboard/orders">Order</NavLink>
+      </Container>
+    </>
   );
-
-  return <BuyerHeader name="Dashboard" />;
 }

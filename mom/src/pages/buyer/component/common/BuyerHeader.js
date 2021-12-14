@@ -30,7 +30,8 @@ function BuyerHeader(props) {
             <NavLink to="/buyer/component/follower">Follower</NavLink>
           </li>
           <li className="buyerHeaderLi active">
-            <NavLink to="/buyer/component/product">Product</NavLink>
+            <NavLink to="/buyer/dashboard/products">Product</NavLink>
+            {/* <NavLink to="/buyer/component/product">Product</NavLink> */}
           </li>
           <li className="buyerHeaderLi">
             <NavLink to="/buyer/component/cart">Cart</NavLink>

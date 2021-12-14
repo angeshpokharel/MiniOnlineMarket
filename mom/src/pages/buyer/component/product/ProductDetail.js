@@ -7,6 +7,7 @@ import {
   PRODUCT_BASE_DOMAIN,
   REVIEW_BASE_DOMAIN,
 } from "../../../../lib/api";
+import BuyerHeader from "../common/BuyerHeader";
 
 export const ProductDetail = () => {
   const form = useRef(null);
@@ -66,6 +67,7 @@ export const ProductDetail = () => {
   return (
     <>
       <>
+        <BuyerHeader />
         <section className="">
           <h1> Product Detail</h1>
           <h3></h3>
