@@ -32,7 +32,6 @@ public class UserController {
     else {
       //added this code to create a new cart with empty items-by win
       result = userService.save(userDTO);
-      System.out.println(userDTO.getRole() + "---" + (userDTO.getRole().equals("ROLE_BUYER")));
       if(userDTO.getRole().equals("ROLE_BUYER"))
         cartService.createCartByUserId(result.getId());
     }
