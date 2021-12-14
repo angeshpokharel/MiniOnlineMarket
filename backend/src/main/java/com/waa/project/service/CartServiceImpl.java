@@ -92,14 +92,13 @@ public class CartServiceImpl implements CartService{
         if(existingCartDetail.isPresent()) {
             int updatedQty =existingCartDetail.get().getQuantity() + qty;
             System.out.println(updatedQty);
-            if(updatedQty <= 0) {
+            existingCartDetail.get().setQuantity(updatedQty);
+            if(existingCartDetail.get().getQuantity() <= 0) {
                 existingCart.getCartDetails().remove(existingCartDetail.get());
                 cartDetailRepository.deleteById(existingCartDetail.get().getId());
-
                 System.out.println("cart detail row is deleted as qty is equal or less than 0");
             }
             else {
-                existingCartDetail.get().setQuantity(updatedQty);
                 cartDetailRepository.save(existingCartDetail.get());
             }
         }
