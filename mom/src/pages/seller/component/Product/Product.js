@@ -65,7 +65,7 @@ const ProductList = () => {
       } else {
         AddAlertMessage({
           type: "error",
-          message: "Sorry , Something went wrong",
+          message: "Sorry , Can't delete this product",
         });
       }
     });

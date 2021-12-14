@@ -5,6 +5,7 @@ import com.waa.project.dto.ProductDTO;
 import com.waa.project.dto.ProductDetailDTO;
 import com.waa.project.dto.UserDTO;
 import com.waa.project.service.CartService;
+import com.waa.project.service.GeneralService;
 import com.waa.project.service.OrderService;
 import com.waa.project.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -28,13 +29,13 @@ public class ProductController {
     private final ProductService productService;
 
     @Autowired
-    private final CartService cartService;
+    private final GeneralService generalService;
     @Autowired
     private final OrderService orderService;
 
-    public ProductController(ProductService productService, CartService cartService, OrderService orderService) {
+    public ProductController(ProductService productService, GeneralService generalService, OrderService orderService) {
         this.productService = productService;
-        this.cartService = cartService;
+        this.generalService = generalService;
         this.orderService = orderService;
     }
 
@@ -84,16 +85,18 @@ public class ProductController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> Delete(@PathVariable long id) {
 
-        //get orderdetails with prod Id;
-        //get cacrt details with prod Id
-        int ordDetCount = orderService.getAllOrderHistoryByOrderId(1).size();
 
-        try {
+        //get cacrt details with prod Id
+        Boolean prodInOrder = generalService.checkProductUsing(id);
+
+        if (prodInOrder == false) {
+
             productService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
-        } catch (Exception err) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }
+        else
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
 
     }
-}
+
