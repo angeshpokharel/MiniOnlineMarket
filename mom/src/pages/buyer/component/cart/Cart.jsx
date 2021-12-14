@@ -26,7 +26,7 @@ function Cart(){
                           .then((response) => {
                               const data = response.data;
                               setCartId(data.id);
-                              console.log(cartId);
+                              //console.log(cartId);
                               const dataDetail = response.data.cartDetails;
                               setCartItems(dataDetail);
                           })
@@ -38,10 +38,10 @@ function Cart(){
       if(selectedItem.qty != newQty){
       //console.log("gonna update with --> "+cartId+"___"+selectedItem.productId+"___"+newQty);
       var url = API_URL.carts + cartId + "?productId="+selectedItem.productId+"&qty="+(newQty-selectedItem.qty);
-      console.log(url);
+      //console.log(url);
       MOM.put(url) 
           .then((response) => {
-            console.log(response);
+            console.log("Successfully updated");
           })
           .catch(error=>console.log("Updating cart item was failed : " + error.message))
     }
@@ -51,10 +51,10 @@ function Cart(){
   const deleteItem= (productId, qty)=>{
 
     var url = API_URL.carts + cartId + "?productId="+productId+"&qty="+(-qty);
-      console.log(url);
+      //console.log(url);
        MOM.put(url) 
            .then((response) => {
-             console.log(response.status);
+             console.log("Successfully deleted");
              setRefresh(true);
            })
            .catch(error=>console.log("Deleting cart item was failed : " + error.message))
@@ -88,16 +88,16 @@ function Cart(){
                     cartItems.map(item => {
                       return (
                          <TableRow key={item.id} onMouseOver={()=>{ setSelectedItem({...selectedItem, 'productId': item.product.id, 'qty': item.quantity}) }}>
-                        <TableCell>{item.product.id}</TableCell>
-                        <TableCell>{item.product.name}</TableCell>
-                        <TableCell>{item.product.description}</TableCell>
-                        <TableCell>{item.product.price}</TableCell>
-                        <TableCell>
-                          <input type="number" defaultValue={item.quantity} min={1} onMouseLeave={(event) => { process(event.target.value);} } />
-                        </TableCell>
-                        <TableCell><button id="btnRemove" onClick={()=>deleteItem(item.product.id, item.quantity)}> Remove</button></TableCell>
-                        <TableCell><button id="btnCheckout"> CheckOut</button></TableCell>
-                      </TableRow>
+                          <TableCell>{item.product.id}</TableCell>
+                          <TableCell>{item.product.name}</TableCell>
+                          <TableCell>{item.product.description}</TableCell>
+                          <TableCell>{item.product.price}</TableCell>
+                          <TableCell>
+                            <input type="number" defaultValue={item.quantity} min={1} onMouseLeave={(event) => { process(event.target.value);} } />
+                          </TableCell>
+                          <TableCell><button id="btnRemove" onClick={()=>deleteItem(item.product.id, item.quantity)}> Remove</button></TableCell>
+                          <TableCell><button id="btnCheckout"> CheckOut</button></TableCell>
+                        </TableRow>
                       );
                     })
                   }

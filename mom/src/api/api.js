@@ -14,7 +14,8 @@ export const API_URL = {
  user: BASE_URL + "users",
  changePassword: BASE_URL + "api/change-password",
  logout: BASE_URL + "api/logout",
- carts : BASE_URL + "carts/" 
+ carts : BASE_URL + "carts/",
+ followers: BASE_URL + "followers/",
 };
  
 const MOM = axios.create({
