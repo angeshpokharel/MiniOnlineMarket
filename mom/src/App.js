@@ -28,6 +28,9 @@ import BuyerProduct from "./pages/buyer/component/product/Product";
 import BuyerCart from "./pages/buyer/component/cart/Cart";
 import BuyerOrder from "./pages/buyer/component//order/Order";
 
+//for seller
+import SellerFollower from "./pages/seller/component/follower/Follower";
+
 export default function App() {
   return (
     <>
@@ -75,6 +78,11 @@ export default function App() {
               component={Product}
               isPrivate />
 
+            <Route
+              exact
+              path="/seller/dashboard/followers"
+              component={SellerFollower}
+              isPrivate />
 
             <Route
               exact
