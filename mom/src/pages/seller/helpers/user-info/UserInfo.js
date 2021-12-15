@@ -49,7 +49,7 @@ export default function UserInfo() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box mb={2} display="flex">
             <TextField
-              label="ईमेल:"
+              label="Email:"
               type="email"
               variant="outlined"
               name="userEmail"
@@ -59,7 +59,7 @@ export default function UserInfo() {
               disabled
             />
             <TextField
-              label="पुरा नाम:"
+              label="Full Name:"
               type="text"
               variant="outlined"
               name="fullName"
@@ -87,10 +87,10 @@ export default function UserInfo() {
               color="secondary"
               type="reset"
             >
-              रद्द गर्नुहोस
+              Reset
             </Button>
             <Button variant="contained" color="primary" type="submit">
-              सुरक्षित गर्नुहोस
+              Save
             </Button>
           </Box>
         </form>

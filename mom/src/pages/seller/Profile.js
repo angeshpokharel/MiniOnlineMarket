@@ -42,7 +42,7 @@ export default function SellerProfile(props) {
   return (
     <Box className={classes.profilePage}>
       <Typography variant="h2" className="border-bottom-heading">
-        प्रयोगकर्ता सेटिङ सम्पादन गर्नुहोस् ।
+        Edit Profile
       </Typography>
       <Box pt={3}>
         <UserInfo />
