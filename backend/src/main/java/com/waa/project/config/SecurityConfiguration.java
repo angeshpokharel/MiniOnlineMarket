@@ -47,6 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.cors().and()
         .authorizeRequests()
+        .antMatchers("/", "/h2-console/**").permitAll()
         .antMatchers("/api/public/**").permitAll()
         .antMatchers("/api/login").permitAll()
         .antMatchers("/api/**/**").permitAll()
@@ -55,6 +56,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .antMatchers("/error").permitAll()
         .antMatchers("/unauthorized").permitAll()
         .antMatchers("/users/**").permitAll()
+        .antMatchers("/carts/**").permitAll()
+        .antMatchers("/orders/**").permitAll()
         .antMatchers("/api/seller/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_SELLER")
         .antMatchers("/api/user/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
         .antMatchers("/404").permitAll()

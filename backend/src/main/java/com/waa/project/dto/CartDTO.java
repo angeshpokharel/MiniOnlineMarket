@@ -1,6 +1,9 @@
 package com.waa.project.dto;
 
+import com.waa.project.domain.CartDetail;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -9,5 +12,6 @@ import lombok.*;
 @AllArgsConstructor
 public class CartDTO {
     private long id;
-    private long userId;
+    private UserDTO user;
+    private List<CartDetailDTO> cartDetails;
 }

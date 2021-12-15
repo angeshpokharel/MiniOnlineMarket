@@ -24,10 +24,13 @@ import {
   IS_SESSION_EXPIRED,
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
   REQUIRED_FIELD,
   SESSION_EXPIRED,
   SOMETHING_WENT_WRONG,
+  USER_ID,
 } from "../../../utils/constants/index";
+import { LocalStorage } from "../../../utils/storage/localStorage";
 import { SessionStorage } from "../../../utils/storage/sessionStorage";
 import styles from "./style";
 
@@ -57,9 +60,17 @@ export default function LoginForm(props) {
       .then((response) => {
         setIsLoading(false);
         let data = response.data;
+        console.log(data)
         if (data.type === "success") {
           AppUtils.saveUserCredentials(data);
+          LocalStorage.setItem(USER_ID, data.appUser.id)
+          if (data.appUser.approved) {
           userDispatch({ type: LOGIN_SUCCESS });
+          } else {
+            AddAlertMessage({ type: "error", message: "Seller Not Approved Yet" });
+            AppUtils.removeUserRef();
+            userDispatch({ type: LOGOUT_SUCCESS });
+          }
           props.history.push("/");
         } else {
           userDispatch({ type: LOGIN_FAILURE });

@@ -1,12 +1,9 @@
 import {Container} from "@material-ui/core";
 import React from "react";
+import BuyerHeader from "../component/common/BuyerHeader";
 import styles from "./style";
 
 export default function BuyerDashboard() {
   const classes = styles();
-  return (
-    <Container>
-      //BUYER product dashboard page to be rendered here
-    </Container>
-  );
+  return <BuyerHeader name="Dashboard"/>
 }

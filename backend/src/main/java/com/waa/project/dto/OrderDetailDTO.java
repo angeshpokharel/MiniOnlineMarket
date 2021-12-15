@@ -1,6 +1,10 @@
 package com.waa.project.dto;
 
+
+import com.waa.project.domain.Product;
 import lombok.*;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -10,8 +14,8 @@ import lombok.*;
 public class OrderDetailDTO {
 
     private long id;
-    private long orderId;
-    private long productId;
     private int quantity;
     private long unitPrice;
+    private Product product;
+    //private OrderDTO order;
 }

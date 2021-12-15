@@ -37,6 +37,7 @@ export default function Register(props) {
         setIsLoading(true);
         data.role = role;
         let url;
+        console.log(data);
         if (!!data.id) {
             url = MOM.put(API_URL.user, data)
         } else{
@@ -45,13 +46,10 @@ export default function Register(props) {
             url.then((response) => {
                 setIsLoading(false);
                 let data = response.data;
-                if (data.type === "success") {
+                    
+                    AddAlertMessage({ type: "success", message: "User Created" });
                     reset();
-                    AddAlertMessage({ type: data.type, message: data.message });
                     props.history.push("/");
-                } else {
-                    AddAlertMessage({ type: data.type, message: data.message });
-                }
             })
             .catch((error) => {
                 setIsLoading(false);

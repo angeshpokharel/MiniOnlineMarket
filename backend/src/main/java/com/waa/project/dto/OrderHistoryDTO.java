@@ -1,7 +1,9 @@
 package com.waa.project.dto;
 
+import com.waa.project.domain.OrderStatus;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -11,9 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class OrderHistoryDTO {
     private long id;
-
-    private long OrderId;
     private String status;
     private long modifiedBy;
-    private Date modifiedDate;
+    private LocalDate modifiedDate;
+    //private OrderDTO order;
 }

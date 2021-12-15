@@ -1,7 +1,7 @@
 import CssBaseline from "@material-ui/core/CssBaseline";
 import React from "react";
 import ReactNotification from "react-notifications-component";
-import {Router, Switch} from "react-router-dom";
+import { Router, Switch, Redirect } from "react-router-dom";
 import Footer from "./components/footer/Footer";
 import Layout from "./components/layout/Layout";
 import ScrollToTop from "./components/scroll-to-top/ScrollToTop";
@@ -17,6 +17,18 @@ import history from "./services/history";
 import Register from "./pages/public/register/Register";
 import BuyerDashboard from "./pages/buyer/dashboard/Dashboard";
 import SellerDashboard from "./pages/seller/dashboard/Dashboard";
+import Product from "./pages/seller/component/Product/Product";
+import Orders from "./pages/seller/component/Orders/Orders";
+import OrderDetails from "./pages/seller/component/OrderDetails/OrderDetails";
+import Order from "./pages/seller/component/Order/Order";
+
+// for buyer
+import BuyerFollwer from "./pages/buyer/component/follower/Follower";
+import BuyerProduct from "./pages/buyer/component/product/Product";
+import BuyerCart from "./pages/buyer/component/cart/Cart";
+import BuyerOrder from "./pages/buyer/component//order/Order";
+import BuyerProfile from "./pages/buyer/Profile";
+import SellerProfile from "./pages/seller/Profile";
 
 export default function App() {
   return (
@@ -27,7 +39,7 @@ export default function App() {
         <Layout>
           <Switch>
             <Route exact path="/" component={Login} />
-              <Route exact path="/register" component={Register} />
+            <Route exact path="/register" component={Register} />
             <Route exact path="/reset" component={ResetPassword} />
             <Route
               exact
@@ -55,11 +67,53 @@ export default function App() {
             />
             <Route
               exact
+              path="/buyer/profile"
+              component={BuyerProfile}
+              isPrivate
+            />
+            <Route
+              exact
               path="/seller/dashboard"
               component={SellerDashboard}
               isPrivate
             />
-            
+            <Route
+              exact
+              path="/seller/profile"
+              component={SellerProfile}
+              isPrivate
+            />
+            <Route
+              exact
+              path="/seller/dashboard/products"
+              component={Product}
+              isPrivate />
+
+
+            <Route
+              exact
+              path="/seller/dashboard/orders"
+              component={Orders}
+              isPrivate />
+
+
+            <Route
+              exact
+              path="/seller/dashboard/orders/:orderId"
+              component={OrderDetails}
+              isPrivate
+            />
+
+            <Route path="/" exact isPrivate>
+              <Redirect to="/products" />
+            </Route>
+
+            {/* for buyer  */}
+             <Route exact path="/buyer/component/follower" component={BuyerFollwer} isPrivate />
+             <Route exact path="/buyer/component/product" component={BuyerProduct} isPrivate />
+             <Route exact path="/buyer/component/cart" component={BuyerCart} isPrivate />
+             <Route exact path="/buyer/component/order" component={BuyerOrder} isPrivate />
+
             <Route component={GlobalPageNotFound} isWrongLink />
           </Switch>
         </Layout>

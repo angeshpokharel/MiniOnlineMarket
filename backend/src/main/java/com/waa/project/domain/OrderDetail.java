@@ -1,11 +1,13 @@
 package com.waa.project.domain;
 
+
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -15,10 +17,23 @@ import javax.persistence.Id;
 @Entity
 public class OrderDetail {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
-    private long orderId;
-    private long productId;
+
     private int quantity;
     private long unitPrice;
+    @Column(name = "order_id")
+    private long orderId;
+
+
+    @OneToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+   // @JsonBackReference
+
+    /*@ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnoreProperties(allowGetters = false)
+    private Order order;*/
 }
