@@ -50,10 +50,10 @@ public class OrderController {
         return new ResponseEntity(orderService.getOrderByUserId(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/orders")
+    /*@GetMapping("/{id}/orders")
     public ResponseEntity<OrderDTO> getAllOrdersbySellerId(@PathVariable("id") long id) {
         return new ResponseEntity(orderService.getOrderBySellerId(id), HttpStatus.OK);
-    }
+    }*/
 
     @GetMapping("/{id}/orderDetails")
     public ResponseEntity<OrderDetailDTO> getAllOrderDetailsByOrderId(@PathVariable("id") long id) {
