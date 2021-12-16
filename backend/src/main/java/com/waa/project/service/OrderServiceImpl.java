@@ -127,10 +127,10 @@ public class OrderServiceImpl implements OrderService {
         return (List<OrderDTO>) listMapper.mapList(orderRepository.findAllOrderByUserId(id), new OrderDTO());
     }
 
-    //@Override
-   /* public List<OrderDTO> getOrderBySellerId(long id) {
+    @Override
+    public List<OrderDTO> getOrderBySellerId(long id) {
         return (List<OrderDTO>) listMapper.mapList((orderRepository.findAllOrderBySellerId(id)), new OrderDTO());
-    }*/
+    }
 
     @Override
     public List<OrderHistoryDTO> getAllOrderHistoryByOrderId(long id) {
