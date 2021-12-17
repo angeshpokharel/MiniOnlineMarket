@@ -1,19 +1,29 @@
-import {AppBar, Avatar, Box, IconButton, Link, Menu, MenuItem, Toolbar, Typography} from "@material-ui/core";
-import {ExitToApp as LogOutIcon, Menu as MenuIcon} from "@material-ui/icons";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  IconButton,
+  Link,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+import { ExitToApp as LogOutIcon, Menu as MenuIcon } from "@material-ui/icons";
 import classNames from "classnames";
-import React, {useEffect, useState} from "react";
-import {useHistory} from "react-router-dom";
-import MOM, {API_URL} from "../../api/api";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
+import MOM, { API_URL } from "../../api/api";
 import logo from "../../assets/img/gop.png";
 // context
-import {toggleSidebar, useLayoutDispatch} from "../../context/LayoutContext";
-import {useUserDispatch} from "../../context/UserContext";
-import {AppUtils} from "../../utils/appUtils";
-import {LOGOUT_SUCCESS} from "../../utils/constants";
+import { toggleSidebar, useLayoutDispatch } from "../../context/LayoutContext";
+import { useUserDispatch } from "../../context/UserContext";
+import { AppUtils } from "../../utils/appUtils";
+import { LOGOUT_SUCCESS } from "../../utils/constants";
 import styles from "./style";
 import AddAlertMessage from "../alert/Alert";
-import {SOMETHING_WENT_WRONG, USER_ID} from "../../utils/constants/index";
-import {LocalStorage} from "../../utils/storage/localStorage";
+import { SOMETHING_WENT_WRONG, USER_ID } from "../../utils/constants/index";
+import { LocalStorage } from "../../utils/storage/localStorage";
 
 export default function Header(props) {
   const [userFullName, setUserFullName] = useState([]);
@@ -29,13 +39,14 @@ export default function Header(props) {
 
   const getUsername = () => {
     MOM.get(API_URL.user)
-      .then(response => {
+      .then((response) => {
         setUserFullName(response.data.fullName);
         response.data && LocalStorage.setItem(USER_ID, response.data.id);
-      }).catch(error => {
-        AddAlertMessage({ type: "error", message: SOMETHING_WENT_WRONG });
       })
-  }
+      .catch((error) => {
+        AddAlertMessage({ type: "error", message: SOMETHING_WENT_WRONG });
+      });
+  };
 
   useEffect(() => {
     getUsername();
@@ -43,7 +54,7 @@ export default function Header(props) {
 
   const logout = () => {
     MOM.get(API_URL.logout)
-      .then(response => {
+      .then((response) => {
         let data = response.data;
         if (data.type === "success") {
           AppUtils.removeUserRef();
@@ -51,8 +62,7 @@ export default function Header(props) {
           history.push("/");
         }
       })
-      .catch(error => {
-      });
+      .catch((error) => {});
   };
 
   return (
@@ -62,15 +72,31 @@ export default function Header(props) {
         <Typography variant="h6" className={classes.brand}>
           Mini Online Market: Role : {AppUtils.getUserRole()}
         </Typography>
-        <Box display="flex" className={classes.userProfileMenu} justifyContent="center" alignItems="center" onClick={e => setProfileMenu(e.currentTarget)}>
+        <Box
+          display="flex"
+          className={classes.userProfileMenu}
+          justifyContent="center"
+          alignItems="center"
+          onClick={(e) => setProfileMenu(e.currentTarget)}
+        >
           <Typography variant="body1" className={classes.username}>
             {userFullName}
           </Typography>
           <Avatar alt="Avatar" src={logo} />
         </Box>
-        <Menu anchorEl={profileMenu} open={Boolean(profileMenu)} onClose={() => setProfileMenu(null)} classes={{ paper: classes.profileMenu }} disableAutoFocusItem>
+        <Menu
+          anchorEl={profileMenu}
+          open={Boolean(profileMenu)}
+          onClose={() => setProfileMenu(null)}
+          classes={{ paper: classes.profileMenu }}
+          disableAutoFocusItem
+        >
           <MenuItem className={classes.profileMenuItem}>
-            <Link onClick={logout} variant="body1" className={classes.profileMenuLink}>
+            <Link
+              onClick={logout}
+              variant="body1"
+              className={classes.profileMenuLink}
+            >
               <LogOutIcon className={classes.profileMenuIcon} />
               Logout
             </Link>

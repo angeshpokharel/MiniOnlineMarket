@@ -7,6 +7,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 
 import { useHistory, useParams } from "react-router-dom";
+import MOM from "../../../../api/api";
 import AddAlertMessage from "../../../../components/alert/Alert";
 import { HTTPClient, PRODUCT_BASE_DOMAIN } from "../../../../lib/api";
 
@@ -62,7 +63,7 @@ export const UpdateProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    HTTPClient.put(PRODUCT_BASE_DOMAIN + "/" + id, model).then((res) => {
+    MOM.put(PRODUCT_BASE_DOMAIN + "/" + id, model).then((res) => {
       if (res.status == 200) {
         history.push("/seller/dashboard/products");
         AddAlertMessage({

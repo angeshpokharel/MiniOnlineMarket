@@ -1,5 +1,6 @@
 package com.waa.project.controller;
 
+import com.waa.project.constants.SecurityConstants;
 import com.waa.project.domain.Product;
 import com.waa.project.dto.ProductDTO;
 import com.waa.project.dto.ProductDetailDTO;
@@ -11,8 +12,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
@@ -39,13 +42,15 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO productDTO) {
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
+    public ResponseEntity<ProductDTO> saveProduct( @RequestBody @Valid ProductDTO productDTO) {
         productService.save(productDTO);
         return new ResponseEntity(productDTO, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable(value = "id") long id, @RequestBody ProductDTO productDTO) {
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable(value = "id") long id, @RequestBody @Valid ProductDTO productDTO) {
         productService.update(productDTO);
         return new ResponseEntity(productDTO, HttpStatus.OK);
     }
@@ -82,6 +87,7 @@ public class ProductController {
 
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
     public ResponseEntity<?> Delete(@PathVariable long id) {
 
         //get orderdetails with prod Id;

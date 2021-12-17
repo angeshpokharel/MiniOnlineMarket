@@ -12,6 +12,7 @@ import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import AddAlertMessage from "../../../../components/alert/Alert";
 import { LocalStorage } from "../../../../utils/storage/localStorage";
+import MOM from "../../../../api/api";
 
 const ProductList = () => {
   const [prodId, setProdId] = useState(0);
@@ -53,9 +54,8 @@ const ProductList = () => {
     return product.sellerId === loginUserId;
   });
 
-  console.log(filteredProducts);
   const handleDelete = (id) => {
-    HTTPClient.delete(PRODUCT_BASE_DOMAIN + "/" + id).then((res) => {
+    MOM.delete(PRODUCT_BASE_DOMAIN + "/" + id).then((res) => {
       if (res.status === 200) {
         sendRequest();
         AddAlertMessage({

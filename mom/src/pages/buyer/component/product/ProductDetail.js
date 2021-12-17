@@ -69,7 +69,7 @@ export const ProductDetail = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    HTTPClient.post(REVIEW_BASE_DOMAIN, reviewModel).then((res) => {
+    MOM.post(REVIEW_BASE_DOMAIN, reviewModel).then((res) => {
       if (res.status == 200) {
         setReviewModel(review);
         getReviews();
@@ -127,7 +127,7 @@ export const ProductDetail = () => {
   }, []);
 
   const handleAddToCart = (id) => {
-    HTTPClient.put(
+    MOM.put(
       CART_BASE_DOMAIN + "/" + cartId + "?productId=" + id + "&qty=1"
     ).then((res) => {
       if (res.status === 200 || res.status === 202) {
