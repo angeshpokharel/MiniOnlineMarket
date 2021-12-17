@@ -16,6 +16,7 @@ export const API_URL = {
  logout: BASE_URL + "api/logout",
  carts : BASE_URL + "carts/",
  followers: BASE_URL + "followers/",
+ reviews: BASE_URL + "reviews/"
 };
  
 const MOM = axios.create({

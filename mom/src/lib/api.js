@@ -1,7 +1,7 @@
 import axios from "axios";
 import AddAlertMessage from "../components/alert/Alert";
 
-const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = "http://localhost:8080/";
 
 const API_URL = {
   order: BASE_URL + "orders",
@@ -9,9 +9,9 @@ const API_URL = {
 };
 
 export async function getAllOrders() {
-
-  const response = await axios.get(API_URL.order)
-    .catch(err => console.log(err, "Couldnot fetch data"));
+  const response = await axios
+    .get(API_URL.order)
+    .catch((err) => console.log(err, "Couldnot fetch data"));
 
   /*  const response = await fetch(`${BASE_DOMAIN}`);*/
   const data = response.data;
@@ -40,7 +40,7 @@ export async function getOrderByUserId(userId) {
   const data = response.data;
 
   if (response.Error) {
-    throw new Error(data.message || 'Could not fetch orders.');
+    throw new Error(data.message || "Could not fetch orders.");
   }
 
   const transformedOrders = [];
@@ -121,21 +121,20 @@ export async function getOrderHistoryByDetailId(orderDetailId) {
   if (response.Error) {
     throw new Error(data.message || 'Could not fetch orders.');
   }
-
-  const loadedOrder = {
-    id: orderDetailId,
+  const loadedUser = {
+    id: userId,
     ...data,
   };
 
-  return loadedOrder; 
+  return loadedUser;
 }
 
-export async function getOrderDetailsById(orderId) {
+export async function getOrderDetailsByOrderId(orderId) {
   const response = await axios(`${API_URL.order}/${orderId}`);
   const data = response.data;
 
   if (response.Error) {
-    throw new Error(data.message || 'Could not fetch orders.');
+    throw new Error(data.message || "Could not fetch orders.");
   }
 
   const loadedOrder = {
@@ -186,7 +185,6 @@ export async function updateOrderStatus(statusData, orderId) {
   return null;
 } */
 
-
 /* export async function getAllComments(quoteId) {
   const response = await fetch(`${FIREBASE_DOMAIN}/comments/${quoteId}.json`);
 
@@ -209,3 +207,98 @@ export async function updateOrderStatus(statusData, orderId) {
 
   return transformedComments; 
 } */
+
+/// For Product
+
+export const PRODUCT_BASE_DOMAIN = "http://localhost:8080/products";
+export const CART_BASE_DOMAIN = "http://localhost:8080/carts";
+ 
+ 
+
+export const CATEGORY_BASE_DOMAIN = "http://localhost:8080/categories";
+export const REVIEW_BASE_DOMAIN = "http://localhost:8080/reviews";
+
+export const HTTPClient = axios.create({
+  baseURL: PRODUCT_BASE_DOMAIN,
+  headers: {
+    Accept: "application/json",
+    "Content-Type": "application/json",
+  },
+});
+
+export async function getAllProducts() {
+  const response = await fetch(`${PRODUCT_BASE_DOMAIN}`);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not fetch Products.");
+  }
+
+  const transformedProducts = [];
+
+  for (const key in data) {
+    //  console.log(data);
+    //console.log(key);
+    //console.log(...data[key]);
+    const prodObj = {
+      id: key,
+      ...data[key],
+    };
+
+    transformedProducts.push(prodObj);
+  }
+
+  return transformedProducts;
+}
+
+export async function getAllProductDetailss() {
+  const response = await fetch(`${PRODUCT_BASE_DOMAIN}/details`);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not fetch Products.");
+  }
+
+  const transformedProducts = [];
+
+  for (const key in data) {
+    //  console.log(data);
+    //console.log(key);
+    //console.log(...data[key]);
+    const prodObj = {
+      id: key,
+      ...data[key],
+    };
+
+    transformedProducts.push(prodObj);
+  }
+
+  return transformedProducts;
+}
+
+export async function deleteProduct(id) {
+  const response = await fetch(`${PRODUCT_BASE_DOMAIN} + ${id}`, {
+    method: "DELETE",
+  });
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Could not fetch Products.");
+  }
+
+  const transformedProducts = [];
+
+  for (const key in data) {
+    //  console.log(data);
+    //console.log(key);
+    //console.log(...data[key]);
+    const prodObj = {
+      id: key,
+      ...data[key],
+    };
+
+    transformedProducts.push(prodObj);
+  }
+
+  return transformedProducts;
+}

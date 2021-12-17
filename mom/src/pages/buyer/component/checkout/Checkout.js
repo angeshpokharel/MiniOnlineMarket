@@ -1,17 +1,25 @@
 import Cart from "../cart/Cart";
 import BuyerHeader from "../common/BuyerHeader";
-import { Box, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@material-ui/core";
+import {
+  Box,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+} from "@material-ui/core";
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { Form, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import MOM, { API_URL } from "../../../../api/api";
 import { LocalStorage } from "../../../../utils/storage/localStorage";
-import './Checkout.css';
+import "./Checkout.css";
 import Button from "@restart/ui/esm/Button";
 import AddAlertMessage from "../../../../components/alert/Alert";
-import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 import jsPDF from "jspdf";
 import 'jspdf-autotable'
 import CreatePdfReceipt from "../common/CreatePdfReceipt";

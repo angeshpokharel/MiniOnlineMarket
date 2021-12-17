@@ -9,4 +9,5 @@ public interface FollowerService {
     List<SellerDTO> getAllFollowing(long userId);
     List<SellerDTO> getAllUnfollowing(long userId);
     List<SellerDTO> getAllFollower(long userId);
+    void unFollow(long by, long to);
 }

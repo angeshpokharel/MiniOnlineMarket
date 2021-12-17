@@ -1,0 +1,29 @@
+.adminHeaderUl {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #3f51b5;
+  }
+  
+ .adminHeaderLi{
+    float: left;
+  }
+  
+  .adminHeaderLi a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 12px 25px;
+    text-decoration: none;
+
+    font-size: 1rem;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+    line-height: 1.6;
+    letter-spacing: 0.0075em;
+  }
+  
+  .adminHeaderLi a:hover, .active{
+    background-color: #fe5722;
+  }

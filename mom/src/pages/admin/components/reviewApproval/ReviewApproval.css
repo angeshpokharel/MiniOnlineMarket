@@ -1,0 +1,35 @@
+.Reviews {
+    margin: 1rem auto;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+    width: 60rem;
+    width: 95%;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background-color: #f4f0fa;
+}
+
+.ReviewTable{
+    padding-left: 120px;
+    padding-right: 120px;
+}
+
+.Reviews th td{
+    text-align: center;
+}
+
+.thReviewID{ 
+    width: 100px;
+}
+
+.thProductName{
+    width: 150px;
+}
+
+.thMessage{
+    width: 600px;
+}
+
+#btnApprove{
+    color: green;
+}

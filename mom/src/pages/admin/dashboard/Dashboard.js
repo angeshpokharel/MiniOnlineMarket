@@ -1,12 +1,9 @@
 import React from "react";
+import AdminHeader from "../components/common/AdminHeader";
 import styles from "./style";
 
 export default function AdminDashboard() {
   const classes = styles();
 
-  return (
-    <>
-      //add your code here
-    </>
-  );
+  return <AdminHeader name="Dashboard"/>
 }

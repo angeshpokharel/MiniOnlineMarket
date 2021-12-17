@@ -96,4 +96,12 @@ public class FollowerServiceImpl implements  FollowerService{
         }
         return result;
     }
+
+    @Override
+    public void unFollow(long by, long to) {
+        Follower follower = followerRepository.findByFollowedByAndAndFollowedTo(by, to);
+        if(follower != null){
+            followerRepository.delete(follower);
+        }
+    }
 }
