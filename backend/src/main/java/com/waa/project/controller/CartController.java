@@ -1,5 +1,6 @@
 package com.waa.project.controller;
 
+import com.waa.project.constants.SecurityConstants;
 import com.waa.project.domain.Cart;
 import com.waa.project.dto.CartDTO;
 import com.waa.project.dto.UserDTO;
@@ -7,6 +8,7 @@ import com.waa.project.service.CartService;
 import com.waa.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.http.HttpResponse;
@@ -35,8 +37,9 @@ public class CartController {
     //we will pass only userId and it will create new empty shopping cart
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_BUYER + "')")
     public void createCartByUserId(@RequestParam("userId") long userId) throws Exception {
-        System.out.println(cartService.findByUserId(userId));
+
         if(cartService.findByUserId(userId) != null)
             throw new Exception("The shopping card of this user is already exist");
         cartService.createCartByUserId(userId);
@@ -47,6 +50,7 @@ public class CartController {
     //accept cartId, productId and qty because we don't have to load all related data in passing data from frontend
     @PutMapping("/{cartId}")
     @ResponseStatus(value = HttpStatus.ACCEPTED)
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_BUYER + "')")
     public void updateCartItem(@PathVariable("cartId") long cartId,
                                           @RequestParam("productId") long productId,
                                           @RequestParam("qty") int qty) throws Exception {

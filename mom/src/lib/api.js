@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AppUtils } from "../utils/appUtils";
 
 const BASE_URL = "http://localhost:8080/";
 
@@ -155,6 +156,7 @@ export const HTTPClient = axios.create({
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
+    // Authorization: AppUtils.getAuthToken(),
   },
 });
 

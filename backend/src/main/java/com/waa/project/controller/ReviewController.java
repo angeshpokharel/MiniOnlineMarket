@@ -1,5 +1,6 @@
 package com.waa.project.controller;
 
+import com.waa.project.constants.SecurityConstants;
 import com.waa.project.dto.AdminReviewDTO;
 import com.waa.project.dto.ReviewDTO;
 import com.waa.project.repository.ReviewRepository;
@@ -7,8 +8,10 @@ import com.waa.project.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -32,7 +35,8 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<?> save(@RequestBody ReviewDTO reviewDTO) {
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_BUYER + "')")
+    public ResponseEntity<?> save(@Valid @RequestBody  ReviewDTO reviewDTO) {
         reviewService.save(reviewDTO);
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -73,6 +77,7 @@ public class ReviewController {
     //added by win
     //to approve reviews from admin dashboard
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "')")
     public ResponseEntity<?> update(@PathVariable("id") long id) {
         reviewService.update(id);
         return new ResponseEntity(HttpStatus.OK);

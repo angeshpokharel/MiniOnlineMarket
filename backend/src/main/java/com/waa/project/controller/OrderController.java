@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -41,7 +42,7 @@ public class OrderController {
     }
 
     @PostMapping("/{id}")
-    public void createOrderByUserId(@PathVariable("id") long id, @RequestBody OrderDTO orderDTO) {
+    public void createOrderByUserId(@PathVariable("id") long id, @Valid @RequestBody OrderDTO orderDTO) {
         orderService.createOrder(id, orderDTO);
     }
 
@@ -66,7 +67,7 @@ public class OrderController {
     }
 
     @PutMapping("/{id}") //orderID
-    public void updateOrderByStatus(@PathVariable("id") long id, @RequestBody String newStatus){
+    public void updateOrderByStatus(@PathVariable("id") long id,@Valid @RequestBody String newStatus){
         System.out.println(newStatus);
         orderService.updateOrderStatus(id, newStatus);
     }

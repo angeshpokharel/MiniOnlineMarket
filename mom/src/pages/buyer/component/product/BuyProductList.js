@@ -65,7 +65,7 @@ export const BuyProductList = (props) => {
   }
 
   const handleAddToCart = (id) => {
-    HTTPClient.put(
+    MOM.put(
       CART_BASE_DOMAIN + "/" + cartId + "?productId=" + id + "&qty=1"
     ).then((res) => {
       if (res.status === 200 || res.status === 202) {

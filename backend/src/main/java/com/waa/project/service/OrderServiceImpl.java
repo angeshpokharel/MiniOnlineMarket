@@ -106,8 +106,16 @@ public class OrderServiceImpl implements OrderService {
        // orderHistory.setOrder(order);
         order.getOrderHistories().add(orderHistory);
 
-        sendEmail(order);
+
+        try{
+            sendEmail(order);
+        }
+        catch (Exception e){
+
+        }
+
         orderRepository.save(order);
+
     }
 
     public void sendEmail(Orders order){
