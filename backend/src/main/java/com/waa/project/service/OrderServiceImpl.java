@@ -103,17 +103,16 @@ public class OrderServiceImpl implements OrderService {
         order.setUsedPoints(orderDTO.getUsedPoints());
 
 
-        try{
+        try {
             sendEmail(order);
-        }
-        catch (Exception e){
-
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
         orderRepository.save(order);
 
 
-        for (OrderDetail od: order.getOrderDetails()) {
+        for (OrderDetail od : order.getOrderDetails()) {
             List<OrderHistory> orderHistList = new ArrayList<>();
             OrderHistory orderHistory = new OrderHistory();
             orderHistory.setStatus(OrderStatus.NEW.getOrderStatus());
@@ -127,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
         //sendEmail(order);
         orderRepository.save(order);
 
-      // order.getOrderDetails().forEach(x -> x.setOrderId(savedOrder.getId()));
+        // order.getOrderDetails().forEach(x -> x.setOrderId(savedOrder.getId()));
 
     }
 
@@ -207,6 +206,13 @@ public class OrderServiceImpl implements OrderService {
         orderHistory.setModifiedBy(1);
         orderHistory.setModifiedDate(LocalDate.now());
         orderDetail.getOrderHistories().add(orderHistory);
+        orderDetailRepository.save(orderDetail);
+    }
+
+    @Override
+    public void updateOrderByOrderDetailId(long id) {
+        OrderDetail orderDetail = orderDetailRepository.findById(id).get();
+        orderDetail.setStatus("REJECTED");
         orderDetailRepository.save(orderDetail);
     }
 

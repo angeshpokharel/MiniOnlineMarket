@@ -33,7 +33,9 @@ function Cart(){
                               const dataDetail = response.data.cartDetails;
                               setCartItems(dataDetail);
                           })
-                          .catch(error=>console.log("Retrieving carts was failed : " + error.message))
+                          .catch(error=>console.log("Retrieving carts was failed : " + error.message)
+                          
+                          )
                       }
 
                       console.log(cartItems);
@@ -115,7 +117,8 @@ function Cart(){
                 </thead>
                 <tbody>
                   {
-                    cartItems.map(item => {
+                    
+              cartItems.length >0 ?      cartItems.map(item => {
                       return (
                          
                          <TableRow key={item.id} onMouseOver={()=>{ setSelectedItem({...selectedItem, 'productId': item.product.id, 'qty': item.quantity}) }}>
@@ -131,7 +134,7 @@ function Cart(){
                         </TableRow>
                       );
                     })
-                  }
+                    : <TableRow>No items in the cart</TableRow> }
                 </tbody>
             </Table>
            {/*  <button id="btnCheckout" > <Link to={{ pathname: `/buyer/component/checkout` }}>

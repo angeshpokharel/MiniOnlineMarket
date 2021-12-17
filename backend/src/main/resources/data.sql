@@ -14,7 +14,7 @@ INSERT INTO USER(ID, ADDRESS, NAME, PASSWORD, EMAIL, PHONE, ROLE, CREATED_DATE, 
 VALUES (2, '1000 N 4th Street, Fairfield, Iowa ', 'Jack', '$2a$10$Q0Uk18u6MdbfI81c.SA6q.F2stKb2.SGdaZ2ArCkkR05.gwivjFdO', 'jack@gmail.com', '6411111111',
         'ROLE_SELLER', 1639268926487, 1639268926487);
 INSERT INTO USER(ID, ADDRESS, NAME, PASSWORD, EMAIL, PHONE, ROLE, CREATED_DATE, MODIFIED_DATE)
-VALUES (3, '1000 N 4th Street, Fairfield, Iowa ', 'Ei', '$2a$10$Q0Uk18u6MdbfI81c.SA6q.F2stKb2.SGdaZ2ArCkkR05.gwivjFdO', 'ei@buyer.com', '6411111111',
+VALUES (3, '1000 N 4th Street, Fairfield, Iowa ', 'Ei', '$2a$10$Q0Uk18u6MdbfI81c.SA6q.F2stKb2.SGdaZ2ArCkkR05.gwivjFdO', 'tsunilthapa8@gmail.com', '6411111111',
         'ROLE_BUYER', 1639268926487, 1639268926487);
 
 

@@ -90,5 +90,10 @@ public class OrderController {
         orderService.updateOrderStatus(id, newStatus);
     }
 
+    @PutMapping("/orderDetails/{id}")
+    public void updateOrderByOrderDetailId(@PathVariable("id") long id){
+        orderService.updateOrderByOrderDetailId(id);
+    }
+
 
 }
