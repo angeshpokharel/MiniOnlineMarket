@@ -34,34 +34,37 @@ public class OrderController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public ResponseEntity<OrderDTO> findAll() {
         return new ResponseEntity(orderService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public ResponseEntity<OrderDTO> findById(@PathVariable("id") long id) {
         return new ResponseEntity(orderService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping("/{id}")
-    //@PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
     public void createOrderByUserId(@PathVariable("id") long id, @RequestBody OrderDTO orderDTO) {
         orderService.createOrder(id, orderDTO);
     }
 
     @GetMapping("/{id}/orders")
-    //@PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public ResponseEntity<OrderDTO> getAllOrdersbyUserId(@PathVariable("id") long id) {
         return new ResponseEntity(orderService.getOrderByUserId(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/sellerOrders")
-    //@PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_SELLER+ "')")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public ResponseEntity<OrderDTO> getAllOrdersbySellerId(@PathVariable("id") long id) {
         return new ResponseEntity(orderService.getOrderBySellerId(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/orderDetails")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public ResponseEntity<OrderDetailDTO> getAllOrderDetailsByOrderId(@PathVariable("id") long id) {
         return new ResponseEntity(orderService.getOrderDetailsByOrderId(id), HttpStatus.OK);
     }
@@ -69,18 +72,19 @@ public class OrderController {
 
 
     @GetMapping("/orderHistory/{id}")
-    //@PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public ResponseEntity<List<OrderHistoryDTO>> getAllOrderHistoryByOrderDetailId(@PathVariable("id") long id){
         return new ResponseEntity(orderService.getAllOrderHistoryByOrderDetailId(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/orderHistory/{historyId}")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public ResponseEntity<OrderHistoryDTO> getOrderHistoryById(@PathVariable("historyId") long id){
         return new ResponseEntity(orderService.getOrderHistoryById(id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}") //orderID
-    //@PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_SELLER+ "')")
+
     public void updateOrderByStatus(@PathVariable("id") long id, @RequestBody String newStatus){
         System.out.println(newStatus);
         orderService.updateOrderStatus(id, newStatus);

@@ -25,6 +25,11 @@ import "jspdf-autotable";
 import CreatePdfReceipt from "../common/CreatePdfReceipt";
 
 const Checkout = (props) => {
+  // for points
+  const [availablePoints, setAvailablePoints] = useState(0);
+  const [finalTotal, setFinalTotal] = useState(0);
+  //-------------
+
   const newPostForm = useRef();
   const history = useHistory;
   const [cartId, setCartId] = useState(0);
@@ -46,8 +51,29 @@ const Checkout = (props) => {
       );
   };
 
+  //for points
+  const changeFinalTotal = (usedPoints) => {
+    const actualTotal = cartItems
+      .map((item) => item.product.price * item.quantity)
+      .reduce((a, b) => a + b, 0);
+    setFinalTotal(actualTotal - usedPoints);
+  };
+
+  const getAvailablePoints = () => {
+    MOM.get(API_URL.general + "getAvailablePoints/" + loginUserId) //win - axios call for available points by login user id
+      .then((response) => {
+        const data = response.data;
+        setAvailablePoints(data / 100);
+      })
+      .catch((error) =>
+        console.log("Retrieving available points was failed : " + error.message)
+      );
+  };
+
+  //-------------
   useEffect(() => {
     getCartItems();
+    getAvailablePoints();
   }, [refresh]);
 
   const PostDataHandler = () => {
@@ -56,13 +82,13 @@ const Checkout = (props) => {
       shippingAddress: form["shippingAddress"].value,
       billingAddress: form["billingAddress"].value,
       paymentMode: form["paymentMode"].value,
+      usedPoints: form["usedPoints"].value, //for used points
       orderDetails: cartItems.map((item) => {
         return item;
       }),
     };
 
-    const response = axios
-      .post(postAPI, data)
+    const response = MOM.post(postAPI, data)
       .then((res) => {
         //console.log('Success:', res.data);
         CreatePdfReceipt(cartItems);
@@ -125,6 +151,7 @@ const Checkout = (props) => {
               type="text"
               label={"shippingAddress"}
               name={"shippingAddress"}
+              required
             />
           </div>
 
@@ -134,11 +161,33 @@ const Checkout = (props) => {
               type="text"
               label={"billingAddress"}
               name={"billingAddress"}
+              required
             />
           </div>
 
           <label>Payment Mode</label>
-          <input type="text" label={"paymentMode"} name={"paymentMode"} />
+          <input
+            type="text"
+            label={"paymentMode"}
+            name={"paymentMode"}
+            required
+          />
+
+          {/* for points */}
+          <div>
+            <pre>Available points : {availablePoints}</pre>
+            <label>Points you want to use</label>
+            <input
+              type="number"
+              lable={"usedPoints"}
+              name={"usedPoints"}
+              min={0}
+              max={availablePoints}
+              onChange={(event) => changeFinalTotal(event.target.value)}
+            />
+            <br />
+            <pre>Final Total : {finalTotal}</pre>
+          </div>
         </form>
       </div>
       <div className="Content">

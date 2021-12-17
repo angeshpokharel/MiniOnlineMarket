@@ -100,6 +100,7 @@ public class OrderServiceImpl implements OrderService {
         order.setPoints(orderDTO.getOrderDetails().stream()
                 .map(o -> o.getProduct().getPrice() * o.getProduct().getPrice())
                 .reduce((a, b) -> a + b).get());
+        order.setUsedPoints(orderDTO.getUsedPoints());
 
 
         try{

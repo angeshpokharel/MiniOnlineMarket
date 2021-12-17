@@ -17,6 +17,7 @@ export const API_URL = {
   carts: BASE_URL + "carts/",
   followers: BASE_URL + "followers/",
   reviews: BASE_URL + "reviews/",
+  general: BASE_URL + "general/",
 };
 
 const MOM = axios.create({

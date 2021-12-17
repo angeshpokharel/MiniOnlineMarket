@@ -3,6 +3,7 @@ import axios from "axios";
 import { AppUtils } from "../utils/appUtils";
 
 import AddAlertMessage from "../components/alert/Alert";
+import MOM from "../api/api";
 
 const BASE_URL = "http://localhost:8080/";
 
@@ -12,9 +13,9 @@ const API_URL = {
 };
 
 export async function getAllOrders() {
-  const response = await axios
-    .get(API_URL.order)
-    .catch((err) => console.log(err, "Couldnot fetch data"));
+  const response = await MOM.get(API_URL.order).catch((err) =>
+    console.log(err, "Couldnot fetch data")
+  );
 
   const data = response.data;
 
@@ -33,7 +34,7 @@ export async function getAllOrders() {
 }
 
 export async function getOrderByUserId(userId) {
-  const response = await axios.get(`${API_URL.order}/${userId}/orders`);
+  const response = await MOM.get(`${API_URL.order}/${userId}/orders`);
 
   const data = response.data;
 
@@ -55,7 +56,7 @@ export async function getOrderByUserId(userId) {
 }
 
 export async function getOrderBySellerId(userId) {
-  const response = await axios.get(`${API_URL.order}/${userId}/sellerOrders`);
+  const response = await MOM.get(`${API_URL.order}/${userId}/sellerOrders`);
 
   const data = response.data;
 
@@ -77,7 +78,7 @@ export async function getOrderBySellerId(userId) {
 }
 
 export async function getUserById(userId) {
-  const response = await axios(`${API_URL.order}/${userId}`);
+  const response = await MOM.get(`${API_URL.order}/${userId}`);
   const data = response.data;
   if (response.Error) {
     throw new Error(data.message || "Could not fetch orders.");
@@ -91,7 +92,7 @@ export async function getUserById(userId) {
 }
 
 export async function getOrderDetailsByOrderId(orderId) {
-  const response = await axios(`${API_URL.order}/${orderId}`);
+  const response = await MOM.get(`${API_URL.order}/${orderId}`);
   const data = response.data;
 
   if (response.Error) {
@@ -107,7 +108,7 @@ export async function getOrderDetailsByOrderId(orderId) {
 }
 
 export async function getOrderHistoryByDetailId(orderDetailId) {
-  const response = await axios(
+  const response = await MOM.get(
     `${API_URL.order}/orderHistory/${orderDetailId}`
   );
   debugger;
@@ -131,7 +132,7 @@ export async function getOrderHistoryByDetailId(orderDetailId) {
 }
 
 export async function getOrderDetailsById(orderId) {
-  const response = await axios(`${API_URL.order}/${orderId}`);
+  const response = await MOM.get(`${API_URL.order}/${orderId}`);
   const data = response.data;
 
   if (response.Error) {
@@ -148,6 +149,7 @@ export async function getOrderDetailsById(orderId) {
 
 export async function updateOrderStatus(statusData, orderId) {
   console.log(statusData.orderId);
+  // const response = await MOM.put(`${API_URL.order}/${statusData.orderId}`);
   const response = await fetch(`${API_URL.order}/${statusData.orderId}`, {
     method: "PUT",
     body: JSON.stringify(statusData.status.text),

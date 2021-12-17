@@ -18,19 +18,19 @@ public class FollowerController {
     FollowerService followerService;
 
     @GetMapping("/following/{userId}")
-    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_BUYER + "')")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public List<SellerDTO> getAllFollowing(@PathVariable("userId") long userId){
         return followerService.getAllFollowing(userId);
     }
 
     @GetMapping("/unfollowing/{userId}")
-    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_BUYER + "')")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public List<SellerDTO> getAllUnfollowing(@PathVariable("userId") long userId){
         return followerService.getAllUnfollowing(userId);
     }
 
     @GetMapping("/{userId}")
-    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_BUYER + "')")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "','" + SecurityConstants.ROLE_SELLER+ "')")
     public List<SellerDTO> getAllFollower(@PathVariable("userId") long userId){
         return followerService.getAllFollower(userId);
     }

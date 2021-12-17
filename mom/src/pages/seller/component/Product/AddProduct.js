@@ -63,12 +63,12 @@ export const AddProduct = () => {
         history.push("/seller/dashboard/products");
         AddAlertMessage({
           type: "success",
-          message: "Product updated successfully",
+          message: "Product added successfully",
         });
       } else {
         AddAlertMessage({
           type: "error",
-          message: "Sorry , Could not update product",
+          message: "Sorry , Could not add product",
         });
       }
     });
