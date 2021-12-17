@@ -27,7 +27,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void save(ProductDTO productDTO) {
         Product product = convertToEntity(productDTO);
-        productRepository.save(product);
+       var prod =  productRepository.save(product);
     }
 
     @Override
