@@ -44,13 +44,18 @@ public class UserController {
     return ResponseEntity.ok(userService.getAll());
   }
 
+  @GetMapping("/un-approved")
+  public ResponseEntity<List<UserDTO>> getAllUnApprovedUsers() {
+    return ResponseEntity.ok(userService.getAllUnApprovedUser());
+  }
+
   @GetMapping("/{id}")
   public ResponseEntity<UserDTO> getUser(@PathVariable("id") long id) {
     return ResponseEntity.ok(userService.getUserById(id));
   }
 
-  @DeleteMapping
-  public ResponseEntity<Boolean> deleteUser(@RequestParam("id") long id){
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Boolean> deleteUser(@PathVariable("id") long id){
     return ResponseEntity.ok(userService.deleteUserById(id));
   }
 
@@ -59,5 +64,9 @@ public class UserController {
     return ResponseEntity.ok(userService.save(userDTO));
   }
 
+  @PutMapping("/approve/{id}")
+  public ResponseEntity<UserDTO> approveSeller(@PathVariable long id) {
+    return ResponseEntity.ok(userService.approveSeller(id));
+  }
 
 }

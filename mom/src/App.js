@@ -36,6 +36,7 @@ import BuyerFollwer from "./pages/buyer/component/follower/Follower";
 import BuyerProduct from "./pages/buyer/component/product/Product";
 import BuyerCart from "./pages/buyer/component/cart/Cart";
 import BuyerOrder from "./pages/buyer/component//order/Order";
+
 import Checkout from "./pages/buyer/component/checkout/Checkout";
 import BuyerOrderDetails from "./pages/buyer/component/order/BuyerOrderDetails";
 import OrderSeller from "./pages/seller/component/Order/OrderSeller";
@@ -43,6 +44,9 @@ import OrderHistory from "./pages/seller/component/OrderDetails/OrderHistory";
 
 //for seller
 import SellerFollower from "./pages/seller/component/follower/Follower";
+
+import BuyerProfile from "./pages/buyer/Profile";
+import SellerProfile from "./pages/seller/Profile";
 
 export default function App() {
   return (
@@ -93,6 +97,12 @@ export default function App() {
             />
             <Route
               exact
+              path="/buyer/profile"
+              component={BuyerProfile}
+              isPrivate
+            />
+            <Route
+              exact
               path="/seller/dashboard"
               component={SellerDashboard}
               isPrivate
@@ -107,6 +117,12 @@ export default function App() {
               exact
               path="/seller/dashboard/followers"
               component={SellerFollower}
+              isPrivate
+            />
+            <Route
+              exact
+              path="/seller/profile"
+              component={SellerProfile}
               isPrivate
             />
             <Route
@@ -229,6 +245,32 @@ export default function App() {
               exact
               path="/buyer/component/order/:orderId"
               component={BuyerOrderDetails}
+              isPrivate
+            />
+
+            {/* for buyer  */}
+            <Route
+              exact
+              path="/buyer/component/follower"
+              component={BuyerFollwer}
+              isPrivate
+            />
+            <Route
+              exact
+              path="/buyer/component/product"
+              component={BuyerProduct}
+              isPrivate
+            />
+            <Route
+              exact
+              path="/buyer/component/cart"
+              component={BuyerCart}
+              isPrivate
+            />
+            <Route
+              exact
+              path="/buyer/component/order"
+              component={BuyerOrder}
               isPrivate
             />
             <Route component={GlobalPageNotFound} isWrongLink />

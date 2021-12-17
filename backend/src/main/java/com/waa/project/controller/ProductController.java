@@ -63,6 +63,12 @@ public class ProductController {
         return new ResponseEntity(productDTO, HttpStatus.OK);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO) {
+        productService.update(productDTO);
+        return  ResponseEntity.ok(productDTO);
+    }
+
     @GetMapping
    // @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" +SecurityConstants.ROLE_SELLER + "','" + SecurityConstants.ROLE_BUYER+ "')")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
@@ -77,7 +83,7 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER+ "')")
+//    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" +  SecurityConstants.ROLE_SELLER + "','" + SecurityConstants.ROLE_BUYER+ "')")
      public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") long id) {
         ProductDTO productDTO = productService.getProductById(id);
         if (productDTO != null)
@@ -113,4 +119,6 @@ public class ProductController {
 
 
     }
+
+
 }

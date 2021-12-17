@@ -9,7 +9,11 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import { ExitToApp as LogOutIcon, Menu as MenuIcon } from "@material-ui/icons";
+import {
+  ExitToApp as LogOutIcon,
+  Menu as MenuIcon,
+  Person,
+} from "@material-ui/icons";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
@@ -40,8 +44,11 @@ export default function Header(props) {
   const getUsername = () => {
     MOM.get(API_URL.user)
       .then((response) => {
+        console.log(response);
         setUserFullName(response.data.fullName);
-        response.data && LocalStorage.setItem(USER_ID, response.data.id);
+      })
+      .catch((error) => {
+        AddAlertMessage({ type: "error", message: SOMETHING_WENT_WRONG });
       })
       .catch((error) => {
         AddAlertMessage({ type: "error", message: SOMETHING_WENT_WRONG });
@@ -99,6 +106,14 @@ export default function Header(props) {
             >
               <LogOutIcon className={classes.profileMenuIcon} />
               Logout
+            </Link>
+            <Link
+              href="profile"
+              variant="body1"
+              className={classes.profileMenuLink}
+            >
+              <Person className={classes.profileMenuIcon} />
+              Profile
             </Link>
           </MenuItem>
         </Menu>

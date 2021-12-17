@@ -17,10 +17,10 @@ public class MiniOnlineMarketApplication {
         SpringApplication.run(MiniOnlineMarketApplication.class, args);
     }
 
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
+//    @Bean
+//    public ModelMapper modelMapper() {
+//        return new ModelMapper();
+//    }
 
    // @Bean
     public JavaMailSender getJavaMailSender() {
@@ -43,4 +43,8 @@ public class MiniOnlineMarketApplication {
 //        props.put("mail.properties.test-connection", false);
         return mailSender;
     }
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
+	}
 }

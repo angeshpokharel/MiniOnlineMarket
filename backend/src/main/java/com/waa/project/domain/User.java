@@ -41,6 +41,7 @@ public class User {
     private String role; //csv -> comma separated value
     private long createdDate;
     private long modifiedDate;
+  private boolean approved;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Cart cart;

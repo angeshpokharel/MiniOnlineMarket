@@ -9,6 +9,8 @@ export const LOCAL_CONSTANTS = {
 
 const BASE_URL = LOCAL_CONSTANTS.BASE_URL;
 
+const loginUser = { id: 1 };
+
 export const API_URL = {
   login: BASE_URL + "api/login",
   user: BASE_URL + "users",
@@ -18,6 +20,7 @@ export const API_URL = {
   followers: BASE_URL + "followers/",
   reviews: BASE_URL + "reviews/",
   general: BASE_URL + "general/",
+  cartsOfLoginUser: BASE_URL + "carts/" + loginUser.id,
 };
 
 const MOM = axios.create({
@@ -30,7 +33,6 @@ const MOM = axios.create({
 
 MOM.interceptors.request.use(
   (config) => {
-    debugger;
     if (config.baseURL === BASE_URL && !config.headers.Authorization) {
       var authToken = AppUtils.getAuthToken();
       if (authToken) {

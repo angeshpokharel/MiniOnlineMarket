@@ -24,9 +24,11 @@ import {
   IS_SESSION_EXPIRED,
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
   REQUIRED_FIELD,
   SESSION_EXPIRED,
   SOMETHING_WENT_WRONG,
+  USER_ID,
 } from "../../../utils/constants/index";
 import { LocalStorage } from "../../../utils/storage/localStorage";
 import { SessionStorage } from "../../../utils/storage/sessionStorage";
@@ -58,10 +60,21 @@ export default function LoginForm(props) {
       .then((response) => {
         setIsLoading(false);
         let data = response.data;
+        console.log(data);
         if (data.type === "success") {
           AppUtils.saveUserCredentials(data);
-          userDispatch({ type: LOGIN_SUCCESS });
-          LocalStorage.setItem("LoginUserID",data.appUser.id);
+          LocalStorage.setItem(USER_ID, data.appUser.id);
+          if (data.appUser.approved) {
+            userDispatch({ type: LOGIN_SUCCESS });
+            LocalStorage.setItem("LoginUserID", data.appUser.id);
+          } else {
+            AddAlertMessage({
+              type: "error",
+              message: "Seller Not Approved Yet",
+            });
+            AppUtils.removeUserRef();
+            userDispatch({ type: LOGOUT_SUCCESS });
+          }
           props.history.push("/");
         } else {
           userDispatch({ type: LOGIN_FAILURE });
@@ -146,17 +159,17 @@ export default function LoginForm(props) {
               )}
             </Grid>
             <Grid item xs={12} className={classes.loginBtnContainer}>
-                  <Button
-                      endIcon={<ExitToAppIcon />}
-                      size="large"
-                      fullWidth
-                      color="primary"
-                      variant="contained"
-                      type="button"
-                      href={"/register"}
-                  >
-                    Signup
-                  </Button>
+              <Button
+                endIcon={<ExitToAppIcon />}
+                size="large"
+                fullWidth
+                color="primary"
+                variant="contained"
+                type="button"
+                href={"/register"}
+              >
+                Signup
+              </Button>
             </Grid>
           </form>
         </CardContent>

@@ -1,15 +1,15 @@
 .Order {
-    margin: 1rem auto;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
-    width: 50rem;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    color: black;
-    background-color: #f4f0fa;
+  margin: 1rem auto;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  width: 50rem;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  color: black;
+  background-color: #f4f0fa;
 }
 
 .Order:hover,
 .Order:active {
-    background-color: #C0DDF5;
+  background-color: #c0ddf5;
 }
