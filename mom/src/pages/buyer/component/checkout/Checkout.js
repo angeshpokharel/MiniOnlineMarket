@@ -78,6 +78,7 @@ const Checkout = (props) => {
 
   const PostDataHandler = () => {
     const form = newPostForm.current;
+
     const data = {
       shippingAddress: form["shippingAddress"].value,
       billingAddress: form["billingAddress"].value,
@@ -87,6 +88,18 @@ const Checkout = (props) => {
         return item;
       }),
     };
+    debugger;
+    if (
+      data.shippingAddress === "" ||
+      data.billingAddress === "" ||
+      data.paymentMode === ""
+    ) {
+      AddAlertMessage({
+        type: "error",
+        message: "Enter addresses and payment mode",
+      });
+      return;
+    }
 
     const response = MOM.post(postAPI, data)
       .then((res) => {

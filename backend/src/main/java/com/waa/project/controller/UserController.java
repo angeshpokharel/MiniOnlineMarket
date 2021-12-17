@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO  userDTO) {
+  public ResponseEntity<UserDTO> saveUser(@Valid @RequestBody UserDTO  userDTO) {
     UserDTO result = null;
     if (null != userService.getUserByEmail(userDTO.getEmail())) {
       ResponseEntity.badRequest();
@@ -54,7 +55,7 @@ public class UserController {
   }
 
   @PutMapping
-  public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO  userDTO) {
+  public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO  userDTO) {
     return ResponseEntity.ok(userService.save(userDTO));
   }
 
