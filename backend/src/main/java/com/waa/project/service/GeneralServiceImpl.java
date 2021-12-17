@@ -51,12 +51,12 @@ public class GeneralServiceImpl implements GeneralService{
     }
 
     @Override
-    public long getPointsByUserId(long userId) {
+    public long getAvailablePointsByUserId(long userId) {
         long points = 0;
         List<Orders> orders = orderRepository.findAll();
         for(Orders o : orders){
             if(o.getUser().getId() == userId)
-                points += o.getPoints();
+                points += o.getPoints() - o.getUsedPoints();
         }
         return points;
     }

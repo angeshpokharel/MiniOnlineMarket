@@ -11,6 +11,7 @@ const StatusUpdate = (props) => {
     const history = useHistory();
 
     const {sendRequest, status, error} = useHttp(updateOrderStatus)
+    console.log(sendRequest);
 
     const {onStatusUpdate} = props;
     const {id} = props;
@@ -21,18 +22,11 @@ const StatusUpdate = (props) => {
         }
       }, [status, error, onStatusUpdate]);
 
-    
-
     const onChangeHandler = (event) => {
         event.preventDefault();
         const newStatus = statusSelect.current.value;
-        console.log("Nice " + id);
-        props.onStatusChange(statusSelect.current.value);
-        sendRequest({status : {text: newStatus}, orderId: id});
-        AddAlertMessage({ type: "success", message: "Status updated" });
-        setTimeout(() => {
-            history.goBack();
-        }, 2000)
+        sendRequest({status : {text: newStatus}, orderId: props.orderDetailId});
+        props.onStatusChange(newStatus);
     }
     return (
         <div><select ref={statusSelect} className="form-control" required >

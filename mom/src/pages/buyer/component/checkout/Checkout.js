@@ -22,6 +22,7 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import CreatePdfReceipt from "../common/CreatePdfReceipt";
 
 const Checkout = (props) => {
   const newPostForm = useRef();
@@ -59,11 +60,13 @@ const Checkout = (props) => {
         return item;
       }),
     };
-    axios
+
+    const response = axios
       .post(postAPI, data)
       .then((res) => {
         //console.log('Success:', res.data);
-        createPdfReceipt(data);
+        CreatePdfReceipt(cartItems);
+        props.deleteCheckout(cartItems);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -71,43 +74,41 @@ const Checkout = (props) => {
     props.onItemStateCheck();
     AddAlertMessage({ type: "success", message: "Order Successfull" });
   };
-  const totalPrice = cartItems
-    .map((item) => item.product.price * item.quantity)
-    .reduce((a, b) => a + b, 0);
+  /* const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0);
 
-  const createPdfReceipt = (data) => {
-    const unit = "pt";
-    const size = "A4"; // Use A1, A2, A3 or A4
-    const orientation = "portrait"; // portrait or landscape
+    const createPdfReceipt = (data) => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "portrait"; // portrait or landscape
 
-    const marginLeft = 40;
-    const doc = new jsPDF(orientation, unit, size);
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
 
-    doc.setFontSize(15);
+        doc.setFontSize(15);
 
-    const title = "Your Order Receipt" + "    Total:" + totalPrice;
-    const response = axios
-      .get(BASE_API + "/users/" + loginUserId)
-      .then((res) => {
-        // console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+        const title = "Your Order Receipt" + "    Total:" + totalPrice;
+        const response = axios.get(BASE_API + '/users/' + loginUserId)
+            .then(res => {
+               // console.log(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
 
-    const headers = [["PRODUCT", "QUANTITY"]];
-    const dat = cartItems.map((item) => [item.product.name, item.quantity]);
+        
+        const headers = [["PRODUCT", "QUANTITY"]];
+        const dat = cartItems.map(item => [item.product.name, item.quantity]);
 
-    let content = {
-      startY: 50,
-      head: headers,
-      body: dat,
-    };
-
-    doc.text(title, marginLeft, 40);
-    doc.autoTable(content);
-    doc.save("report.pdf");
-  };
+        let content = {
+            startY: 50,
+            head: headers,
+            body: dat
+          };
+      
+          doc.text(title, marginLeft, 40);
+          doc.autoTable(content);
+          doc.save("report.pdf")
+        } */
 
   /* const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0); */
 

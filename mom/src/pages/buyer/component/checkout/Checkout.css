@@ -12,10 +12,8 @@
 .Content{
     float: left;
     margin-top: 20px;
-    margin-left: 50px;
-    width: 500px;
-  
-    margin: 20px auto;
+    margin-left: 2px;
+    width: 560px;
     border: 1px solid #eee;
     box-shadow: 0 2px 3px #ccc;
     text-align: center;

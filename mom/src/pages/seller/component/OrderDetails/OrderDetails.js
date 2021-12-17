@@ -5,6 +5,7 @@ import { propTypes } from 'react-bootstrap/esm/Image';
 import { useParams } from 'react-router-dom'
 import useHttp from '../../../../hooks/use-http'
 import { getOrderDetailsByOrderId } from '../../../../lib/api'
+import SellerHeader from '../Common/SellerHeader';
 import LoadingSpinner from '../UI/LoadingSpinner';
 import classes from './OrderDetails.module.css';
 import ProductList from './ProductList';
@@ -57,6 +58,7 @@ const OderDetails = () => {
     
     return (
         <>
+        <SellerHeader name="Orders"/>
             <section className={classes.Details}>
                 <h3>Order #{orderId}</h3>
                 <div className={classes.CustDetails}>
