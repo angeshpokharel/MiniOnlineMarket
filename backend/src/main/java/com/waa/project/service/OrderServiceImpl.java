@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setProduct(product);
             orderDetail.setOrderId(order.getId());
             orderDetail.setStatus(OrderStatus.NEW.getOrderStatus());
-            orderDetail.setOrderId(1);
+            //orderDetail.setOrderId(1);
             //orderDetail.setOrder(modelMapper.map(orderDTO, Order.class));
             order.getOrderDetails().add(orderDetail);
         }
@@ -101,16 +101,21 @@ public class OrderServiceImpl implements OrderService {
                 .map(o -> o.getProduct().getPrice() * o.getProduct().getPrice())
                 .reduce((a, b) -> a + b).get());
 
-        order.setOrderHistories(new ArrayList<OrderHistory>());
-        OrderHistory orderHistory = new OrderHistory();
-        orderHistory.setStatus(OrderStatus.NEW.getOrderStatus());
-        orderHistory.setModifiedDate(LocalDate.now());
-        orderHistory.setModifiedBy(user.get().getId());
-        // orderHistory.setOrder(order);
-        order.getOrderHistories().add(orderHistory);
+
+        for (OrderDetail od: order.getOrderDetails()) {
+            List<OrderHistory> orderHistList = new ArrayList<>();
+            OrderHistory orderHistory = new OrderHistory();
+            orderHistory.setStatus(OrderStatus.NEW.getOrderStatus());
+            orderHistory.setModifiedDate(LocalDate.now());
+            orderHistory.setModifiedBy(user.get().getId());
+            orderHistList.add(orderHistory);
+
+            od.setOrderHistories(orderHistList);
+        }
 
         //sendEmail(order);
         orderRepository.save(order);
+
       // order.getOrderDetails().forEach(x -> x.setOrderId(savedOrder.getId()));
 
     }
@@ -162,8 +167,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderHistoryDTO> getAllOrderHistoryByOrderId(long id) {
-        return (List<OrderHistoryDTO>) listMapperOrderHistory.mapList(orderHistoryRepository.findAllByOrderId(id), new OrderHistoryDTO());
+    public List<OrderHistoryDTO> getAllOrderHistoryByOrderDetailId(long id) {
+        OrderDetail orderDetail = orderDetailRepository.findById(id).get();
+        List<OrderHistory> orderHistories = orderDetail.getOrderHistories();
+        return (List<OrderHistoryDTO>) listMapperOrderHistory.mapList(orderHistories, new OrderHistoryDTO());
     }
 
     @Override
@@ -176,18 +183,19 @@ public class OrderServiceImpl implements OrderService {
         OrderDetail orderDetail = orderRepository.findOrderDetailByOrderDetailId(id);
         String updatedStatus = newStatus.substring(1, newStatus.length() - 1);
         orderDetail.setStatus(updatedStatus);
+
         //GetUserId from username obtained from SecurityContext and save here
         //orderHistory.setModifiedBy(userId);
         //orderHistory.getOrder().setStatus(newStatus);
 
-       /* OrderHistory orderHistory = new OrderHistory();
+        OrderHistory orderHistory = new OrderHistory();
         orderHistory.setStatus(updatedStatus);
-        *//*UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        /*UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = user.getUsername();
-        Replace with user from curretly user id*//*
+        Replace with user from curretly user id*/
         orderHistory.setModifiedBy(1);
         orderHistory.setModifiedDate(LocalDate.now());
-        orderHistories.add(orderHistory);*/
+        orderDetail.getOrderHistories().add(orderHistory);
         orderDetailRepository.save(orderDetail);
     }
 

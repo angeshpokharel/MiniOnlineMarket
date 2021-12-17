@@ -21,7 +21,7 @@ public interface OrderService {
     List<SellerViewOrderDetailDTO>getOrderBySellerId(long id);
 
     //Order History services
-    List<OrderHistoryDTO> getAllOrderHistoryByOrderId(long id);
+    List<OrderHistoryDTO> getAllOrderHistoryByOrderDetailId(long id);
     OrderHistoryDTO getOrderHistoryById(long id);
     void updateOrderStatus(long id, String newStatus);
 }

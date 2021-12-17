@@ -78,6 +78,8 @@ export async function getOrderBySellerId(userId) {
   return transformedOrders;
 }
 
+
+
 export async function getUserById(userId) {
   const response = await axios(`${API_URL.order}/${userId}`);
   const data = response.data;
@@ -94,6 +96,41 @@ export async function getUserById(userId) {
 }
 
 export async function getOrderDetailsByOrderId(orderId) {
+  const response = await axios(`${API_URL.order}/${orderId}`);
+  const data = response.data;
+
+  if (response.Error) {
+    throw new Error(data.message || 'Could not fetch orders.');
+  }
+
+  const loadedOrder = {
+    id: orderId,
+    ...data,
+  };
+
+  return loadedOrder;
+}
+
+
+
+export async function getOrderHistoryByDetailId(orderDetailId) {
+  console.log(`${API_URL.order}/orderHistory/${orderDetailId}`);
+   const response = await axios(`${API_URL.order}/orderHistory/${orderDetailId}`);
+  const data = response.data;
+
+  if (response.Error) {
+    throw new Error(data.message || 'Could not fetch orders.');
+  }
+
+  const loadedOrder = {
+    id: orderDetailId,
+    ...data,
+  };
+
+  return loadedOrder; 
+}
+
+export async function getOrderDetailsById(orderId) {
   const response = await axios(`${API_URL.order}/${orderId}`);
   const data = response.data;
 

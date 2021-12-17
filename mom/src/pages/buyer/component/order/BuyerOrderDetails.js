@@ -5,8 +5,6 @@ import { useParams } from 'react-router-dom'
 import useHttp from '../../../../hooks/use-http'
 import { getOrderDetailsByOrderId } from '../../../../lib/api'
 import LoadingSpinner from '../../../seller/component/UI/LoadingSpinner';
-import classes from '../../../seller/component/OrderDetails/OrderDetails.module.css';
-import Button from '@restart/ui/esm/Button';
 import ProductList from '../../../seller/component/OrderDetails/ProductList';
 import BuyerHeader from '../common/BuyerHeader';
 //import ProductList from './ProductList';
@@ -16,6 +14,7 @@ const BuyerOrderDetails = () => {
     const params = useParams();
     const { orderId } = params;
     const { sendRequest, status, data: loadedOrder, error } = useHttp(getOrderDetailsByOrderId, true);
+    
     useEffect(() => {
         sendRequest(orderId);
     }, [sendRequest, orderId]);
@@ -46,35 +45,7 @@ const BuyerOrderDetails = () => {
             </div>
 
 
-            <div className="Content">
-                <h3 className="Heading">Order Details #{loadedOrder.id}</h3>
-                <TableContainer>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>S/N</TableCell>
-                                <TableCell>Last Modified Date</TableCell>
-                                <TableCell>Status</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {loadedOrder.orderHistories.map(item => {
-                                return (
-                                    <TableRow>
-                                        <TableCell>{item.id}</TableCell>
-                                        <TableCell>{item.modifiedDate}</TableCell>
-                                        <TableCell>{item.status}</TableCell>
-                                    </TableRow>
-
-                                );
-                            })
-                            }
-
-                        </TableBody>
-
-                    </Table>
-                </TableContainer>
-            </div>
+            
 
         </>
     );

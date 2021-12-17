@@ -67,10 +67,10 @@ public class OrderController {
 
 
 
-    @GetMapping("/{id}/orderHistory")
-    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
-    public ResponseEntity<List<OrderHistoryDTO>> getAllOrderHistoryByOrderId(@PathVariable("id") long id){
-        return new ResponseEntity(orderService.getAllOrderHistoryByOrderId(id), HttpStatus.OK);
+    @GetMapping("/orderHistory/{id}")
+    //@PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
+    public ResponseEntity<List<OrderHistoryDTO>> getAllOrderHistoryByOrderDetailId(@PathVariable("id") long id){
+        return new ResponseEntity(orderService.getAllOrderHistoryByOrderDetailId(id), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/orderHistory/{historyId}")
