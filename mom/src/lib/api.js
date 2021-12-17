@@ -1,4 +1,5 @@
 import axios from "axios";
+import MOM from "../api/api";
 import AddAlertMessage from "../components/alert/Alert";
 
 const BASE_URL = "http://localhost:8080/";
@@ -10,15 +11,10 @@ const API_URL = {
 
 export async function getAllOrders() {
   const response = await axios
-    .get(API_URL.order)
+  MOM.get(API_URL.order)
     .catch((err) => console.log(err, "Couldnot fetch data"));
 
-  /*  const response = await fetch(`${BASE_DOMAIN}`);*/
   const data = response.data;
-
-  /* if (!response.ok) {
-    throw new Error(data.message || 'Could not fetch orders.');
-  } */
 
   const transformedOrders = [];
 
@@ -36,7 +32,7 @@ export async function getAllOrders() {
 
 export async function getOrderByUserId(userId) {
   const response = await axios.get(`${API_URL.order}/${userId}/orders`);
-
+  
   const data = response.data;
 
   if (response.Error) {
@@ -122,7 +118,7 @@ export async function getOrderHistoryByDetailId(orderDetailId) {
     throw new Error(data.message || 'Could not fetch orders.');
   }
   const loadedUser = {
-    id: userId,
+    id: orderDetailId,
     ...data,
   };
 
@@ -168,52 +164,10 @@ export async function updateOrderStatus(statusData, orderId) {
   return null;
 }
 
-/* export async function addQuote(statusData) {
-  const response = await fetch(`${BASE_DOMAIN}/quotes.json`, {
-    method: 'PUT',
-    body: JSON.stringify(quoteData),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || 'Could not create quote.');
-  }
-
-  return null;
-} */
-
-/* export async function getAllComments(quoteId) {
-  const response = await fetch(`${FIREBASE_DOMAIN}/comments/${quoteId}.json`);
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || 'Could not get comments.');
-  }
-
-  const transformedComments = [];
-
-  for (const key in data) {
-    const commentObj = {
-      id: key,
-      ...data[key],
-    };
-
-    transformedComments.push(commentObj);
-  }
-
-  return transformedComments; 
-} */
-
-/// For Product
-
 export const PRODUCT_BASE_DOMAIN = "http://localhost:8080/products";
 export const CART_BASE_DOMAIN = "http://localhost:8080/carts";
  
- 
+export const  CART_URL = "http://localhost:8080/carts";
 
 export const CATEGORY_BASE_DOMAIN = "http://localhost:8080/categories";
 export const REVIEW_BASE_DOMAIN = "http://localhost:8080/reviews";

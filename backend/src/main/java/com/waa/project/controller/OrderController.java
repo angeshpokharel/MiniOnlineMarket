@@ -66,7 +66,6 @@ public class OrderController {
     }
 
 
-
     @GetMapping("/orderHistory/{id}")
     //@PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
     public ResponseEntity<List<OrderHistoryDTO>> getAllOrderHistoryByOrderDetailId(@PathVariable("id") long id){
