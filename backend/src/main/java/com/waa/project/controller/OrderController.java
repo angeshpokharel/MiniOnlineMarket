@@ -47,7 +47,7 @@ public class OrderController {
 
     @PostMapping("/{id}")
     @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER + "')")
-    public void createOrderByUserId(@PathVariable("id") long id, @RequestBody OrderDTO orderDTO) {
+    public void createOrderByUserId(@PathVariable("id") long id,@Valid @RequestBody OrderDTO orderDTO) {
         orderService.createOrder(id, orderDTO);
     }
 
