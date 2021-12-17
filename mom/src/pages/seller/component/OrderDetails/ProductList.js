@@ -18,7 +18,8 @@ const ProductList = (props) => {
                             <TableCell>Quantity</TableCell>
                             <TableCell>Price</TableCell>
                             <TableCell>Amount</TableCell>
-                            <TableCell></TableCell>
+                            <TableCell>Status</TableCell>
+                            <TableCell>Action</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -30,6 +31,8 @@ const ProductList = (props) => {
                         <TableCell>{item.quantity}</TableCell>
                         <TableCell>{item.product.price}</TableCell>
                         <TableCell>{item.quantity * item.product.price}</TableCell>
+                        <TableCell style={{ color: "green" }}>{item.status}</TableCell>
+                        <TableCell>sdvsdv</TableCell>
                     </TableRow>
                     )
                     })}

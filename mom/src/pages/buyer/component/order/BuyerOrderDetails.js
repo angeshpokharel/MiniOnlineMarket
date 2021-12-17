@@ -35,7 +35,7 @@ const BuyerOrderDetails = () => {
     if (!loadedOrder) {
         return <h1>No orders</h1>
     }
-    console.log(loadedOrder);
+    console.log(loadedOrder.orderDetails);
     return (
         <>
         <BuyerHeader  name="Order"/>

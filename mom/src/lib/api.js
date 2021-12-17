@@ -1,4 +1,5 @@
 import axios from "axios";
+import AddAlertMessage from "../components/alert/Alert";
 
 const BASE_URL = 'http://localhost:8080/';
 
@@ -35,6 +36,28 @@ export async function getAllOrders() {
 
 export async function getOrderByUserId(userId) {
   const response = await axios.get(`${API_URL.order}/${userId}/orders`);
+
+  const data = response.data;
+
+  if (response.Error) {
+    throw new Error(data.message || 'Could not fetch orders.');
+  }
+
+  const transformedOrders = [];
+
+  for (const key in data) {
+    const loadedOrder = {
+      id: key,
+      ...data[key],
+    };
+    transformedOrders.push(loadedOrder);
+  }
+
+  return transformedOrders;
+}
+
+export async function getOrderBySellerId(userId) {
+  const response = await axios.get(`${API_URL.order}/${userId}/sellerOrders`);
 
   const data = response.data;
 
@@ -100,6 +123,9 @@ export async function updateOrderStatus(statusData, orderId) {
 
   if (!response.ok) {
     throw new Error(data.message || 'Could not update status.');
+  }
+  if(response.ok){
+    AddAlertMessage({ type: "success", message: "Status updated" });
   }
 
   /* return { orerId: data.name }; */

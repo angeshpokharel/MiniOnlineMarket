@@ -51,7 +51,7 @@ const Orders = (props) => {
                             <th>Email</th>
                             <th>Shipping Address</th>
                             <th>Sum, $</th>
-                            <th>Status</th>
+                            {/* <th>Status</th> */}
                             <th></th>
                         </tr>
                     </thead>
