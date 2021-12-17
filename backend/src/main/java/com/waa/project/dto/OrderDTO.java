@@ -31,6 +31,7 @@ public class OrderDTO {
     private LocalDate paymentDate;
 
     private int points;
+    private long usedPoints;
     private UserDTO user;
     private List<OrderHistoryDTO> orderHistories = new ArrayList<>();
     private List<OrderDetailDTO> orderDetails;

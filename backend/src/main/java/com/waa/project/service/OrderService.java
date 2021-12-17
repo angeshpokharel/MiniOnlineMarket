@@ -1,15 +1,12 @@
 package com.waa.project.service;
 
 
-import com.waa.project.domain.OrderDetail;
-import com.waa.project.domain.OrderStatus;
 import com.waa.project.dto.OrderDTO;
 import com.waa.project.dto.OrderDetailDTO;
 import com.waa.project.dto.OrderHistoryDTO;
 import com.waa.project.dto.SellerViewOrderDetailDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderService {
 

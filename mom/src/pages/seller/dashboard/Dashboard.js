@@ -11,7 +11,7 @@ export default function SellerDashboard() {
   const classes = styles();
   return (
     <Container>
-      {/* <SellerHeader name="Dashboard"/> */}
+      <SellerHeader name="Dashboard" />
       <NavLink to="/seller/dashboard/products">Product</NavLink>
       <NavLink to="/seller/dashboard/orders">Order</NavLink>
     </Container>

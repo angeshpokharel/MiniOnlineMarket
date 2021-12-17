@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import useHttp from "../../../../hooks/use-http";
 import { getOrderBySellerId } from "../../../../lib/api";
+
 import { AppUtils } from "../../../../utils/appUtils";
 import { LocalStorage } from "../../../../utils/storage/localStorage";
 import CreatePdfReceipt from "../../../buyer/component/common/CreatePdfReceipt";
@@ -11,32 +12,35 @@ import LoadingSpinner from "../UI/LoadingSpinner";
 import OrderRow from "./OrderRow";
 
 const OrderSeller = (props) => {
-
   /*  const [curStatus, setCurStatus] = useState(props.status); */
   const statusSelect = useRef(null);
   const loginUserId = LocalStorage.getItem("LoginUserID");
-/*   const [orderStatus, setOrderStatus] = useState(); */
-  const { sendRequest, status, data: loadedOrders, error } = useHttp(getOrderBySellerId, true);
-  
+  /*   const [orderStatus, setOrderStatus] = useState(); */
+  const {
+    sendRequest,
+    status,
+    data: loadedOrders,
+    error,
+  } = useHttp(getOrderBySellerId, true);
 
   useEffect(() => {
     sendRequest(loginUserId);
   }, [sendRequest, loginUserId, statusSelect]);
 
-/*   const updaDataStausCallback = useCallback(() => {
+  /*   const updaDataStausCallback = useCallback(() => {
      sendRequest(loginUserId);
 }, [sendRequest, loginUserId]); */
 
-/*  useEffect(() => {
+  /*  useEffect(() => {
    console.log(status);
      if (status === 'completed' && !error) {
          setOrderStatus(loadedOrders.status);
      }
  }, [status]); */
 
-  if (status === 'pending') {
+  if (status === "pending") {
     return (
-      <div className='centered'>
+      <div className="centered">
         <LoadingSpinner />
       </div>
     );
@@ -44,15 +48,15 @@ const OrderSeller = (props) => {
 
   console.log(loadedOrders);
   if (error) {
-    return <p className='centered focus'>{error}</p>
+    return <p className="centered focus">{error}</p>;
   }
 
-  if (status === 'completed' && (!loadedOrders) || loadedOrders.length === 0) {
-    return <h1>No orders</h1>
+  if ((status === "completed" && !loadedOrders) || loadedOrders.length === 0) {
+    return <h1>No orders</h1>;
   }
   console.log(loadedOrders);
 
- /*  const updateStatus = (value) => {
+  /*  const updateStatus = (value) => {
     console.log("hello" +value);
     setOrderStatus(value);
   } */
@@ -79,15 +83,11 @@ const OrderSeller = (props) => {
         </tr>
       </thead>
       <tbody>
-        {loadedOrders.map(data => {
-          return (
-            <OrderRow {...data} />
-          );
+        {loadedOrders.map((data) => {
+          return <OrderRow {...data} />;
         })}
-
       </tbody>
     </Table>
-
   );
 };
 

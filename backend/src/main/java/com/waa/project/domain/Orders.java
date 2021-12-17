@@ -58,7 +58,5 @@ public class Orders {
     //@JoinColumn(name = "order_id", referencedColumnName = "id")
     private  List<OrderDetail> orderDetails;
 
-
-
-
+    private long usedPoints;
 }

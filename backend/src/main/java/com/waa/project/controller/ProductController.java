@@ -6,6 +6,7 @@ import com.waa.project.dto.ProductDTO;
 import com.waa.project.dto.ProductDetailDTO;
 import com.waa.project.dto.UserDTO;
 import com.waa.project.service.CartService;
+import com.waa.project.service.GeneralService;
 import com.waa.project.service.OrderService;
 import com.waa.project.service.ProductService;
 import org.modelmapper.ModelMapper;
@@ -35,18 +36,25 @@ public class ProductController {
     @Autowired
     private final OrderService orderService;
 
-    public ProductController(ProductService productService, CartService cartService, OrderService orderService) {
+    @Autowired
+    private  final GeneralService generalService;
+
+    public ProductController(ProductService productService, CartService cartService, OrderService orderService, GeneralService generalService) {
         this.productService = productService;
         this.cartService = cartService;
         this.orderService = orderService;
+        this.generalService = generalService;
     }
 
     @PostMapping
+
     @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
     public ResponseEntity<ProductDTO> saveProduct( @RequestBody @Valid ProductDTO productDTO) {
+
         productService.save(productDTO);
         return new ResponseEntity(productDTO, HttpStatus.OK);
     }
+
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
@@ -56,6 +64,7 @@ public class ProductController {
     }
 
     @GetMapping
+   // @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" +SecurityConstants.ROLE_SELLER + "','" + SecurityConstants.ROLE_BUYER+ "')")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
 //        return ResponseEntity.ok(productService.getAll());
         return new ResponseEntity(productService.getAll(), HttpStatus.OK);
@@ -68,12 +77,14 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") long id) {
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" + SecurityConstants.ROLE_BUYER+ "')")
+     public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") long id) {
         ProductDTO productDTO = productService.getProductById(id);
         if (productDTO != null)
             return new ResponseEntity(productDTO, HttpStatus.OK);
         else
             return new ResponseEntity(new ProductDTO(), HttpStatus.NO_CONTENT);
+
     }
 
     @GetMapping(value = "detail/{id}")
@@ -90,16 +101,16 @@ public class ProductController {
     @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
     public ResponseEntity<?> Delete(@PathVariable long id) {
 
-        //get orderdetails with prod Id;
-        //get cacrt details with prod Id
-        int ordDetCount = orderService.getAllOrderHistoryByOrderId(1).size();
+        Boolean prodUsed = generalService.checkProductUsing(id);
 
-        try {
+        if (prodUsed == false)
+        {
             productService.delete(id);
             return new ResponseEntity(HttpStatus.OK);
-        } catch (Exception err) {
-            return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+        }else{
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
+
 
     }
 }
