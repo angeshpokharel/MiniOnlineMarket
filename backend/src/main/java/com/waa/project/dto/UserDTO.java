@@ -18,5 +18,6 @@ public class UserDTO {
   private String address;
   private String phone;
   private String password;
+  private boolean approved;
   private String role; //csv -> comma separated value
 }

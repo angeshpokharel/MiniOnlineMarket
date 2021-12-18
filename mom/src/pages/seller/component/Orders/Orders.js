@@ -8,6 +8,8 @@ import { Table } from "react-bootstrap";
 import useHttp from "../../../../hooks/use-http";
 import { getAllOrders } from "../../../../lib/api";
 import { AppUtils } from "../../../../utils/appUtils";
+import SellerHeader from "../Common/SellerHeader";
+import { LocalStorage } from "../../../../utils/storage/localStorage";
 
 const Orders = (props) => {
   //custom hook using useReducer and callBack

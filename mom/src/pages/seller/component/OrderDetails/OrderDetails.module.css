@@ -1,22 +1,22 @@
 .Details {
-    margin: 1rem auto;
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
-    width: 68rem;
-    margin-left: 20px;
-    float: left;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    background-color: #f4f0fa;
+  margin: 1rem auto;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  width: 68rem;
+  margin-left: 20px;
+  float: left;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  background-color: #f4f0fa;
 }
 
-.CustDetails{
-    float: left;
-    width: 500px;
-    line-height: 20px;
-    height: fit-content;
-    border: solid 2px #c9bdda;
-    padding: 20px;
-    text-align: left;
-    margin-left: 10px;
+.CustDetails {
+  float: left;
+  width: 500px;
+  line-height: 20px;
+  height: fit-content;
+  border: solid 2px #c9bdda;
+  padding: 20px;
+  text-align: left;
+  margin-left: 20px;
 }

@@ -21,7 +21,7 @@ import org.hibernate.annotations.FetchMode;
 @Entity
 public class Product {
   @Id
-  @GeneratedValue(strategy= GenerationType.AUTO)
+  @GeneratedValue(strategy= GenerationType.IDENTITY)
   private long id;
   private long categoryId;
   private long sellerId;

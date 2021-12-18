@@ -16,5 +16,6 @@ public class OrderHistoryDTO {
     private String status;
     private long modifiedBy;
     private LocalDate modifiedDate;
+    private long orderId;
     //private OrderDTO order;
 }

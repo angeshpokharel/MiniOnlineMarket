@@ -13,4 +13,9 @@ public interface UserService {
   UserDTO convertToDTO(User user);
 
   UserDTO getUserByUserName(String userName);
+  UserDTO updateFullName(long id, String name);
+
+  List<UserDTO> getAllUnApprovedUser();
+
+  UserDTO approveSeller(long id);
 }

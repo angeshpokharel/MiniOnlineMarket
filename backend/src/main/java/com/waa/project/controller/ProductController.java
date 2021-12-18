@@ -1,5 +1,6 @@
 package com.waa.project.controller;
 
+import com.waa.project.constants.SecurityConstants;
 import com.waa.project.domain.Product;
 import com.waa.project.dto.ProductDTO;
 import com.waa.project.dto.ProductDetailDTO;
@@ -12,8 +13,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.PublicKey;
 import java.util.List;
 import java.util.Optional;
@@ -37,21 +40,34 @@ public class ProductController {
         this.productService = productService;
         this.generalService = generalService;
         this.orderService = orderService;
+
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> saveProduct(@RequestBody ProductDTO productDTO) {
+
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
+    public ResponseEntity<ProductDTO> saveProduct( @RequestBody @Valid ProductDTO productDTO) {
+
         productService.save(productDTO);
         return new ResponseEntity(productDTO, HttpStatus.OK);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> updateProduct(@PathVariable(value = "id") long id, @RequestBody ProductDTO productDTO) {
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable(value = "id") long id, @RequestBody @Valid ProductDTO productDTO) {
         productService.update(productDTO);
         return new ResponseEntity(productDTO, HttpStatus.OK);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO) {
+        productService.update(productDTO);
+        return  ResponseEntity.ok(productDTO);
+    }
+
     @GetMapping
+   // @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" +SecurityConstants.ROLE_SELLER + "','" + SecurityConstants.ROLE_BUYER+ "')")
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
 //        return ResponseEntity.ok(productService.getAll());
         return new ResponseEntity(productService.getAll(), HttpStatus.OK);
@@ -64,12 +80,14 @@ public class ProductController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") long id) {
+//    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_ADMIN + "','" +  SecurityConstants.ROLE_SELLER + "','" + SecurityConstants.ROLE_BUYER+ "')")
+     public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") long id) {
         ProductDTO productDTO = productService.getProductById(id);
         if (productDTO != null)
             return new ResponseEntity(productDTO, HttpStatus.OK);
         else
             return new ResponseEntity(new ProductDTO(), HttpStatus.NO_CONTENT);
+
     }
 
     @GetMapping(value = "detail/{id}")
@@ -83,6 +101,7 @@ public class ProductController {
 
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('" + SecurityConstants.ROLE_SELLER + "')")
     public ResponseEntity<?> Delete(@PathVariable long id) {
 
 
@@ -97,6 +116,7 @@ public class ProductController {
         else
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
+
 
     }
 

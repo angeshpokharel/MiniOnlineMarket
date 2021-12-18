@@ -46,6 +46,7 @@ public class AuthenticationController {
             String token = jwtUtils.generateJwtToken(authentication, login.isRememberMe());
             JwtUtils.addToken(token);
             User appUser = new User();
+            appUser.setApproved(true);
             if (!login.getEmail().equals(SecurityConstants.SUPER_ADMIN_EMAIL)) {
                 appUser = appUserService.getUserByEmail(login.getEmail());
             }

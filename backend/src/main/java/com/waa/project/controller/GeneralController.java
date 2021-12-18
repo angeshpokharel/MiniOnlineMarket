@@ -24,11 +24,11 @@ public class GeneralController {
         return generalService.checkProductUsing(id);
     }
 
-    //this api will be used at purchasing at order
-    //getting sum of all points of a user
+    //this api will be used at checking out orders
+    //getting sum of all points minus the used points of a user
     //will be given userId - win
-    @GetMapping("/getPoints/{userId}")
-    public long getPointsByUserId(@PathVariable("userId") long userId){
-        return generalService.getPointsByUserId(userId);
+    @GetMapping("/getAvailablePoints/{userId}")
+    public long getAvailablePointsByUserId(@PathVariable("userId") long userId){
+        return generalService.getAvailablePointsByUserId(userId);
     }
 }

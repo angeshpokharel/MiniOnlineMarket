@@ -7,6 +7,7 @@ import {
 import React, { useEffect, useRef, useState } from "react";
 
 import { useHistory, useParams } from "react-router-dom";
+import MOM from "../../../../api/api";
 import AddAlertMessage from "../../../../components/alert/Alert";
 import {
   CATEGORY_BASE_DOMAIN,
@@ -33,7 +34,7 @@ export const AddProduct = () => {
   const [categories, setCategories] = useState([]);
 
   const getCategories = async () => {
-    HTTPClient.get(CATEGORY_BASE_DOMAIN).then((res) => {
+    MOM.get(CATEGORY_BASE_DOMAIN).then((res) => {
       console.log(res);
       if (res.status === 200) {
         setCategories(res.data);
@@ -55,17 +56,19 @@ export const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    HTTPClient.post(PRODUCT_BASE_DOMAIN, model).then((res) => {
+    MOM.post(PRODUCT_BASE_DOMAIN, model).then((res) => {
+      debugger;
       if (res.status == 200) {
+        debugger;
         history.push("/seller/dashboard/products");
         AddAlertMessage({
           type: "success",
-          message: "Product updated successfully",
+          message: "Product added successfully",
         });
       } else {
         AddAlertMessage({
           type: "error",
-          message: "Sorry , Could not update product",
+          message: "Sorry , Could not add product",
         });
       }
     });

@@ -33,7 +33,9 @@ function Cart(){
                               const dataDetail = response.data.cartDetails;
                               setCartItems(dataDetail);
                           })
-                          .catch(error=>console.log("Retrieving carts was failed : " + error.message))
+                          .catch(error=>console.log("Retrieving carts was failed : " + error.message)
+                          
+                          )
                       }
 
                       console.log(cartItems);
@@ -88,6 +90,12 @@ function Cart(){
     );
   }
 
+  const deleteCartItems = (items) => {
+    items.map(item => {
+      deleteItem(item.product.id, item.quantity);
+    })
+  }
+
   //cartItems.map(cartItem => {console.log(cartItem); return true;});
   return (
     <div>
@@ -109,7 +117,8 @@ function Cart(){
                 </thead>
                 <tbody>
                   {
-                    cartItems.map(item => {
+                    
+              cartItems.length >0 ?      cartItems.map(item => {
                       return (
                          
                          <TableRow key={item.id} onMouseOver={()=>{ setSelectedItem({...selectedItem, 'productId': item.product.id, 'qty': item.quantity}) }}>
@@ -125,18 +134,18 @@ function Cart(){
                         </TableRow>
                       );
                     })
-                  }
+                    : <TableRow>No items in the cart</TableRow> }
                 </tbody>
             </Table>
            {/*  <button id="btnCheckout" > <Link to={{ pathname: `/buyer/component/checkout` }}>
             Checkout
         </Link></button> */}
-         <button id="btnCheckout" onClick={showCheckout}> Checkoout </button>
+         {cartItems.length !== 0 &&<button id="btnCheckout" onClick={showCheckout}> Proceed To Checkoout </button>}
         </section>}
         
        
         {showCart &&<section>
-          <Checkout onItemStateCheck = {setItemStateCheck} />
+          <Checkout onItemStateCheck = {setItemStateCheck} deleteCheckout = {deleteCartItems}/>
           </section>}
      
     </div>

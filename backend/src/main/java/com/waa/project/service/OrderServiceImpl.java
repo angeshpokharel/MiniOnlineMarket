@@ -1,10 +1,7 @@
 package com.waa.project.service;
 
 import com.waa.project.domain.*;
-import com.waa.project.dto.OrderDTO;
-import com.waa.project.dto.OrderDetailDTO;
-import com.waa.project.dto.OrderHistoryDTO;
-import com.waa.project.dto.ProductDTO;
+import com.waa.project.dto.*;
 import com.waa.project.repository.OrderDetailRepository;
 import com.waa.project.repository.OrderHistoryRepository;
 import com.waa.project.repository.OrderRepository;
@@ -13,15 +10,18 @@ import com.waa.project.service.OrderService;
 import com.waa.project.util.ListMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Order;
 import javax.transaction.Transactional;
 import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,7 +35,8 @@ public class OrderServiceImpl implements OrderService {
     private ProductService productService;
     private OrderDetailRepository orderDetailRepository;
     private OrderHistoryRepository orderHistoryRepository;
-    private  EmailService emailService;
+    private EmailService emailService;
+
 
     @Autowired
     public OrderServiceImpl(OrderRepository orderRepository,
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
                             ListMapper<OrderHistory, OrderHistoryDTO> listMapperOrderHistory,
                             OrderDetailRepository orderDetailRepository,
                             OrderHistoryRepository orderHistoryRepository,
-                            EmailService emailService){
+                            EmailService emailService) {
         this.orderRepository = orderRepository;
         this.modelMapper = modelMapper;
         this.listMapper = listMapper;
@@ -61,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderDTO> findAll(){
+    public List<OrderDTO> findAll() {
         return (List<OrderDTO>) listMapper.mapList(orderRepository.findAll(), new OrderDTO());
     }
 
@@ -79,13 +80,15 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user.get());
         order.setOrderDetails(new ArrayList<OrderDetail>());
 
-        for (OrderDetailDTO orderDetailDTO: orderDTO.getOrderDetails()) {
+        for (OrderDetailDTO orderDetailDTO : orderDTO.getOrderDetails()) {
             OrderDetail orderDetail = new OrderDetail();
             Product product = modelMapper.map(productService.getProductById(orderDetailDTO.getProduct().getId()), Product.class);
             orderDetail.setQuantity(orderDetailDTO.getQuantity());
             orderDetail.setUnitPrice(product.getPrice());
             orderDetail.setProduct(product);
-
+            orderDetail.setOrderId(order.getId());
+            orderDetail.setStatus(OrderStatus.NEW.getOrderStatus());
+            //orderDetail.setOrderId(1);
             //orderDetail.setOrder(modelMapper.map(orderDTO, Order.class));
             order.getOrderDetails().add(orderDetail);
         }
@@ -97,20 +100,37 @@ public class OrderServiceImpl implements OrderService {
         order.setPoints(orderDTO.getOrderDetails().stream()
                 .map(o -> o.getProduct().getPrice() * o.getProduct().getPrice())
                 .reduce((a, b) -> a + b).get());
+        order.setUsedPoints(orderDTO.getUsedPoints());
 
-        order.setOrderHistories(new ArrayList<OrderHistory>());
-        OrderHistory orderHistory = new OrderHistory();
-        orderHistory.setStatus(OrderStatus.NEW.getOrderStatus());
-        orderHistory.setModifiedDate(LocalDate.now());
-        orderHistory.setModifiedBy(user.get().getId());
-       // orderHistory.setOrder(order);
-        order.getOrderHistories().add(orderHistory);
 
-        sendEmail(order);
+        try {
+            sendEmail(order);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         orderRepository.save(order);
+
+
+        for (OrderDetail od : order.getOrderDetails()) {
+            List<OrderHistory> orderHistList = new ArrayList<>();
+            OrderHistory orderHistory = new OrderHistory();
+            orderHistory.setStatus(OrderStatus.NEW.getOrderStatus());
+            orderHistory.setModifiedDate(LocalDate.now());
+            orderHistory.setModifiedBy(user.get().getId());
+            orderHistList.add(orderHistory);
+
+            od.setOrderHistories(orderHistList);
+        }
+
+        //sendEmail(order);
+        orderRepository.save(order);
+
+        // order.getOrderDetails().forEach(x -> x.setOrderId(savedOrder.getId()));
+
     }
 
-    public void sendEmail(Orders order){
+    public void sendEmail(Orders order) {
         String email = order.getUser().getEmail();
         String subject = "Order confirmation email from MiniMarket";
         String text = String.format("Your orders with id #%d has been confirmed from MiniMart and you will be notified after shipping", order.getId());
@@ -128,8 +148,39 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<OrderHistoryDTO> getAllOrderHistoryByOrderId(long id) {
-        return (List<OrderHistoryDTO>) listMapperOrderHistory.mapList(orderHistoryRepository.findAllByOrderId(id), new OrderHistoryDTO());
+    public List<SellerViewOrderDetailDTO> getOrderBySellerId(long sellerId) {
+        List<Orders> list = orderRepository.findAll();
+
+        List<SellerViewOrderDetailDTO> res = new ArrayList<>();
+        for (Orders o : list) {
+            for (OrderDetail d : o.getOrderDetails().stream().filter(x -> x.getProduct().getSellerId() == sellerId).collect(Collectors.toList())) {
+
+                SellerViewOrderDetailDTO mod = new SellerViewOrderDetailDTO();
+                mod.setOrderId(o.getId());
+                mod.setBillingAddress(o.getBillingAddress());
+                mod.setCustomerName(o.getUser().getName());
+                mod.setEmail(o.getUser().getEmail());
+                mod.setPrice(d.getUnitPrice());
+                mod.setDate(o.getPaymentMode());
+                mod.setQuantity(d.getQuantity());
+                mod.setAmount(d.getQuantity() * d.getUnitPrice());
+                mod.setPaymentMode(o.getPaymentMode());
+                mod.setStatus(d.getStatus());
+                mod.setProductName(d.getProduct().getName());
+                mod.setShippingAddress(o.getShippingAddress());
+                mod.setOrderDetailId(d.getId());
+                res.add(mod);
+            }
+        }
+        return res;
+
+    }
+
+    @Override
+    public List<OrderHistoryDTO> getAllOrderHistoryByOrderDetailId(long id) {
+        OrderDetail orderDetail = orderDetailRepository.findById(id).get();
+        List<OrderHistory> orderHistories = orderDetail.getOrderHistories();
+        return (List<OrderHistoryDTO>) listMapperOrderHistory.mapList(orderHistories, new OrderHistoryDTO());
     }
 
     @Override
@@ -139,14 +190,14 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void updateOrderStatus(long id, String newStatus) {
-        Orders order = orderRepository.findById(id).get();
-        String updatedStatus = newStatus.substring(1, newStatus.length()-1);
-        order.setStatus(updatedStatus);
+        OrderDetail orderDetail = orderRepository.findOrderDetailByOrderDetailId(id);
+        String updatedStatus = newStatus.substring(1, newStatus.length() - 1);
+        orderDetail.setStatus(updatedStatus);
+
         //GetUserId from username obtained from SecurityContext and save here
         //orderHistory.setModifiedBy(userId);
         //orderHistory.getOrder().setStatus(newStatus);
 
-        List<OrderHistory> orderHistories = order.getOrderHistories();
         OrderHistory orderHistory = new OrderHistory();
         orderHistory.setStatus(updatedStatus);
         /*UserDetails user = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -154,8 +205,15 @@ public class OrderServiceImpl implements OrderService {
         Replace with user from curretly user id*/
         orderHistory.setModifiedBy(1);
         orderHistory.setModifiedDate(LocalDate.now());
-        orderHistories.add(orderHistory);
-        orderRepository.save(order);
+        orderDetail.getOrderHistories().add(orderHistory);
+        orderDetailRepository.save(orderDetail);
+    }
+
+    @Override
+    public void updateOrderByOrderDetailId(long id) {
+        OrderDetail orderDetail = orderDetailRepository.findById(id).get();
+        orderDetail.setStatus("REJECTED");
+        orderDetailRepository.save(orderDetail);
     }
 
 

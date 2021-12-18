@@ -8,6 +8,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -29,11 +31,15 @@ public class OrderDetail {
     @OneToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-
+    private String status = OrderStatus.NEW.getOrderStatus();
    // @JsonBackReference
 
     /*@ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     @JsonIgnoreProperties(allowGetters = false)
     private Order order;*/
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderHistory> orderHistories = new ArrayList<>();
+
 }

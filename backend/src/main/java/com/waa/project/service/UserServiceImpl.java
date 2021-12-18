@@ -33,10 +33,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     if  (userDTO == null) {
       return null;
     }
-    User appUser = convertToEntity(userDTO);
+    User appUser = new User();
     if (0 != appUser.getId()) {
+      appUser = convertToEntity(getUserById(userDTO.getId()));
+      appUser.setName(userDTO.getEmail());
       appUser.setModifiedDate(System.currentTimeMillis());
     } else {
+      appUser = convertToEntity(userDTO);
+      if (appUser.getRole().contains("ROLE_SELLER")) {
+        appUser.setApproved(false);
+      } else {
+        appUser.setApproved(true);
+      }
       appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
       appUser.setCreatedDate(System.currentTimeMillis());
     }
@@ -62,6 +70,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
   @Override
   public UserDTO getUserByUserName(String userName) {
     return null;
+  }
+  public UserDTO updateFullName(long id, String name) {
+    UserDTO userDTO = getUserById(id);
+    userDTO.setName(name);
+    appUserRepository.save(convertToEntity(userDTO));
+    return userDTO;
+  }
+
+  @Override
+  public List<UserDTO> getAllUnApprovedUser() {
+    return getAll().stream().filter(userDTO -> !userDTO.isApproved()).collect(Collectors.toList());
+  }
+
+  @Override
+  public UserDTO approveSeller(long id) {
+    UserDTO userDTO = getUserById(id);
+    userDTO.setApproved(true);
+    appUserRepository.save(convertToEntity(userDTO));
+    return userDTO;
   }
 
   @Override

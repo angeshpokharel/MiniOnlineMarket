@@ -22,8 +22,14 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import CreatePdfReceipt from "../common/CreatePdfReceipt";
 
 const Checkout = (props) => {
+  // for points
+  const [availablePoints, setAvailablePoints] = useState(0);
+  const [finalTotal, setFinalTotal] = useState(0);
+  //-------------
+
   const newPostForm = useRef();
   const history = useHistory;
   const [cartId, setCartId] = useState(0);
@@ -45,25 +51,61 @@ const Checkout = (props) => {
       );
   };
 
+  //for points
+  const changeFinalTotal = (usedPoints) => {
+    const actualTotal = cartItems
+      .map((item) => item.product.price * item.quantity)
+      .reduce((a, b) => a + b, 0);
+    setFinalTotal(actualTotal - usedPoints);
+  };
+
+  const getAvailablePoints = () => {
+    MOM.get(API_URL.general + "getAvailablePoints/" + loginUserId) //win - axios call for available points by login user id
+      .then((response) => {
+        const data = response.data;
+        setAvailablePoints(data / 100);
+      })
+      .catch((error) =>
+        console.log("Retrieving available points was failed : " + error.message)
+      );
+  };
+
+  //-------------
   useEffect(() => {
     getCartItems();
+    getAvailablePoints();
   }, [refresh]);
 
   const PostDataHandler = () => {
     const form = newPostForm.current;
+
     const data = {
       shippingAddress: form["shippingAddress"].value,
       billingAddress: form["billingAddress"].value,
       paymentMode: form["paymentMode"].value,
+      usedPoints: form["usedPoints"].value, //for used points
       orderDetails: cartItems.map((item) => {
         return item;
       }),
     };
-    axios
-      .post(postAPI, data)
+    debugger;
+    if (
+      data.shippingAddress === "" ||
+      data.billingAddress === "" ||
+      data.paymentMode === ""
+    ) {
+      AddAlertMessage({
+        type: "error",
+        message: "Enter addresses and payment mode",
+      });
+      return;
+    }
+
+    const response = MOM.post(postAPI, data)
       .then((res) => {
         //console.log('Success:', res.data);
-        createPdfReceipt(data);
+        CreatePdfReceipt(cartItems);
+        props.deleteCheckout(cartItems);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -71,43 +113,41 @@ const Checkout = (props) => {
     props.onItemStateCheck();
     AddAlertMessage({ type: "success", message: "Order Successfull" });
   };
-  const totalPrice = cartItems
-    .map((item) => item.product.price * item.quantity)
-    .reduce((a, b) => a + b, 0);
+  /* const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0);
 
-  const createPdfReceipt = (data) => {
-    const unit = "pt";
-    const size = "A4"; // Use A1, A2, A3 or A4
-    const orientation = "portrait"; // portrait or landscape
+    const createPdfReceipt = (data) => {
+        const unit = "pt";
+        const size = "A4"; // Use A1, A2, A3 or A4
+        const orientation = "portrait"; // portrait or landscape
 
-    const marginLeft = 40;
-    const doc = new jsPDF(orientation, unit, size);
+        const marginLeft = 40;
+        const doc = new jsPDF(orientation, unit, size);
 
-    doc.setFontSize(15);
+        doc.setFontSize(15);
 
-    const title = "Your Order Receipt" + "    Total:" + totalPrice;
-    const response = axios
-      .get(BASE_API + "/users/" + loginUserId)
-      .then((res) => {
-        // console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+        const title = "Your Order Receipt" + "    Total:" + totalPrice;
+        const response = axios.get(BASE_API + '/users/' + loginUserId)
+            .then(res => {
+               // console.log(res.data);
+            })
+            .catch(err => {
+                console.error(err);
+            });
 
-    const headers = [["PRODUCT", "QUANTITY"]];
-    const dat = cartItems.map((item) => [item.product.name, item.quantity]);
+        
+        const headers = [["PRODUCT", "QUANTITY"]];
+        const dat = cartItems.map(item => [item.product.name, item.quantity]);
 
-    let content = {
-      startY: 50,
-      head: headers,
-      body: dat,
-    };
-
-    doc.text(title, marginLeft, 40);
-    doc.autoTable(content);
-    doc.save("report.pdf");
-  };
+        let content = {
+            startY: 50,
+            head: headers,
+            body: dat
+          };
+      
+          doc.text(title, marginLeft, 40);
+          doc.autoTable(content);
+          doc.save("report.pdf")
+        } */
 
   /* const totalPrice = cartItems.map(item => item.product.price * item.quantity).reduce((a, b) => a + b, 0); */
 
@@ -124,6 +164,7 @@ const Checkout = (props) => {
               type="text"
               label={"shippingAddress"}
               name={"shippingAddress"}
+              required
             />
           </div>
 
@@ -133,11 +174,33 @@ const Checkout = (props) => {
               type="text"
               label={"billingAddress"}
               name={"billingAddress"}
+              required
             />
           </div>
 
           <label>Payment Mode</label>
-          <input type="text" label={"paymentMode"} name={"paymentMode"} />
+          <input
+            type="text"
+            label={"paymentMode"}
+            name={"paymentMode"}
+            required
+          />
+
+          {/* for points */}
+          <div>
+            <pre>Available points : {availablePoints}</pre>
+            <label>Points you want to use</label>
+            <input
+              type="number"
+              lable={"usedPoints"}
+              name={"usedPoints"}
+              min={0}
+              max={availablePoints}
+              onChange={(event) => changeFinalTotal(event.target.value)}
+            />
+            <br />
+            <pre>Final Total : {finalTotal}</pre>
+          </div>
         </form>
       </div>
       <div className="Content">
