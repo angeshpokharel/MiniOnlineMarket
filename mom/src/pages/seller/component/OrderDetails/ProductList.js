@@ -1,14 +1,26 @@
-import { TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import { Button, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
 import { Table } from 'react-bootstrap';
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import classes from './OrderDetails.module.css';
 import OrderHistory from "./OrderHistory";
+import Axios from "axios";
+import MOM from "../../../../api/api";
+import AddAlertMessage from "../../../../components/alert/Alert";
 
 const ProductList = (props) => {
     const [orderDetailId, setOrderDetailId] = useState();
     const [viewHistory, setViewHistory] = useState(false);
+    const [orderStatus, setOrderStatus] = useState(props.status)
 
+    function cancelOrder(id){
+        const url = "http://localhost:8080/orders/orderDetails/" +id;
+        MOM.put(url)
+        .then(res =>{
+            AddAlertMessage("success", "The order has been cancelled");
+        })
+        .catch(err => console.error(err));
+    }
     return (
         <>
             <TableContainer>
@@ -22,6 +34,7 @@ const ProductList = (props) => {
                             <TableCell>Amount</TableCell>
                             <TableCell>Status</TableCell>
                             <TableCell>Action</TableCell>
+                            <TableCell>Cancel Order</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -33,10 +46,13 @@ const ProductList = (props) => {
                                     <TableCell>{item.quantity}</TableCell>
                                     <TableCell>{item.product.price}</TableCell>
                                     <TableCell>{item.quantity * item.product.price}</TableCell>
-                                    <TableCell style={{ color: "green" }}>{item.status}</TableCell>
-                                    <TableCell> <Link to={{ pathname: `/buyer/component/order/orderHistory/${item.id}`} } key={item.id}>
+                                    { item.status ==="REJECTED" ? <TableCell style={{ color: "red" }}>"CANCELLED"</TableCell>
+                                    :
+                                    <TableCell style={{ color: "green" }}>{item.status}</TableCell>}
+                                    <TableCell> <Link to={{ pathname: `/buyer/component/order//${item.id}`} } key={item.id}>
                                 View History
                             </Link> </TableCell>
+                            <TableCell>{item.status === "NEW" &&<Button onClick={() => cancelOrder(item.id)}>Cancel</Button>}</TableCell>
                                 </TableRow>
                             )
                         })}
